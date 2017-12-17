@@ -1,0 +1,24 @@
+{% extends 'view/base.html.twig' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+    {#<div class="container h-100 d-flex">#}
+        {#<div class="row align-items-center center">#}
+            {#<div class="col-xs-6 col-sm-6 col-lg-6 text-center">#}
+                {#<a href="#" class="btn btn-outline-success active" role="button" aria-pressed="true">Login</a>#}
+            {#</div>#}
+            {#<div class="col-xs-6 col-sm-6 col-lg-6">#}
+                {#<a href="#" class="btn btn-outline-success active" role="button" aria-pressed="true">Register</a>#}
+            {#</div>#}
+        {#</div>#}
+    {#</div>#}
+<div style="background:transparent !important" class="jumbotron text-center">
+    <h1 class="whitecolor">WELCOME TO CASTLE WARS</h1><pre> </pre>
+    <h2 class="whitecolor">version 1.0</h2><pre> </pre>
+    <a href="{{ path('login') }}" class="btn btn-outline-success btn-lg active" role="button" aria-pressed="true">LOGIN</a><pre> </pre>
+    <a href="{{ path('register') }}" class="btn btn-primary btn-outline-success btn-lg active" role="button" aria-pressed="true">REGISTER</a>
+</div>
+{% endblock %}
