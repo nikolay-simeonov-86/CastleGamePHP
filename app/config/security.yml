@@ -17,15 +17,12 @@ security:
 
         # http://symfony.com/doc/current/book/security.html#firewalls-authentication
 
-        in_memory:
-            memory: ~
-
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         secured_area:
                     # this firewall applies to all URLs
                     pattern: ^/
-
+                    provider: database_users
                     # but the firewall does not require login on every page
                     # denying access is done in access_control or in your controllers
                     anonymous: true
@@ -40,7 +37,7 @@ security:
                         login_path: login
                         # Secure the login form against CSRF
                         # Reference: http://symfony.com/doc/current/cookbook/security/csrf_in_login_form.html
-                        csrf_token_generator: security.csrf.token_manager
+                        # csrf_token_generator: security.csrf.token_manager
 
                     logout:
                         # The route name the user can go to in order to logout

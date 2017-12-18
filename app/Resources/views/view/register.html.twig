@@ -2,7 +2,11 @@
 {% block head %}
 
 {% endblock head %}
+
 {% block body %}
+    {{ form(form) }}
+{% endblock body %}
+{% block body2 %}
     <div class="container h-100 d-flex">
         <div class="row align-items-center center">
             <div class="col-xs-6 col-sm-6 col-lg-6">
@@ -65,27 +69,38 @@
             </div>
             <div class="col-xs-6 col-sm-6 col-lg-6 text-center">
                 <h1 class="navbarcolor">Register now</h1>
+                {{ form_start(form) }}
                 <form name="register" action="{{ path('register') }}" method="post">
                     <div class="form-group">
                         <label  class="navbarcolor" for="exampleInputUsername">Username</label><br/>
-                        {{ form(form.Username) }}
+                        {{ form_widget(form.Username) }}
+                        {{ form_errors(form.Username) }}
                         <small id="usernameHelp" class="form-text text-muted navbarcolor">Choose a unique username.</small>
                     </div>
                     <div class="form-group">
-                        <label class="navbarcolor" for="exampleInputPassword">Password</label>
-                        {{ form(form.Password.first) }}
-                        <label class="navbarcolor" for="exampleInputConfirm password">Confirm password</label>
-                        {{ form(form.Password.second) }}
+                        <label class="navbarcolor" for="exampleInputPassword">Password</label><br>
+                        {{ form_widget(form.Password.first) }}<br>
+                        {{ form_errors(form.Password.first) }}
+                        <label class="navbarcolor" for="exampleInputConfirm password">Confirm password</label><br>
+                        {{ form_widget(form.Password.second) }}<br>
+                        {{ form_errors(form.Password.second) }}
                         <small id="passwordHelp" class="form-text text-muted navbarcolor">Choose a password.</small>
                     </div>
                     <div class="form-group">
-                        <label class="navbarcolor" for="exampleInputCastle">Castle One</label>
-                        {{ form(form.castles) }}
+                        <label class="navbarcolor" for="exampleInputCastle">Castle One</label><br>
+                        {{ form_widget(form.castles) }}<br>
+                        {{ form_errors(form.castles) }}
                         <small id="castleChooseHelp" class="form-text text-muted navbarcolor">Choose first castle.</small>
                     </div>
-                    <button type="submit" class="btn btn-lg btn-success">REGISTER</button>
+                        {{ form_row(form._token) }}
+                    <div class="btn btn-lg btn-success">
+                        <label class="navbarcolor" for="exampleSubmitForm"></label>
+                        {{ form_widget(form.REGISTER, {'attr': {'class': 'btn btn-primary btn-outline-success btn-lg active'}}) }}
+                        {#{{ form_errors(form.submit) }}#}
+                    </div>
                 </form>
+                {{ form_end(form) }}
             </div>
         </div>
     </div>
-{% endblock body %}
+{% endblock body2 %}

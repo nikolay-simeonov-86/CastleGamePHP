@@ -2,12 +2,14 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,25 +27,40 @@ class UserRegister extends AbstractType
                 'required' => true,
                 'first_options'  => array('label' => 'Password '),
                 'second_options' => array('label' => 'Confirm Password '),))
-            ->add('castles', ChoiceType::class, array(
-                    'choices'  => array(
-                    'Dark' => array(
+            ->add('castles', ChoiceType::class,
+                array(
+                    'mapped' => false,
+                    'choices'  =>
+                        array(
+                    'Dark' =>
+                            array(
                         'Dwarf' => 'Dwarf',
                         'Ninja' => 'Ninja',
                         'Vampire' => 'Vampire'
-                    ),
-                    'Light' => array(
+                                ),
+                    'Light' =>
+                            array(
                         'Elves' => 'Elves',
                         'Mages' => 'Mages',
                         'Olymp' => 'Olymp'
-                    ),
-                    ),
-                ));
+                                ),
+                            ),
+                    )
+                )
+            ->add('REGISTER', SubmitType::class, array(
+                'label' => 'REGISTER'
+            ));
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-
+        $resolver->setDefaults(array(
+            'data_class'      => User::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            // a unique key to help generate the secret token
+            'csrf_token_id'   => 'user_item',
+        ));
     }
 
     public function getBlockPrefix()

@@ -107,7 +107,6 @@ class Castle
     private $resourceMetal;
 
     /**
-     * @var User
      * @ORM\Column(name="user_id", type="integer")
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="castles")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
@@ -115,20 +114,9 @@ class Castle
     private $userId;
 
     /**
-     * Castle constructor.
-     * @param int $armyLvl1Count
-     * @param int $armyLvl2Count
-     * @param int $armyLvl3Count
-     * @param int $armyLvl1Building
-     * @param int $armyLvl2Building
-     * @param int $armyLvl3Building
-     * @param int $castleLvl
-     * @param int $mineFoodLvl
-     * @param int $mineMetalLvl
-     * @param int $resourceFood
-     * @param int $resourceMetal
+     * Castle constructor
      */
-    public function __construct($armyLvl1Count, $armyLvl2Count, $armyLvl3Count, $armyLvl1Building, $armyLvl2Building, $armyLvl3Building, $castleLvl, $mineFoodLvl, $mineMetalLvl, $resourceFood, $resourceMetal)
+    public function __construct()
     {
         $this->armyLvl1Count = 0;
         $this->armyLvl2Count = 0;
@@ -449,7 +437,7 @@ class Castle
      *
      * @return Castle
      */
-    public function setUserId(User $userId = null)
+    public function setUserId($userId)
     {
         $this->userId = $userId;
 

@@ -44,7 +44,6 @@ class User implements UserInterface
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     * @ORM\Column(name="castles", type="integer")
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Castle", mappedBy="userId")
      */
     private $castles;
@@ -216,7 +215,7 @@ class User implements UserInterface
      */
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
+        return null;
     }
 
     /**
