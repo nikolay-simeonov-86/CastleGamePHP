@@ -6,17 +6,20 @@
 
 {% block body %}
     <div style="background:transparent !important" class="jumbotron text-center">
-    <h1 class="whitecolor">Login</h1>
-    <form>
+    <h1 class="navbarcolor">Login</h1>
+    <form name="authenticate" action="{{ path('login') }}" method="post">
         <div class="form-group">
-            <label class="whitecolor" for="exampleInputUsername">Username</label><br/>
-            {{ form(form.Username) }}
+            <label class="navbarcolor" for="exampleInputUsername">Username</label><br/>
+            {{ form(form._username) }}
             <small id="usernameHelp" class="form-text text-muted">Type in your username.</small>
         </div>
         <div class="form-group">
-            <label class="whitecolor" for="exampleInputPassword">Password</label><br/>
-            {{ form(form.Password) }}
+            <label class="navbarcolor" for="exampleInputPassword">Password</label><br/>
+            {{ form(form._password) }}
             <small id="usernameHelp" class="form-text text-muted">Type in your password.</small>
+        </div>
+        <div class="form-group">
+            {{ form(form._csrf_token)}}
         </div>
         <button type="submit" class="btn btn-lg btn-success">LOGIN</button>
     </form>

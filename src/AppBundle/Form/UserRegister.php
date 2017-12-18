@@ -4,6 +4,8 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -23,8 +25,8 @@ class UserRegister extends AbstractType
                 'required' => true,
                 'first_options'  => array('label' => 'Password '),
                 'second_options' => array('label' => 'Confirm Password '),))
-            ->add('Select_first_Castle', ChoiceType::class, array(
-                'choices'  => array(
+            ->add('castles', ChoiceType::class, array(
+                    'choices'  => array(
                     'Dark' => array(
                         'Dwarf' => 'Dwarf',
                         'Ninja' => 'Ninja',
@@ -36,21 +38,7 @@ class UserRegister extends AbstractType
                         'Olymp' => 'Olymp'
                     ),
                     ),
-                ))
-            ->add('Select_second_Castle', ChoiceType::class, array(
-                'choices'  => array(
-                    'Dark' => array(
-                        'Dwarf' => 'Dwarf',
-                        'Ninja' => 'Ninja',
-                        'Vampire' => 'Vampire'
-                    ),
-                    'Light' => array(
-                        'Elves' => 'Elves',
-                        'Mages' => 'Mages',
-                        'Olymp' => 'Olymp'
-                    ),
-                ),
-            ));
+                ));
     }
 
     public function configureOptions(OptionsResolver $resolver)

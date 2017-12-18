@@ -8,22 +8,38 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{ path('homepage') }}">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
                 </li> <li class="nav-item">
                     <a class="nav-link" href="{{ path('map') }}">Map</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Castles</a>
+                    {% if app.user %}
+                        <a class="nav-link" href="#">Castles</a>
+                    {% else %}
+                        <a class="nav-link disabled" href="#">Castles</a>
+                    {% endif %}
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Army</a>
+                    {% if app.user %}
+                        <a class="nav-link" href="#">Army</a>
+                    {% else %}
+                        <a class="nav-link disabled" href="#">Army</a>
+                    {% endif %}
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <span class="navbar-text">
-                    Username
+                    {% if app.user %}
+                        {{ app.user.username }}
+                    {% else %}
+                        Username
+                    {% endif %}
                 </span><pre> </pre>
-                <a href="{{ path('register') }}" class="btn btn-info btn-lg">LOGOUT</a>
+                {% if app.user %}
+                <a href="{{ logout_path('main') }}" class="btn btn-info btn-lg bg-danger active">LOGOUT</a>
+                {% else %}
+                <a href="{{ logout_path('main') }}" class="btn btn-info btn-lg bg-info disabled">LOGOUT</a>
+                {% endif %}
             </form>
         </div>
     </nav>
