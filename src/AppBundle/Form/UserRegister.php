@@ -27,7 +27,7 @@ class UserRegister extends AbstractType
                 'required' => true,
                 'first_options'  => array('label' => 'Password '),
                 'second_options' => array('label' => 'Confirm Password '),))
-            ->add('castles', ChoiceType::class,
+            ->add('castle1', ChoiceType::class,
                 array(
                     'mapped' => false,
                     'choices'  =>
@@ -47,6 +47,26 @@ class UserRegister extends AbstractType
                             ),
                     )
                 )
+            ->add('castle2', ChoiceType::class,
+                array(
+                    'mapped' => false,
+                    'choices'  =>
+                        array(
+                            'Dark' =>
+                                array(
+                                    'Dwarf' => 'Dwarf',
+                                    'Ninja' => 'Ninja',
+                                    'Vampire' => 'Vampire'
+                                ),
+                            'Light' =>
+                                array(
+                                    'Elves' => 'Elves',
+                                    'Mages' => 'Mages',
+                                    'Olymp' => 'Olymp'
+                                ),
+                        ),
+                )
+            )
             ->add('REGISTER', SubmitType::class, array(
                 'label' => 'REGISTER'
             ));

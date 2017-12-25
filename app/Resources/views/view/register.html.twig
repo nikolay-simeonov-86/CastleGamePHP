@@ -3,10 +3,10 @@
 
 {% endblock head %}
 
+{#{% block body %}#}
+    {#{{ form(form) }}#}
+{#{% endblock body %}#}
 {% block body %}
-    {{ form(form) }}
-{% endblock body %}
-{% block body2 %}
     <div class="container h-100 d-flex">
         <div class="row align-items-center center">
             <div class="col-xs-6 col-sm-6 col-lg-6">
@@ -88,9 +88,15 @@
                     </div>
                     <div class="form-group">
                         <label class="navbarcolor" for="exampleInputCastle">Castle One</label><br>
-                        {{ form_widget(form.castles) }}<br>
-                        {{ form_errors(form.castles) }}
+                        {{ form_widget(form.castle1) }}<br>
+                        {{ form_errors(form.castle1) }}
                         <small id="castleChooseHelp" class="form-text text-muted navbarcolor">Choose first castle.</small>
+                    </div>
+                    <div class="form-group">
+                        <label class="navbarcolor" for="exampleInputCastle">Castle Two</label><br>
+                        {{ form_widget(form.castle2) }}<br>
+                        {{ form_errors(form.castle2) }}
+                        <small id="castleChooseHelp" class="form-text text-muted navbarcolor">Choose second castle.</small>
                     </div>
                         {{ form_row(form._token) }}
                     <div class="btn btn-lg btn-success">
@@ -103,4 +109,4 @@
             </div>
         </div>
     </div>
-{% endblock body2 %}
+{% endblock body %}

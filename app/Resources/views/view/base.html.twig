@@ -1,58 +1,69 @@
 <!DOCTYPE html>
 <html>
-<head>
-
-    {% block head %}
-    {% endblock head %}
-    {% include 'view/Header.html' %}
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            </li> <li class="nav-item">
-                <a class="nav-link" href="{{ path('map') }}">Map</a>
-            </li>
-            <li class="nav-item">
-                {% if app.user %}
-                    <a class="nav-link" href="#">Castles</a>
-                {% else %}
-                    <a class="nav-link disabled" href="#">Castles</a>
-                {% endif %}
-            </li>
-            <li class="nav-item">
-                {% if app.user %}
-                    <a class="nav-link" href="#">Army</a>
-                {% else %}
-                    <a class="nav-link disabled" href="#">Army</a>
-                {% endif %}
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-                <span class="navbar-text">
+    <head>
+        {% block head %}
+        {% endblock head %}
+        {% include 'view/Header.html' %}
+    </head>
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light" id="navigation" role="navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     {% if app.user %}
-                        {{ app.user.username }}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('user') }}"><h2>Home</h2><span class="sr-only">(current)</span></a>
+                    </li>
                     {% else %}
-                        Username
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('homepage') }}"><h2>Home</h2><span class="sr-only">(current)</span></a>
+                    </li>
                     {% endif %}
-                </span><pre> </pre>
-            {% if app.user %}
-                <a href="{{ logout_path('main') }}" class="btn btn-info btn-lg bg-danger active">LOGOUT</a>
-            {% else %}
-                <a href="{{ logout_path('main') }}" class="btn btn-info btn-lg bg-info disabled">LOGOUT</a>
-            {% endif %}
-        </form>
-    </div>
-</nav>
-<div class="container-fluid full">
-    {% block body %}
-    {% endblock %}
-</div>
-    {% include 'view/Footer.html' %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('map') }}"><h2>Map</h2></a>
+                    </li>
+                    {% if app.user %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#"><h2>Castles</h2></a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#"><h2>Castles</h2></a>
+                        </li>
+                    {% endif %}
+                    {% if app.user %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">,<h2>Army</h2></a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#"><h2>Army</h2></a>
+                        </li>
+                    {% endif %}
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                        <span class="navbar-text">
+                            {% if app.user %}
+                                <h3>{{ app.user.username }}</h3>
+                            {% else %}
+                                <h3>Username</h3>
+                            {% endif %}
+                        </span><pre> </pre>
+                    {% if app.user %}
+                        <a href="{{ logout_path('main') }}" class="btn btn-info btn-lg bg-danger active">LOGOUT</a>
+                    {% else %}
+                        <a href="{{ logout_path('main') }}" class="btn btn-info btn-lg bg-info disabled">LOGOUT</a>
+                    {% endif %}
+                </form>
+            </div>
+        </nav>
+        <div class="container-fluid full">
+            {% block body %}
+            {% endblock %}
+        </div>
+            {% include 'view/Footer.html' %}
     </body>
 </html>

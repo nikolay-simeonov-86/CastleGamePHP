@@ -6,6 +6,7 @@ use AppBundle\Entity\Castle;
 use AppBundle\Entity\User;
 use AppBundle\Form\UserLogin;
 use AppBundle\Form\UserRegister;
+use AppBundle\Service\UserService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -28,9 +29,13 @@ class UserController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
         {
-            $castle = new Castle();
-            dump($form->get("castles")->getData());
-            $castle->setName($form->get("castles")->getData());
+            $castle1 = new Castle();
+            dump($form->get("castle1")->getData());
+            $castle1->setName($form->get("castle1")->getData());
+
+            $castle2 = new Castle();
+            dump($form->get("castle2")->getData());
+            $castle1->setName($form->get("castle2")->getData());
 
             $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
@@ -39,9 +44,14 @@ class UserController extends Controller
             $em->flush();
 
             //dump($user);
-            $castle->setUserId($user->getId());
+            $castle1->setUserId($user->getId());
             $em = $this->getDoctrine()->getManager();
-            $em->persist($castle);
+            $em->persist($castle1);
+            $em->flush();
+
+            $castle2->setUserId($user->getId());
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($castle2);
             $em->flush();
 
             return $this->redirectToRoute("login");
@@ -75,5 +85,17 @@ class UserController extends Controller
     public function logoutAction()
     {
         throw new \RuntimeException('This should never be called directly.');
+    }
+
+    /**
+     * @Route("/user", name="user")
+     * @param UserService $service
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function userHomepage(UserService $service)
+    {
+        $information = $service->getUserInformation();
+        $income = $service->calculateUserIncome();
+        return $this->render( 'view/user.html.twig', array('information' => $information, 'income' => $income));
     }
 }

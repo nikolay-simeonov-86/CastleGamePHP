@@ -2,8 +2,10 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\Collection;
 
 /**
  * User
@@ -43,7 +45,7 @@ class User implements UserInterface
     private $coordinates;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var \Doctrine\Common\Collections\Collection|Castle[]
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Castle", mappedBy="userId")
      */
     private $castles;
@@ -54,6 +56,15 @@ class User implements UserInterface
      * @ORM\Column(name="income_all", type="integer")
      */
     private $incomeAll = 0;
+
+    /**
+     * User constructor.
+     * @param array $castles
+     */
+    public function __construct(array $castles = array())
+    {
+        $this->castles = ArrayCollection::class;
+    }
 
     /**
      * Get id
@@ -154,7 +165,7 @@ class User implements UserInterface
     /**
      * Get castles
      *
-     * @return int
+     * @return Collection|Castle[]
      */
     public function getCastles()
     {
