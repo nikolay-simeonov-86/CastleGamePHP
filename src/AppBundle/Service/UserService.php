@@ -36,4 +36,17 @@ class UserService implements UserServiceInterface
     {
         // TODO: Implement getOneUserCastle() method.
     }
+
+    public function setCoordinates()
+    {
+//        $coordinates = str_pad(rand(0, 99), 2, '0', STR_PAD_LEFT);
+//        if (!null === $this->getDoctrine()->getRepository(UserRepository::class)->findBy(array('coordinates' => $coordinates)))
+//        {
+//
+//        }
+//        else
+//        {
+//
+//        }
+    }
 }

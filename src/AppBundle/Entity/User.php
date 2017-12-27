@@ -58,12 +58,11 @@ class User implements UserInterface
     private $incomeAll = 0;
 
     /**
-     * User constructor.
-     * @param array $castles
+     * User constructor
      */
-    public function __construct(array $castles = array())
+    public function __construct()
     {
-        $this->castles = ArrayCollection::class;
+        $this->castles = new ArrayCollection();
     }
 
     /**

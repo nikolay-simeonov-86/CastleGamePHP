@@ -26,6 +26,4 @@ class UserLogin extends AbstractType
     {
 
     }
-
-
 }

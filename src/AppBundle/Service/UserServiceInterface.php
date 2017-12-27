@@ -18,4 +18,6 @@ interface UserServiceInterface
     public function getOneUserCastle();
 
     public function calculateUserIncome();
+
+    public function setCoordinates();
 }

@@ -30,6 +30,13 @@ class Castle
     private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="castle_icon", type="string", length=255)
+     */
+    private $castleIcon;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="army_lvl1_count", type="integer")
@@ -164,6 +171,22 @@ class Castle
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCastleIcon()
+    {
+        return $this->castleIcon;
+    }
+
+    /**
+     * @param string $castleIcon
+     */
+    public function setCastleIcon($castleIcon)
+    {
+        $this->castleIcon = $castleIcon;
     }
 
     /**

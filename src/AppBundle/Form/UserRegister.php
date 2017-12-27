@@ -34,15 +34,15 @@ class UserRegister extends AbstractType
                         array(
                     'Dark' =>
                             array(
-                        'Dwarf' => 'Dwarf',
-                        'Ninja' => 'Ninja',
-                        'Vampire' => 'Vampire'
+                                'Dwarf' => 'Dwarf',
+                                'Ninja' => 'Ninja',
+                                'Vampire' => 'Vampire'
                                 ),
                     'Light' =>
                             array(
-                        'Elves' => 'Elves',
-                        'Mages' => 'Mages',
-                        'Olymp' => 'Olymp'
+                                'Elves' => 'Elves',
+                                'Mages' => 'Mages',
+                                'Olymp' => 'Olymp'
                                 ),
                             ),
                     )

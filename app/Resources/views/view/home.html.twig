@@ -5,15 +5,17 @@
 {% endblock %}
 
 {% block body %}
-<div style="background:transparent !important" class="jumbotron text-center">
-    <h1 class="navbarcolor">WELCOME TO CASTLE WARS</h1><pre> </pre>
-    <h2 class="navbarcolor">version 1.0</h2><pre> </pre>
-    <div class="btn btn-lg btn-success">
-        <a href="{{ path('login') }}" class="btn btn-primary btn-outline-success btn-lg active" role="button" aria-pressed="true">LOGIN</a>
-    </div><br><br>
-    <h2 class="navbarcolor">OR</h2><br>
-    <div class="btn btn-lg btn-success">
-        <a href="{{ path('register') }}" class="btn btn-primary btn-outline-success btn-lg active" role="button" aria-pressed="true">REGISTER</a>
+
+    <div style="background:transparent !important" class="jumbotron text-center">
+        <h1 class="navbarcolor">WELCOME TO CASTLE WARS</h1><pre> </pre>
+        <h2 class="navbarcolor">version 1.0</h2><pre> </pre>
+        <div class="btn btn-lg btn-success">
+            <a href="{{ path('login') }}" class="btn btn-primary btn-outline-success btn-lg active" role="button" aria-pressed="true">LOGIN</a>
+        </div><br><br>
+        <h2 class="navbarcolor">OR</h2><br>
+        <div class="btn btn-lg btn-success">
+            <a href="{{ path('register') }}" class="btn btn-primary btn-outline-success btn-lg active" role="button" aria-pressed="true">REGISTER</a>
+        </div>
     </div>
-</div>
+
 {% endblock %}
