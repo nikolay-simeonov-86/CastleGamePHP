@@ -7,7 +7,7 @@
     </head>
     <body>
         <!-- Navigation -->
-        <div style="position: relative;z-index: 1">
+        <div style="position: absolute;z-index: 1">
         <nav class="navbar navbar-expand-lg navbar-light" id="navigation" role="navigation">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -37,7 +37,7 @@
                     {% endif %}
                     {% if app.user %}
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">,<h2>Battles</h2></a>
+                            <a class="nav-link" href="#"><h2>Battles</h2></a>
                         </li>
                     {% else %}
                         <li class="nav-item">
@@ -52,7 +52,7 @@
                             {% else %}
                                 <h3>Username</h3>
                             {% endif %}
-                        </span><pre> </pre>
+                        </span><pre>  </pre>
                     {% if app.user %}
                         <a href="{{ logout_path('main') }}" class="btn btn-info btn-lg bg-danger active bodytext">LOGOUT</a>
                     {% else %}

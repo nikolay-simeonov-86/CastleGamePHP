@@ -94,6 +94,7 @@ class UserController extends Controller
         //dump($error);
         $lastUsername = $authenticationUtils->getLastUsername();
         $form = $this->createForm(UserLogin::class);
+        $form->handleRequest($request);
         return $this->render('view/login.html.twig', ['form'=>$form->createView(), 'last_username' => $lastUsername, 'error' => $error,]);
     }
 
