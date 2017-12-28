@@ -37,11 +37,11 @@
                     {% endif %}
                     {% if app.user %}
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">,<h2>Army</h2></a>
+                            <a class="nav-link" href="#">,<h2>Battles</h2></a>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link disabled" href="#"><h2>Army</h2></a>
+                            <a class="nav-link disabled" href="#"><h2>Battles</h2></a>
                         </li>
                     {% endif %}
                 </ul>
@@ -54,15 +54,15 @@
                             {% endif %}
                         </span><pre> </pre>
                     {% if app.user %}
-                        <a href="{{ logout_path('main') }}" class="btn btn-info btn-lg bg-danger active">LOGOUT</a>
+                        <a href="{{ logout_path('main') }}" class="btn btn-info btn-lg bg-danger active bodytext">LOGOUT</a>
                     {% else %}
-                        <a href="{{ logout_path('main') }}" class="btn btn-info btn-lg bg-info disabled">LOGOUT</a>
+                        <a href="{{ logout_path('main') }}" class="btn btn-info btn-lg bg-info disabled bodytext">LOGOUT</a>
                     {% endif %}
                 </form>
             </div>
         </nav>
         </div>
-        <div class="container-fluid full">
+        <div class="container-fluid full bodytext">
             {% block body %}
             {% endblock body %}
         </div>

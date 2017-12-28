@@ -11,6 +11,8 @@ namespace AppBundle\Service;
 
 interface CastleServiceInterface
 {
+    public function buildCastle($name);
+
     public function getArmyCount();
 
     public function getBuildingLevels();

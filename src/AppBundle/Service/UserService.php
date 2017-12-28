@@ -9,12 +9,40 @@
 namespace AppBundle\Service;
 
 
+use AppBundle\Repository\UserRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+
 class UserService implements UserServiceInterface
 {
 
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
+
+    /**
+     * UserService constructor.
+     * @param UserRepository $userRepository
+     * @param EntityManagerInterface $em
+     */
+    public function __construct(UserRepository $userRepository, EntityManagerInterface $em)
+    {
+        $this->em = $em;
+        $this->userRepository = $userRepository;
+    }
+
+    /**
+     * @return null|object
+     */
     public function getUserInformation()
     {
-        return $array = 'pesho, castles, 1234';
+        return $userInfo = $this->userRepository->findOneBy(array('id' => $_SESSION['id']));
     }
 
     public function calculateUserIncome()
@@ -32,21 +60,21 @@ class UserService implements UserServiceInterface
         // TODO: Implement getAllUserCastles() method.
     }
 
-    public function getOneUserCastle()
+    public function getOneUserCastles()
     {
         // TODO: Implement getOneUserCastle() method.
     }
 
+    /**
+     * @return string
+     */
     public function setCoordinates()
     {
-//        $coordinates = str_pad(rand(0, 99), 2, '0', STR_PAD_LEFT);
-//        if (!null === $this->getDoctrine()->getRepository(UserRepository::class)->findBy(array('coordinates' => $coordinates)))
-//        {
-//
-//        }
-//        else
-//        {
-//
-//        }
+        do {
+            $coordinates = str_pad(rand(0, 99), 2, '0', STR_PAD_LEFT);
+        }
+        while (null !== $this->userRepository->findOneBy(array('coordinates' => $coordinates)));
+
+        return $coordinates;
     }
 }

@@ -15,7 +15,7 @@ interface UserServiceInterface
 
     public function getAllUserCastles();
 
-    public function getOneUserCastle();
+    public function getOneUserCastles();
 
     public function calculateUserIncome();
 

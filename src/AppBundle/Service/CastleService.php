@@ -9,6 +9,8 @@
 namespace AppBundle\Service;
 
 
+use AppBundle\Entity\Castle;
+
 class CastleService implements CastleServiceInterface
 {
 
@@ -69,5 +71,36 @@ class CastleService implements CastleServiceInterface
          * Then update column from 1 to 2 if update from lvl1 to lvl2 and from 2 to 3 if lvl2 to lvl3
          * Render updated view with success message
          */
+    }
+
+    public function buildCastle($name)
+    {
+        $castle = new Castle();
+        $castle->setName($name);
+        if ($castle->getName() === 'Dwarf')
+        {
+            $castle->setCastleIcon('/pictures/Castles/DarkCastleDwarf.jpg');
+        }
+        else if ($castle->getName() === 'Ninja')
+        {
+            $castle->setCastleIcon('/pictures/Castles/DarkCastleNinja.jpg');
+        }
+        else if ($castle->getName() === 'Vampire')
+        {
+            $castle->setCastleIcon('/pictures/Castles/DarkCastleVampire.jpg');
+        }
+        else if ($castle->getName() === 'Elves')
+        {
+            $castle->setCastleIcon('/pictures/Castles/DarkCastleElves.jpg');
+        }
+        else if ($castle->getName() === 'Mages')
+        {
+            $castle->setCastleIcon('/pictures/Castles/DarkCastleMages.jpg');
+        }
+        else if ($castle->getName() === 'Olymp')
+        {
+            $castle->setCastleIcon('/pictures/Castles/DarkCastleOlymp.jpg');
+        }
+        return $castle;
     }
 }
