@@ -4,12 +4,18 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints\Collection;
 
 /**
  * User
  *
+ * @UniqueEntity(
+ *     fields={"username"},
+ *     errorPath="username",
+ *     message="Username already exists"
+ * )
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
@@ -45,7 +51,6 @@ class User implements UserInterface
     private $coordinates;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection|Castle[]
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Castle", mappedBy="userId")
      */
     private $castles;

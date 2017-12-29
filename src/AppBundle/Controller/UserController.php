@@ -75,13 +75,13 @@ class UserController extends Controller
 //            dump($castle1);
 //            dump($castle2);
 //            die();
-            return $this->redirectToRoute("login");
+            return $this->redirectToRoute("security_login");
         }
         return $this->render('view/register.html.twig', ['form'=>$form->createView()]);
     }
 
     /**
-     * @Route("/login", name="login")
+     * @Route("/login", name="security_login")
      * @param Request $request
      * @param AuthenticationUtils $authenticationUtils
      * @return \Symfony\Component\HttpFoundation\Response
@@ -93,13 +93,13 @@ class UserController extends Controller
         $error = $authenticationUtils->getLastAuthenticationError();
         //dump($error);
         $lastUsername = $authenticationUtils->getLastUsername();
-        $form = $this->createForm(UserLogin::class);
-        $form->handleRequest($request);
-        return $this->render('view/login.html.twig', ['form'=>$form->createView(), 'last_username' => $lastUsername, 'error' => $error,]);
+//        $form = $this->createForm(UserLogin::class);
+//        $form->handleRequest($request);
+        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error,]);
     }
 
     /**
-     * @Route("/logout", name="logout")
+     * @Route("/logout")
      * @throws \RuntimeException
      * @Security("has_role('ROLE_USER')")
      */
