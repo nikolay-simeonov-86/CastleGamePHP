@@ -470,7 +470,7 @@ class Castle
     /**
      * Get userId
      *
-     * @return User
+     * @return int
      */
     public function getUserId()
     {

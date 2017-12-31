@@ -7,36 +7,39 @@
 {% block body1 %}
     <br><br><br><br>
 <form name="authenticate" action="{{ path('security_login') }}" method="post">
-    <input type="text" name="_username">
-    <input type="password" name="_password">
+    <label for="_username" class="sr_only">Username</label>
+    <input type="text" id="_username" name="_username" required>
+    <label for="_password" class="sr_only">Password</label>
+    <input type="password" id="_password" name="_password" required>
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-    <input type="submit">
+    <button type="submit">Submit</button>
 </form>
 {% endblock body1 %}
 {% block body %}
 
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+
 
     <div style="background:transparent !important" class="jumbotron text-center">
     <h1 class="navbarcolor">Login</h1>
     <form name="authenticate" action="{{ path('security_login') }}" method="post">
+        {% if error %}
+            <div class="text-warning"><h1>{{ error.messageKey|trans(error.messageData, 'security') }}</h1></div>
+        {% endif %}
 
         <div class="form-group">
-            <label class="navbarcolor" for="exampleInputUsername">Username</label><br/>
-            <input type="text" name="_username">
-            <small id="usernameHelp" class="form-text text-muted">Type in your username.</small>
+            <label class="navbarcolor" for="_username">Username</label><br/>
+            <input type="text" id="_username" name="_username">
+            <small id="_username" class="form-text text-muted">Type in your username.</small>
         </div>
         <div class="form-group">
-            <label class="navbarcolor" for="exampleInputPassword">Password</label><br/>
-            <input type="password" name="_password">
-            <small id="passwordHelp" class="form-text text-muted">Type in your password.</small>
+            <label class="navbarcolor" for="_password">Password</label><br/>
+            <input type="password" id="_password" name="_password">
+            <small id="_password" class="form-text text-muted">Type in your password.</small>
         </div>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
         <a class="btn btn-lg btn-success">
-            <label class="navbarcolor" for="exampleSubmitForm"></label>
-            <input type="submit" class="btn btn-primary btn-outline-success btn-lg active bodytext" value="LOGIN"></a>
+            <label class="navbarcolor" for="submit"></label>
+            <input type="submit" id="submit" class="btn btn-primary btn-outline-success btn-lg active bodytext" value="LOGIN" name="_submit"></a>
             {#{{ form_widget(form.LOGIN, {'attr': {'class': 'btn btn-primary btn-outline-success btn-lg active bodytext'}}) }}#}
             {#{{ form_errors(form.submit) }}#}
 

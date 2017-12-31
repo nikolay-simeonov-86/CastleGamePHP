@@ -11,11 +11,6 @@ use Symfony\Component\Validator\Constraints\Collection;
 /**
  * User
  *
- * @UniqueEntity(
- *     fields={"username"},
- *     errorPath="username",
- *     message="Username already exists"
- * )
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */

@@ -33,10 +33,11 @@ class CastleController extends Controller
         $this->castleService = $castleService;
     }
 
+
     /**
      * @Route("/user", name="user")
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("has_role('ROLE_USER')")
      */
     public function userHomepageAction()
     {

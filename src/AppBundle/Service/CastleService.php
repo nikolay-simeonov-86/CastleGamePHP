@@ -75,32 +75,6 @@ class CastleService implements CastleServiceInterface
 
     public function buildCastle($name)
     {
-        $castle = new Castle();
-        $castle->setName($name);
-        if ($castle->getName() === 'Dwarf')
-        {
-            $castle->setCastleIcon('/pictures/Castles/DarkCastleDwarf.jpg');
-        }
-        else if ($castle->getName() === 'Ninja')
-        {
-            $castle->setCastleIcon('/pictures/Castles/DarkCastleNinja.jpg');
-        }
-        else if ($castle->getName() === 'Vampire')
-        {
-            $castle->setCastleIcon('/pictures/Castles/DarkCastleVampire.jpg');
-        }
-        else if ($castle->getName() === 'Elves')
-        {
-            $castle->setCastleIcon('/pictures/Castles/DarkCastleElves.jpg');
-        }
-        else if ($castle->getName() === 'Mages')
-        {
-            $castle->setCastleIcon('/pictures/Castles/DarkCastleMages.jpg');
-        }
-        else if ($castle->getName() === 'Olymp')
-        {
-            $castle->setCastleIcon('/pictures/Castles/DarkCastleOlymp.jpg');
-        }
-        return $castle;
+
     }
 }
