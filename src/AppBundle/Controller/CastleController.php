@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Repository\UserRepository;
 use AppBundle\Service\CastleServiceInterface;
 use AppBundle\Service\UserServiceInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -11,7 +10,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CastleController extends Controller
 {
-
     /**
      * @var UserServiceInterface
      */
@@ -55,5 +53,4 @@ class CastleController extends Controller
     {
         return $this->render('view/map.html.twig');
     }
-
 }

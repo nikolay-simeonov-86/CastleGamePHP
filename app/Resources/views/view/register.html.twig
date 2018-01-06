@@ -3,10 +3,8 @@
 
 {% endblock head %}
 
-{#{% block body %}#}
-    {#{{ form(form) }}#}
-{#{% endblock body %}#}
 {% block body %}
+
         <div class="container h-100 d-flex">
             <div class="row align-items-center center">
                 <div class="col-xs-6 col-sm-6 col-lg-6">
@@ -78,42 +76,34 @@
                     {{ form_start(form) }}
                     <form name="register" action="{{ path('register') }}" method="post">
                         <div class="form-group">
-                            <label  class="navbarcolor" for="exampleInputUsername">Username</label><br/>
-                            {{ form_widget(form.Username) }}
-                            {{ form_errors(form.Username) }}
-                            <small id="usernameHelp" class="form-text text-muted navbarcolor">Choose a unique username.</small>
-                        </div>
-                        <div class="form-group">
-                            <label class="navbarcolor" for="exampleInputPassword">Password</label><br>
-                            {{ form_widget(form.Password.first) }}<br>
-                            {{ form_errors(form.Password.first) }}
-                            <label class="navbarcolor" for="exampleInputConfirm password">Confirm password</label><br>
-                            {{ form_widget(form.Password.second) }}<br>
-                            {{ form_errors(form.Password.second) }}
-                            <small id="passwordHelp" class="form-text text-muted navbarcolor">Choose a password.</small>
-                        </div>
-                        <div class="form-group">
-                            <label class="navbarcolor" for="exampleInputCastle">Castle One</label><br>
-                            {{ form_widget(form.castle1) }}<br>
-                            {{ form_errors(form.castle1) }}
-                            <small id="castleChooseHelp" class="form-text text-muted navbarcolor">Choose first castle.</small>
-                        </div>
-                        <div class="form-group">
-                            <label class="navbarcolor" for="exampleInputCastle">Castle Two</label><br>
-                            {{ form_widget(form.castle2) }}<br>
-                            {{ form_errors(form.castle2) }}
-                            <small id="castleChooseHelp" class="form-text text-muted navbarcolor">Choose second castle.</small>
-                        </div>
-                            {{ form_row(form._token) }}
-                        <div class="btn btn-lg btn-success">
-                            <label class="navbarcolor" for="exampleSubmitForm"></label>
-                            {{ form_widget(form.REGISTER, {'attr': {'class': 'btn btn-primary btn-outline-success btn-lg active bodytext'}}) }}
-                            {#{{ form_errors(form.submit) }}#}
-                        </div>
+                            <label  class="navbarcolor" for="app_bundle_user_register_Username">Username</label><br/>
+                            {{ form_widget(form.username) }}<br>
+                            <small id="usernameHelp" class="form-text text-muted navbarcolor">Choose a unique username.</small><br>
 
+                            <label class="navbarcolor" for="app_bundle_user_register_Password_first">Password</label><br>
+                            {{ form_widget(form.password.first) }}<br>
+                            <label class="navbarcolor" for="app_bundle_user_register_Password_second">Confirm password</label><br>
+                            {{ form_widget(form.password.second) }}<br>
+                            <small id="passwordHelp" class="form-text text-muted navbarcolor">Choose a password.</small><br>
+
+                            <label class="navbarcolor" for="app_bundle_user_register_castle1">Castle One</label><br>
+                            {{ form_widget(form.castle1) }}<br>
+                            <small id="castleChooseHelp" class="form-text text-muted navbarcolor">Choose first castle.</small><br>
+
+                            <label class="navbarcolor" for="app_bundle_user_register_castle2">Castle Two</label><br>
+                            {{ form_widget(form.castle2) }}<br>
+                            <small id="castleChooseHelp" class="form-text text-muted navbarcolor">Choose second castle.</small><br>
+
+                            {{ form_row(form._token) }}<br>
+                        <div class="btn btn-lg btn-success">
+                            <label class="navbarcolor" for="app_bundle_user_register_REGISTER"></label>
+                            {{ form_widget(form.REGISTER, {'attr': {'class': 'btn btn-primary btn-outline-success btn-lg active bodytext'}}) }}<br>
+                        </div>
+                        </div>
                     </form>
                     {{ form_end(form) }}
                 </div>
             </div>
         </div>
+
 {% endblock body %}

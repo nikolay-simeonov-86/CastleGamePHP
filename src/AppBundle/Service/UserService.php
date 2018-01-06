@@ -37,12 +37,10 @@ class UserService implements UserServiceInterface
         $this->userRepository = $userRepository;
     }
 
-    /**
-     * @return null|object
-     */
+
     public function getUserInformation()
     {
-//        return $userInfo = $this->userRepository->findOneBy(array('id' => $_SESSION['id']));
+
     }
 
     public function calculateUserIncome()

@@ -34,5 +34,17 @@ services:
     #     arguments:
     #         $someArgument: 'some_value'
     AppBundle\Repository\UserRepository:
+            factory: 'doctrine.orm.entity_manager:getRepository'
+            arguments: ['AppBundle\Entity\User']
+
+    AppBundle\Repository\CastleRepository:
         factory: 'doctrine.orm.entity_manager:getRepository'
-        arguments: ['AppBundle\Entity\User']
+        arguments: ['AppBundle\Entity\Castle']
+
+    AppBundle\Service\UserServiceInterface:
+            alias: 'AppBundle\Service\UserService'
+            public: false
+
+    AppBundle\Service\CastleServiceInterface:
+            alias: 'AppBundle\Service\CastleService'
+            public: false

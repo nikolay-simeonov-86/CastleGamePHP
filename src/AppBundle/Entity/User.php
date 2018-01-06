@@ -3,10 +3,9 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * User
@@ -18,8 +17,9 @@ class User implements UserInterface
 {
     /**
      * @var int
-     * @ORM\Id
+     *
      * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
@@ -27,42 +27,49 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=50, unique=true)
+     * @ORM\Column(name="username", type="string", length=255, unique=true)
      */
     private $username;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=50)
+     * @ORM\Column(name="password", type="string", length=255)
      */
     private $password;
 
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="coordinates", type="string", length=50, unique=true)
+     * @ORM\Column(name="coordinates", type="integer")
      */
     private $coordinates;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Castle", mappedBy="userId")
+     * @var int
+     *
+     * @ORM\Column(name="food", type="integer")
      */
-    private $castles;
+    private $food;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="income_all", type="integer")
+     * @ORM\Column(name="metal", type="integer")
      */
-    private $incomeAll = 0;
+    private $metal;
 
     /**
-     * User constructor
+     * @var Castle[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Castle", mappedBy="userId")
      */
+    private $castles;
+
     public function __construct()
     {
         $this->castles = new ArrayCollection();
+        $this->food = 0;
+        $this->metal = 0;
     }
 
     /**
@@ -126,7 +133,7 @@ class User implements UserInterface
     /**
      * Set coordinates
      *
-     * @param string $coordinates
+     * @param integer $coordinates
      *
      * @return User
      */
@@ -140,7 +147,7 @@ class User implements UserInterface
     /**
      * Get coordinates
      *
-     * @return string
+     * @return int
      */
     public function getCoordinates()
     {
@@ -148,17 +155,61 @@ class User implements UserInterface
     }
 
     /**
-     * Set castles
+     * Set food
      *
-     * @param integer $castles
+     * @param integer $food
      *
      * @return User
      */
-    public function setCastles($castles)
+    public function setFood($food)
     {
-        $this->castles = $castles;
+        $this->food = $food;
 
         return $this;
+    }
+
+    /**
+     * Get food
+     *
+     * @return int
+     */
+    public function getFood()
+    {
+        return $this->food;
+    }
+
+    /**
+     * Set metal
+     *
+     * @param integer $metal
+     *
+     * @return User
+     */
+    public function setMetal($metal)
+    {
+        $this->metal = $metal;
+
+        return $this;
+    }
+
+    /**
+     * Get metal
+     *
+     * @return int
+     */
+    public function getMetal()
+    {
+        return $this->metal;
+    }
+
+    /**
+     * Set castles
+     *
+     * @param Castle[] $castles
+     */
+    public function setCastles(array $castles)
+    {
+        $this->castles = $castles;
     }
 
     /**
@@ -169,30 +220,6 @@ class User implements UserInterface
     public function getCastles()
     {
         return $this->castles;
-    }
-
-    /**
-     * Set incomeAll
-     *
-     * @param integer $incomeAll
-     *
-     * @return User
-     */
-    public function setIncomeAll($incomeAll)
-    {
-        $this->incomeAll = $incomeAll;
-
-        return $this;
-    }
-
-    /**
-     * Get incomeAll
-     *
-     * @return int
-     */
-    public function getIncomeAll()
-    {
-        return $this->incomeAll;
     }
 
     /**
@@ -209,7 +236,7 @@ class User implements UserInterface
      * and populated in any number of different ways when the user object
      * is created.
      *
-     * @return (Role|string)[] The user roles
+     * @return array
      */
     public function getRoles()
     {
@@ -220,12 +247,10 @@ class User implements UserInterface
      * Returns the salt that was originally used to encode the password.
      *
      * This can return null if the password was not encoded using a salt.
-     *
-     * @return string|null The salt
      */
     public function getSalt()
     {
-        return null;
+        // TODO: Implement getSalt() method.
     }
 
     /**

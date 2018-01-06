@@ -19,14 +19,14 @@ class UserRegister extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('Username', TextType::class)
-            ->add('Password', RepeatedType::class, array(
+            ->add('username', TextType::class)
+            ->add('password', RepeatedType::class, array(
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
                 'options' => array('attr' => array('class' => 'password-field')),
                 'required' => true,
                 'first_options'  => array('label' => 'Password '),
-                'second_options' => array('label' => 'Confirm Password '),))
+                'second_options' => array('label' => 'Repeat Password '),))
             ->add('castle1', ChoiceType::class,
                 array(
                     'mapped' => false,

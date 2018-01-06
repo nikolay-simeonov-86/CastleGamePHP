@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Castle
 {
-
     /**
      * @var int
      *
@@ -28,13 +27,6 @@ class Castle
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="castle_icon", type="string", length=255)
-     */
-    private $castleIcon;
 
     /**
      * @var int
@@ -60,21 +52,21 @@ class Castle
     /**
      * @var int
      *
-     * @ORM\Column(name="army_lvl1_building", type="smallint")
+     * @ORM\Column(name="army_Lvl1_building", type="smallint")
      */
     private $armyLvl1Building;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="army_lvl2_building", type="smallint")
+     * @ORM\Column(name="army_Lvl2_building", type="smallint")
      */
     private $armyLvl2Building;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="army_lvl3_building", type="smallint")
+     * @ORM\Column(name="army_Lvl3_building", type="smallint")
      */
     private $armyLvl3Building;
 
@@ -114,9 +106,16 @@ class Castle
     private $resourceMetal;
 
     /**
-     * @ORM\Column(name="user_id", type="integer")
+     * @var string
+     *
+     * @ORM\Column(name="castle_icon", type="string", length=255)
+     */
+    private $castleIcon;
+
+    /**
+     * @var User
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="castles")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id")
      */
     private $userId;
 
@@ -137,7 +136,6 @@ class Castle
         $this->resourceFood = 50;
         $this->resourceMetal = 0;
     }
-
 
     /**
      * Get id
@@ -171,22 +169,6 @@ class Castle
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCastleIcon()
-    {
-        return $this->castleIcon;
-    }
-
-    /**
-     * @param string $castleIcon
-     */
-    public function setCastleIcon($castleIcon)
-    {
-        $this->castleIcon = $castleIcon;
     }
 
     /**
@@ -454,23 +436,35 @@ class Castle
     }
 
     /**
+     * @return string
+     */
+    public function getCastleIcon()
+    {
+        return $this->castleIcon;
+    }
+
+    /**
+     * @param string $castleIcon
+     */
+    public function setCastleIcon($castleIcon)
+    {
+        $this->castleIcon = $castleIcon;
+    }
+
+    /**
      * Set userId
      *
-     * @param integer $userId
-     *
-     * @return Castle
+     * @param User $userId
      */
-    public function setUserId($userId)
+    public function setUserId(User $userId)
     {
         $this->userId = $userId;
-
-        return $this;
     }
 
     /**
      * Get userId
      *
-     * @return int
+     * @return User
      */
     public function getUserId()
     {

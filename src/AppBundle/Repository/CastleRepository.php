@@ -1,9 +1,6 @@
 <?php
 
 namespace AppBundle\Repository;
-use AppBundle\Entity\Castle;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Mapping;
 
 /**
  * CastleRepository
@@ -13,8 +10,4 @@ use Doctrine\ORM\Mapping;
  */
 class CastleRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function __construct(EntityManager $em)
-    {
-        parent::__construct($em,new Mapping\ClassMetadata(Castle::class));
-    }
 }

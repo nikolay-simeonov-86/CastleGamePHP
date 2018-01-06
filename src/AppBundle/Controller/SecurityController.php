@@ -4,10 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Castle;
 use AppBundle\Entity\User;
-use AppBundle\Form\UserLogin;
 use AppBundle\Form\UserRegister;
 use AppBundle\Service\CastleServiceInterface;
-use AppBundle\Service\UserService;
 use AppBundle\Service\UserServiceInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -18,7 +16,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends Controller
 {
-
     /**
      * @var UserServiceInterface
      */
@@ -32,6 +29,7 @@ class SecurityController extends Controller
     /**
      * SecurityController constructor.
      * @param UserServiceInterface $userService
+     * @param CastleServiceInterface $castleService
      */
     public function __construct(UserServiceInterface $userService, CastleServiceInterface $castleService)
     {
@@ -47,14 +45,20 @@ class SecurityController extends Controller
      */
     public function registerAction(Request $request)
     {
-        $user = new User();
-        $coordinates = $this->userService->setCoordinates();
-        $user->setCoordinates($coordinates);
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            return $this->redirectToRoute('user');
+        }
 
+        $user = new User();
         $form = $this->createForm(UserRegister::class, $user);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid())
         {
+            $coordinates = $this->userService->setCoordinates();
+            $user->setCoordinates($coordinates);
+
             $castle1 = new Castle();
             $castle1->setName($form->get("castle1")->getData());
             if ($castle1->getName() === 'Dwarf')
@@ -82,8 +86,6 @@ class SecurityController extends Controller
                 $castle1->setCastleIcon('/pictures/Castles/DarkCastleOlymp.jpg');
             }
 
-//dump($castle1);
-//die();
             $castle2 = new Castle();
             $castle2->setName($form->get("castle2")->getData());
             if ($castle2->getName() === 'Dwarf')
@@ -118,8 +120,8 @@ class SecurityController extends Controller
             $em->persist($user);
             $em->flush();
 
-            $castle1->setUserId($user->getId());
-            $castle2->setUserId($user->getId());
+            $castle1->setUserId($user);
+            $castle2->setUserId($user);
             $em->persist($castle1);
             $em->persist($castle2);
             $em->flush();
@@ -138,14 +140,15 @@ class SecurityController extends Controller
      */
     public function loginAction(Request $request, AuthenticationUtils $authenticationUtils)
     {
-
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            return $this->redirectToRoute('user');
+        }
         $error = $authenticationUtils->getLastAuthenticationError();
 
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error,]);
-        dump($error);
-        die();
     }
 
     /**
