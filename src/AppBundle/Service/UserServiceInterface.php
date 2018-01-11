@@ -9,9 +9,12 @@
 namespace AppBundle\Service;
 
 
+use AppBundle\Entity\User;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 interface UserServiceInterface
 {
-    public function getUserInformation();
+    public function getUserInformation(UserInterface $user);
 
     public function getAllUserCastles();
 

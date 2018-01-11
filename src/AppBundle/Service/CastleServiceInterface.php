@@ -9,8 +9,11 @@
 namespace AppBundle\Service;
 
 
+
 interface CastleServiceInterface
 {
+    public function castleInformation(int $id);
+
     public function buildCastle($name);
 
     public function getArmyCount();

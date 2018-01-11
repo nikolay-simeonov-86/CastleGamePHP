@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="castle_game@localhost" uuid="9336dd48-a41e-46a2-93ff-d903b967da79">
+    <data-source source="LOCAL" name="castle_game_php@localhost" uuid="c64aca94-edde-433c-aa0c-42564e7e70b6">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/castle_game</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/castle_game_php</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="convertToNull" />

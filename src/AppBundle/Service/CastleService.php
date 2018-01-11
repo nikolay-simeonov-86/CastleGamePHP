@@ -10,9 +10,32 @@ namespace AppBundle\Service;
 
 
 use AppBundle\Entity\Castle;
+use AppBundle\Repository\CastleRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class CastleService implements CastleServiceInterface
 {
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
+     * @var CastleRepository
+     */
+    private $castleRepository;
+
+    /**
+     * UserService constructor.
+     * @param CastleRepository $castleRepository
+     * @param EntityManagerInterface $em
+     */
+    public function __construct(CastleRepository $castleRepository, EntityManagerInterface $em)
+    {
+        $this->em = $em;
+        $this->castleRepository = $castleRepository;
+    }
 
     public function getArmyCount()
     {
@@ -76,5 +99,10 @@ class CastleService implements CastleServiceInterface
     public function buildCastle($name)
     {
 
+    }
+
+    public function castleInformation(int $id)
+    {
+        return $castle = $this->em->getRepository(Castle::class)->find($id);
     }
 }

@@ -22,7 +22,7 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    public $id;
 
     /**
      * @var string
@@ -58,6 +58,13 @@ class User implements UserInterface
      * @ORM\Column(name="metal", type="integer")
      */
     private $metal;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="castle_icon", type="string")
+     */
+    private $castleIcon;
 
     /**
      * @var Castle[]
@@ -200,6 +207,22 @@ class User implements UserInterface
     public function getMetal()
     {
         return $this->metal;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCastleIcon()
+    {
+        return $this->castleIcon;
+    }
+
+    /**
+     * @param string $castleIcon
+     */
+    public function setCastleIcon($castleIcon)
+    {
+        $this->castleIcon = $castleIcon;
     }
 
     /**

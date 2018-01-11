@@ -108,9 +108,9 @@ class Castle
     /**
      * @var string
      *
-     * @ORM\Column(name="castle_icon", type="string", length=255)
+     * @ORM\Column(name="castle_picture", type="string", length=255)
      */
-    private $castleIcon;
+    private $castlePicture;
 
     /**
      * @var User
@@ -438,17 +438,17 @@ class Castle
     /**
      * @return string
      */
-    public function getCastleIcon()
+    public function getCastlePicture()
     {
-        return $this->castleIcon;
+        return $this->castlePicture;
     }
 
     /**
-     * @param string $castleIcon
+     * @param string $castlePicture
      */
-    public function setCastleIcon($castleIcon)
+    public function setCastlePicture($castlePicture)
     {
-        $this->castleIcon = $castleIcon;
+        $this->castlePicture = $castlePicture;
     }
 
     /**

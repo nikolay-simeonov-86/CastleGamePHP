@@ -2,14 +2,23 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Castle;
+use AppBundle\Entity\User;
+use AppBundle\Repository\CastleRepository;
 use AppBundle\Service\CastleServiceInterface;
 use AppBundle\Service\UserServiceInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class CastleController extends Controller
 {
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
     /**
      * @var UserServiceInterface
      */
@@ -24,9 +33,11 @@ class CastleController extends Controller
      * CastleController constructor.
      * @param UserServiceInterface $userService
      * @param CastleServiceInterface $castleService
+     * @param EntityManagerInterface $em
      */
-    public function __construct(UserServiceInterface $userService, CastleServiceInterface $castleService)
+    public function __construct(UserServiceInterface $userService, CastleServiceInterface $castleService, EntityManagerInterface $em)
     {
+        $this->em = $em;
         $this->userService = $userService;
         $this->castleService = $castleService;
     }
@@ -34,14 +45,20 @@ class CastleController extends Controller
 
     /**
      * @Route("/user", name="user")
-     * @return \Symfony\Component\HttpFoundation\Response
-     * @Security("has_role('ROLE_USER')")
+     * @return \Symfony\Component\HttpFoundation\Response* @Security("has_role('ROLE_USER')")
      */
     public function userHomepageAction()
     {
-        $information = $this->userService->getUserInformation();
-        $income = $this->userService->calculateUserIncome();
-        return $this->render( 'view/user.html.twig', array('information' => $information, 'income' => $income));
+        $user = $this->getUser();
+        $userId = $user->id;
+        $query = $this->em->createQuery('SELECT c FROM AppBundle\Entity\Castle c WHERE c.userId = ?1');
+        $query->setParameter(1, $userId);
+        $castles = $query->getResult();
+//        dump($userId);
+//        dump($user);
+//        dump($castle);
+//        die();
+        return $this->render( 'view/user.html.twig', array('castles' => $castles, 'user' => $user));
     }
 
     /**

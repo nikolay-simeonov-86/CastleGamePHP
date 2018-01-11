@@ -5,7 +5,7 @@
 
 {% block body %}
 
-        <div class="container h-100 d-flex">
+        <div style="background:transparent !important" class="jumbotron jumbotron-fluid">
             <div class="row align-items-center center">
                 <div class="col-xs-6 col-sm-6 col-lg-6">
                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -94,10 +94,10 @@
                             {{ form_widget(form.castle2) }}<br>
                             <small id="castleChooseHelp" class="form-text text-muted navbarcolor">Choose second castle.</small><br>
 
-                            {{ form_row(form._token) }}<br>
+                            {{ form_row(form._token) }}
                         <div class="btn btn-lg btn-success">
                             <label class="navbarcolor" for="app_bundle_user_register_REGISTER"></label>
-                            {{ form_widget(form.REGISTER, {'attr': {'class': 'btn btn-primary btn-outline-success btn-lg active bodytext'}}) }}<br>
+                            {{ form_widget(form.REGISTER, {'attr': {'class': 'btn btn-primary btn-outline-success btn-lg active bodytext'}}) }}
                         </div>
                         </div>
                     </form>

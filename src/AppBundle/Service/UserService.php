@@ -12,6 +12,7 @@ namespace AppBundle\Service;
 use AppBundle\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserService implements UserServiceInterface
 {
@@ -37,10 +38,13 @@ class UserService implements UserServiceInterface
         $this->userRepository = $userRepository;
     }
 
-
-    public function getUserInformation()
+    /**
+     * @param UserInterface $user
+     * @return null|object
+     */
+    public function getUserInformation(UserInterface $user)
     {
-
+        return $users = $this->userRepository->find($user->getUsername());
     }
 
     public function calculateUserIncome()
