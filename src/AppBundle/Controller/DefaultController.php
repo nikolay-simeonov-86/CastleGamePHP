@@ -49,7 +49,7 @@ class DefaultController extends Controller
      */
     public function baseTemplateAction()
     {
-        $query = $this->em->createQuery('SELECT u.username, u.coordinates, u.castleIcon FROM AppBundle\Entity\User u');
+        $query = $this->em->createQuery('SELECT u.id, u.username, u.coordinates, u.castleIcon FROM AppBundle\Entity\User u');
         $users = $query->getResult();
 //        dump($users);
 //        die();

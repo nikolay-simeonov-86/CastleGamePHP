@@ -56,7 +56,7 @@ class RegistryController extends Controller
 
             $user->setCastleIcon($form->get('castle1')->getData());
             if ($form->get('castle1')->getData() === 'Dwarf') {
-                $user->setCastleIcon('/pictures/CastleIcons/DwarfIconSmall.png');
+                $user->setCastleIcon('/pictures/CastleIcons/DwarfIconSmall.jpg');
             } else if ($form->get('castle1')->getData() === 'Ninja') {
                 $user->setCastleIcon('/pictures/CastleIcons/NinjaIconSmall.jpg');
             } else if ($form->get('castle1')->getData() === 'Vampire') {
