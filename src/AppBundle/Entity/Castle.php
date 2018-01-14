@@ -52,21 +52,21 @@ class Castle
     /**
      * @var int
      *
-     * @ORM\Column(name="army_Lvl1_building", type="smallint")
+     * @ORM\Column(name="army_lvl1_building", type="smallint")
      */
     private $armyLvl1Building;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="army_Lvl2_building", type="smallint")
+     * @ORM\Column(name="army_lvl2_building", type="smallint")
      */
     private $armyLvl2Building;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="army_Lvl3_building", type="smallint")
+     * @ORM\Column(name="army_lvl3_building", type="smallint")
      */
     private $armyLvl3Building;
 

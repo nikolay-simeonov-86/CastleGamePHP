@@ -6,141 +6,31 @@
 
 {% block body %}
 
-        <div class="container h-100 d-flex">
-            <div class="row align-items-center center">
-                <div class="col-xs-12 col-sm-12 col-lg-12 text-center">
-                    <table class="background" border="black" style="width:1400px;height:800px;">
-                        <tr id="0">
-                            <td id="00"><img src="{{ asset('pictures/Asset 1.png') }}"><img src="{{ asset('pictures/Asset 1.png') }}"></td>
-                            <td id="01"><h1>01</h1></td>
-                            <td id="02"><h1>02</h1></td>
-                            <td id="03"><h1>03</h1></td>
-                            <td id="04"><h1>04</h1></td>
-                            <td id="05"><h1>05</h1></td>
-                            <td id="06"><h1>06</h1></td>
-                            <td id="07"><h1>07</h1></td>
-                            <td id="08"><h1>08</h1></td>
-                            <td id="09"><h1>09</h1></td>
+    <div class="container">
+        <div class="row align-items-center center">
+            <div class="col-xs-12 col-sm-12 col-lg-12 text-center">
+                <table class="background" border="black" style="width:1400px;height:800px;">
+
+                    {% for x in 0..9 %}
+                        <tr>
+                            {% for y in 0..9 %}
+                                {% set a =  x  ~  y  %}
+                                <td width="10%" height="10%">
+                                    {% for user in users %}
+                                        {% set userId =  user.id %}
+                                        {% if a == user.coordinates %}
+                                            <a href="{{ path( 'user_profile', { 'id': userId }) }}"><img src="{{ user.castleIcon }}" alt="" title="{{ user.username }}"></a>
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                            {% endfor %}
                         </tr>
-                        <tr id="1">
-                            <td id="10"><h1>10</h1></td>
-                            <td id="11"><h1>OPA2</h1></td>
-                            <td id="12"><h1>OPA1</h1></td>
-                            <td id="13"><h1>OPA2</h1></td>
-                            <td id="14"><h1>OPA1</h1></td>
-                            <td id="15"><h1>OPA2</h1></td>
-                            <td id="16"><h1>OPA1</h1></td>
-                            <td id="17"><h1>OPA2</h1></td>
-                            <td id="18"><h1>OPA1</h1></td>
-                            <td id="19"><h1>OPA2</h1></td>
-                        </tr>
-                        <tr id="2">
-                            <td id="20"><h1>20</h1></td>
-                            <td id="21"><h1>OPA2</h1></td>
-                            <td id="22"><h1>OPA1</h1></td>
-                            <td id="23"><h1>OPA2</h1></td>
-                            <td id="24"><h1>OPA1</h1></td>
-                            <td id="25"><h1>OPA2</h1></td>
-                            <td id="26"><h1>OPA1</h1></td>
-                            <td id="27"><h1>OPA2</h1></td>
-                            <td id="28"><h1>OPA1</h1></td>
-                            <td id="29"><h1>OPA2</h1></td>
-                        </tr>
-                        <tr id="3">
-                            <td id="30"><h1>30</h1></td>
-                            <td id="31"><h1>OPA2</h1></td>
-                            <td id="32"><h1>OPA1</h1></td>
-                            <td id="33"><h1>OPA2</h1></td>
-                            <td id="34"><h1>OPA1</h1></td>
-                            <td id="35"><h1>OPA2</h1></td>
-                            <td id="36"><h1>OPA1</h1></td>
-                            <td id="37"><h1>OPA2</h1></td>
-                            <td id="38"><h1>OPA1</h1></td>
-                            <td id="39"><h1>OPA2</h1></td>
-                        </tr>
-                        <tr id="4">
-                            <td id="40"><h1>40</h1></td>
-                            <td id="41"><h1>OPA2</h1></td>
-                            <td id="42"><h1>OPA1</h1></td>
-                            <td id="43"><h1>OPA2</h1></td>
-                            <td id="44"><h1>OPA1</h1></td>
-                            <td id="45"><h1>OPA2</h1></td>
-                            <td id="46"><h1>OPA1</h1></td>
-                            <td id="47"><h1>OPA2</h1></td>
-                            <td id="48"><h1>OPA1</h1></td>
-                            <td id="49"><h1>OPA2</h1></td>
-                        </tr>
-                        <tr id="5">
-                            <td id="50"><h1>50</h1></td>
-                            <td id="51"><h1>OPA2</h1></td>
-                            <td id="52"><h1>OPA1</h1></td>
-                            <td id="53"><h1>OPA2</h1></td>
-                            <td id="54"><h1>OPA1</h1></td>
-                            <td id="55"><h1>OPA2</h1></td>
-                            <td id="56"><h1>OPA1</h1></td>
-                            <td id="57"><h1>OPA2</h1></td>
-                            <td id="58"><h1>OPA1</h1></td>
-                            <td id="59"><h1>OPA2</h1></td>
-                        </tr>
-                        <tr id="6">
-                            <td id="60"><h1>60</h1></td>
-                            <td id="61"><h1>OPA2</h1></td>
-                            <td id="62"><h1>OPA1</h1></td>
-                            <td id="63"><h1>OPA2</h1></td>
-                            <td id="64"><h1>OPA1</h1></td>
-                            <td id="65"><h1>OPA2</h1></td>
-                            <td id="66"><h1>OPA1</h1></td>
-                            <td id="67"><h1>OPA2</h1></td>
-                            <td id="68"><h1>OPA1</h1></td>
-                            <td id="69"><h1>OPA2</h1></td>
-                        </tr>
-                        <tr id="7">
-                            <td id="70"><h1>70</h1></td>
-                            <td id="71"><h1>OPA2</h1></td>
-                            <td id="72"><h1>OPA1</h1></td>
-                            <td id="73"><h1>OPA2</h1></td>
-                            <td id="74"><h1>OPA1</h1></td>
-                            <td id="75"><h1>OPA2</h1></td>
-                            <td id="76"><h1>OPA1</h1></td>
-                            <td id="77"><h1>OPA2</h1></td>
-                            <td id="78"><h1>OPA1</h1></td>
-                            <td id="79"><h1>OPA2</h1></td>
-                        </tr>
-                        <tr id="8">
-                            <td id="80"><h1>80</h1></td>
-                            <td id="81"><h1>OPA2</h1></td>
-                            <td id="82"><h1>OPA1</h1></td>
-                            <td id="83"><h1>OPA2</h1></td>
-                            <td id="84"><h1>OPA1</h1></td>
-                            <td id="85"><h1>OPA2</h1></td>
-                            <td id="86"><h1>OPA1</h1></td>
-                            <td id="87"><h1>OPA2</h1></td>
-                            <td id="88"><h1>OPA1</h1></td>
-                            <td id="89"><h1>OPA2</h1></td>
-                        </tr>
-                        <tr id="9">
-                            <td id="90"><h1>90</h1></td>
-                            <td id="91"><h1>91</h1></td>
-                            <td id="92"><h1>92</h1></td>
-                            <td id="93"><h1>93</h1></td>
-                            <td id="94"><h1>94</h1></td>
-                            <td id="95"><h1>95</h1></td>
-                            <td id="96"><h1>96</h1></td>
-                            <td id="97"><h1>97</h1></td>
-                            <td id="98"><h1>98</h1></td>
-                            <td id="99"><h1>99</h1></td>
-                        </tr>
-                    </table>
-                </div>
+                    {% endfor %}
+
+                </table>
             </div>
         </div>
-
-{% block script %}
-    <script type="text/javascript">
-        document.getElementById("02").innerHTML = "<img src=\"{{ asset('pictures/Asset 1.png') }}\"><img src=\"{{ asset('pictures/Asset 1.png') }}\">";
-        document.getElementById("25").innerHTML = "<a href=\"{{ path('homepage') }}\"><img src=\"{{ asset('pictures/Asset 1.png') }}\"><img src=\"{{ asset('pictures/Asset 1.png') }}\"></a>";
-    </script>
-{% endblock script %}
+    </div>
 
 {% endblock %}
 

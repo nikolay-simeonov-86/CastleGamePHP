@@ -7,6 +7,7 @@ use AppBundle\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -37,9 +38,13 @@ class DefaultController extends Controller
      * @Route("/", name="homepage")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("is_granted('IS_AUTHENTICATED_ANONYMOUSLY')")
      */
     public function indexAction(Request $request)
     {
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('user');
+        }
         return $this->render('view/home.html.twig');
     }
 
@@ -49,10 +54,17 @@ class DefaultController extends Controller
      */
     public function baseTemplateAction()
     {
-        $query = $this->em->createQuery('SELECT u.id, u.username, u.coordinates, u.castleIcon FROM AppBundle\Entity\User u');
+        $userId = $this->getUser()->getId();
+        $query = $this->em->createQuery('SELECT u FROM AppBundle\Entity\User u WHERE u.id = ?1');
+        $query->setParameter(1, $userId);
         $users = $query->getResult();
-//        dump($users);
+        $query = $this->em->createQuery('SELECT partial c.{id, name, armyLvl1Building, armyLvl2Building, armyLvl3Building, castleLvl, mineFoodLvl, mineMetalLvl, resourceFood, resourceMetal, castlePicture} 
+                                              FROM AppBundle\Entity\Castle c 
+                                              WHERE c.userId = ?1');
+        $query->setParameter(1, $userId);
+        $castles = $query->getResult();
+//        dump($castles);
 //        die();
-        return $this->render('view/test.html.twig', array('users' => $users));
+        return $this->render('view/test.html.twig', array('users' => $users, 'castles' => $castles));
     }
 }

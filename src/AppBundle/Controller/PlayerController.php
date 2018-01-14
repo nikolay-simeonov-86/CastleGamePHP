@@ -8,9 +8,11 @@ use AppBundle\Repository\CastleRepository;
 use AppBundle\Service\CastleServiceInterface;
 use AppBundle\Service\UserServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -52,7 +54,9 @@ class PlayerController extends Controller
     {
         $user = $this->getUser();
         $userId = $user->getId();
-        $query = $this->em->createQuery('SELECT c FROM AppBundle\Entity\Castle c WHERE c.userId = ?1');
+        $query = $this->em->createQuery('SELECT c 
+                                              FROM AppBundle\Entity\Castle c 
+                                              WHERE c.userId = ?1');
         $query->setParameter(1, $userId);
         $castles = $query->getResult();
 
@@ -76,11 +80,15 @@ class PlayerController extends Controller
             return $this->redirectToRoute('user');
         }
 
-        $query = $this->em->createQuery('SELECT u FROM AppBundle\Entity\User u WHERE u.id = ?1');
+        $query = $this->em->createQuery('SELECT u 
+                                              FROM AppBundle\Entity\User u 
+                                              WHERE u.id = ?1');
         $query->setParameter(1, $id);
         $user = $query->getResult();
 
-        $query = $this->em->createQuery('SELECT c FROM AppBundle\Entity\Castle c WHERE c.userId = ?1');
+        $query = $this->em->createQuery('SELECT c 
+                                              FROM AppBundle\Entity\Castle c 
+                                              WHERE c.userId = ?1');
         $query->setParameter(1, $id);
         $castles = $query->getResult();
 
@@ -94,9 +102,30 @@ class PlayerController extends Controller
      */
     public function viewMapAction()
     {
-        $query = $this->em->createQuery('SELECT u.id, u.username, u.coordinates, u.castleIcon FROM AppBundle\Entity\User u');
+        $query = $this->em->createQuery('SELECT u.id, u.username, u.coordinates, u.castleIcon 
+                                              FROM AppBundle\Entity\User u');
         $users = $query->getResult();
+//dump($users);
+//die();
+        return $this->render('view/map.html.twig', array('users' => $users));
+    }
 
-        return $this->render('view/test.html.twig', array('users' => $users));
+    /**
+     * @Route("/castles", name="user_castles")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function userCastlesAction(Request $request)
+    {
+        $userId = $this->getUser()->getId();
+        $query = $this->em->createQuery('SELECT c.name, c.armyLvl1Building, c.armyLvl2Building, c.armyLvl3Building, c.castleLvl, c.mineFoodLvl, c.mineMetalLvl, c.resourceFood, c.resourceMetal, c.castlePicture 
+                                              FROM AppBundle\Entity\Castle c 
+                                              WHERE c.userId = ?1');
+        $query->setParameter(1, $userId);
+        $castles = $query->getResult();
+//        dump($castles);
+//        die();
+        return $this->render('view/castles.html.twig', array('castles' => $castles));
     }
 }

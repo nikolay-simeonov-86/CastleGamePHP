@@ -38,11 +38,23 @@
         width: 75%;
         margin-top: 100px;
     }
-    .jumbotron {
+    .container-fluid {
+        position: absolute;
+        top: 50%;
+        left:50% !important;
+        transform: translate(-50%,-50%);
+    }
+    .jumbotron-fluid {
         position: absolute;
         margin-top: 3%;
         top: 50%;
-        left:50%;
+        left:50% !important;
+        transform: translate(-50%,-50%);
+    }
+    .jumbotron {
+        position: absolute;
+        top: 50%;
+        left:50% !important;
         transform: translate(-50%,-50%);
     }
     .navbarcolor {
@@ -61,6 +73,24 @@
         top: 0;
         width: 100%;
         box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.2), 0 10px 35px 0 rgba(0, 0, 0, 0.19);
+    }
+    .carousel-control-prev-icon, .carousel-control-next-icon {
+        height: 100px;
+        width: 100px;
+        outline: black;
+        background-size: 100%, 100%;
+        background-image: none;
+    }
+    .carousel-control-next-icon:after {
+        content: '>';
+        font-size: 40px;
+        font-weight: bold;
+        color: #4BB534;
+    }
+    .carousel-control-prev-icon:after {
+        content: '<';
+        font-size: 40px;
+        color: red;
     }
 
 </style>

@@ -6,7 +6,7 @@
 
 {% block body %}
 
-    <div style="background:transparent !important" class="jumbotron jumbotron-fluid">
+    <div style="background:transparent !important" class="container-fluid">
         <div class="row align-items-center center">
             <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                 <table class="background1 table table-inverse table-hover">
@@ -64,7 +64,15 @@
                     {#<img src="{{ castle.castlePicture }}" alt="">#}
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
-                        <li data-target="#carouselExampleIndicators" data-slide-to="0"></li>
+                        {% set listcounter = 0 %}
+                        {% for castle in castles %}
+                            {% if loop.first %}
+                                <li data-target="#carouselExampleIndicators" data-slide-to="{{ listcounter }}" class="active"></li>
+                            {% else %}
+                                {% set listcounter = listcounter + 1 %}
+                                <li data-target="#carouselExampleIndicators" data-slide-to="{{ listcounter }}"></li>
+                            {% endif %}
+                        {% endfor %}
                     </ol>
                     <div class="carousel-inner">
                     {% for castle in castles %}
