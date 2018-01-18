@@ -127,13 +127,13 @@ class Castle
         $this->armyLvl1Count = 0;
         $this->armyLvl2Count = 0;
         $this->armyLvl3Count = 0;
-        $this->armyLvl1Building = 1;
+        $this->armyLvl1Building = 0;
         $this->armyLvl2Building = 0;
         $this->armyLvl3Building = 0;
-        $this->castleLvl = 1;
-        $this->mineFoodLvl = 1;
+        $this->castleLvl = 0;
+        $this->mineFoodLvl = 0;
         $this->mineMetalLvl = 0;
-        $this->resourceFood = 50;
+        $this->resourceFood = 0;
         $this->resourceMetal = 0;
     }
 

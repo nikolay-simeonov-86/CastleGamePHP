@@ -15,17 +15,17 @@
             <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     {% if app.user %}
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ path('user') }}"><h2>Home</h2><span class="sr-only">(current)</span></a>
-                    </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ path('user') }}"><h2>Home</h2><span class="sr-only">(current)</span></a>
+                        </li>
                     {% else %}
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ path('homepage') }}"><h2>Home</h2><span class="sr-only">(current)</span></a>
-                    </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ path('homepage') }}"><h2>Home</h2><span class="sr-only">(current)</span></a>
+                        </li>
                     {% endif %}
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ path('map') }}"><h2>Map</h2></a>
-                    </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ path('map') }}"><h2>Map</h2></a>
+                        </li>
                     {% if app.user %}
                         <li class="nav-item active">
                             <a class="nav-link" href="{{ path('user_castles') }}"><h2>Castles</h2></a>
@@ -37,7 +37,7 @@
                     {% endif %}
                     {% if app.user %}
                         <li class="nav-item active">
-                            <a class="nav-link" href="#"><h2>Army</h2></a>
+                            <a class="nav-link" href="{{ path('user_army') }}"><h2>Army</h2></a>
                         </li>
                     {% else %}
                         <li class="nav-item">
@@ -46,13 +46,19 @@
                     {% endif %}
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
-                        <span class="navbar-text">
-                            {% if app.user %}
-                                <h3>{{ app.user.username }}</h3>
-                            {% else %}
-                                <h3>Username</h3>
-                            {% endif %}
-                        </span><pre>  </pre>
+                    <span>
+                        {% if app.user %}
+                            <div class="menuinformationtextfood">Food: {{ app.user.food }}</div>
+                            <div class="menuinformationtextmetal">Metal: {{ app.user.metal}}</div>
+                        {% endif %}
+                    </span><pre>    </pre>
+                    <span class="navbar-text">
+                        {% if app.user %}
+                            <h3>{{ app.user.username }}</h3>
+                        {% else %}
+                            <h3>Username</h3>
+                        {% endif %}
+                    </span><pre>  </pre>
                     {% if app.user %}
                         <a href="{{ logout_path('main') }}" class="btn btn-info btn-lg bg-danger active bodytext">LOGOUT</a>
                     {% else %}

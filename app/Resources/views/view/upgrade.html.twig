@@ -5,5 +5,32 @@
 {% endblock %}
 
 {% block body %}
-    {{ form(form) }}
+    <div style="background:transparent !important" class="jumbotron text-center">
+        <div class="row">
+            <div class="col" align="center">
+                <h1>Are you sure you want to upgrade the {{ building }}?</h1>
+                {% if message is defined %}
+                    <h2 class="text-danger">{{ message }}</h2>
+                    {% if foodafter < 0 and metalafter < 0 %}
+                        <h4 class="text-danger">You need {{ foodafter|abs }} food and {{ metalafter|abs }} metal.</h4>
+                    {% elseif foodafter < 0 %}
+                        <h4 class="text-danger">You need {{ foodafter|abs }} food.</h4>
+                    {% elseif metalafter < 0 %}
+                        <h4 class="text-danger">You need {{ metalafter|abs }} metal.</h4>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        <br><br>
+        <div class="row">
+            <div class="col" align="center">
+                {{ form_start(form)}}
+                    {{ form_widget(form.upgrade, {'attr': {'type': 'button', 'class': 'btn btn-lg btn-success bodytext'}}) }}
+                {{ form_end(form) }}
+            </div>
+            <div class="col" align="center">
+                <a href="{{ path('user_castles') }}" class="btn btn-info btn-lg bg-danger active bodytext">Decline</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

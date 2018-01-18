@@ -79,7 +79,13 @@
                         <div class="form-group">
                             <label  class="navbarcolor" for="app_bundle_user_register_Username">Username</label><br/>
                             {{ form_widget(form.username) }}<br>
-                            <small id="usernameHelp" class="form-text text-muted navbarcolor">Choose a unique username.</small><br>
+                            <small id="usernameHelp" class="form-text text-muted navbarcolor">Choose a unique username.</small>
+
+                            {% if message is defined %}
+                                <h2 class="text-danger">{{ message }}</h2>
+                            {% else %}
+                                <br>
+                            {% endif %}
 
                             <label class="navbarcolor" for="app_bundle_user_register_Password_first">Password</label><br>
                             {{ form_widget(form.password.first) }}<br>

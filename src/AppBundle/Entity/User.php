@@ -27,12 +27,7 @@ class User implements UserInterface
 
     /**
      * @var string
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 15,
-     *      minMessage = "Your first name must be at least {{ limit }} characters long",
-     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
-     * )
+     *
      * @ORM\Column(name="username", type="string", length=15, unique=true)
      */
     private $username;
@@ -81,7 +76,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->castles = new ArrayCollection();
-        $this->food = 0;
+        $this->food = 200;
         $this->metal = 0;
     }
 

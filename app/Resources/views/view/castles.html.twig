@@ -7,7 +7,7 @@
 {% block body %}
 
     <div class="container-fluid">
-        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">
             <div class="carousel-inner" role="listbox">
                 {% for castle in castles %}
                     {% if loop.first %}
@@ -44,7 +44,7 @@
                                                     <h2>Footmen building level</h2>
                                                 </th>
                                                 <th>
-                                                    <h2>Archer building level</h2>
+                                                    <h2>Archers building level</h2>
                                                 </th>
                                                 <th>
                                                     <h2>Cavalry building level</h2>
@@ -83,54 +83,102 @@
                                                     {% if castle.castleLvl >= 3 %}
                                                         <button type="button" class="btn btn-lg btn-primary bodytext" disabled>MAX</button>
                                                     {% else %}
-                                                    <a href="{{ path( 'upgrade', { 'building': 'castleLvl', 'id': castle.id }) }}">
-                                                        <button type="button" class="btn btn-lg btn-success bodytext" active>UPGRADE</button>
-                                                    </a>
+                                                        <a href="{{ path( 'upgrade', { 'building': 'Castle', 'id': castle.id }) }}">
+                                                            <button type="button" class="btn btn-lg btn-success bodytext" active>UPGRADE</button>
+                                                        </a>
+                                                    {% endif %}
+                                                    <br>
+                                                    {% if castle.castleLvl == 0 %}
+                                                        Costs 100 Food
+                                                    {% elseif castle.castleLvl == 1 %}
+                                                        Costs 500 Food and 500 Metal
+                                                    {% elseif castle.castleLvl == 2 %}
+                                                        Costs 1500 Food and 1500 Metal
                                                     {% endif %}
                                                 </td>
                                                 <td>
                                                     {% if castle.mineFoodLvl >= 3 %}
                                                         <button type="button" class="btn btn-lg btn-primary bodytext" disabled>MAX</button>
                                                     {% else %}
-                                                        <a href="{{ path( 'upgrade', { 'building': 'mineFoodLvl', 'id': castle.id }) }}">
+                                                        <a href="{{ path( 'upgrade', { 'building': 'Farm', 'id': castle.id }) }}">
                                                             <button type="button" class="btn btn-lg btn-success bodytext" active>UPGRADE</button>
                                                         </a>
+                                                    {% endif %}
+                                                    <br>
+                                                    {% if castle.mineFoodLvl == 0 %}
+                                                        Costs 100 Food
+                                                    {% elseif castle.mineFoodLvl == 1 %}
+                                                        Costs 250 Food and 100 Metal
+                                                    {% elseif castle.mineFoodLvl == 2 %}
+                                                        Costs 500 Food and 250 Metal
                                                     {% endif %}
                                                 </td>
                                                 <td>
                                                     {% if castle.mineMetalLvl >= 3 %}
                                                         <button type="button" class="btn btn-lg btn-primary bodytext" disabled>MAX</button>
                                                     {% else %}
-                                                        <a href="{{ path( 'upgrade', { 'building': 'mineMetalLvl', 'id': castle.id }) }}">
+                                                        <a href="{{ path( 'upgrade', { 'building': 'Metal Mine', 'id': castle.id }) }}">
                                                             <button type="button" class="btn btn-lg btn-success bodytext" active>UPGRADE</button>
                                                         </a>
+                                                    {% endif %}
+                                                    <br>
+                                                    {% if castle.mineMetalLvl == 0 %}
+                                                        Costs 200 Food
+                                                    {% elseif castle.mineMetalLvl == 1 %}
+                                                        Costs 300 Food and 300 Metal
+                                                    {% elseif castle.mineMetalLvl == 2 %}
+                                                        Costs 500 Food and 500 Metal
                                                     {% endif %}
                                                 </td>
                                                 <td>
                                                     {% if castle.armyLvl1Building >= 3 %}
                                                         <button type="button" class="btn btn-lg btn-primary bodytext" disabled>MAX</button>
                                                     {% else %}
-                                                        <a href="{{ path( 'upgrade', { 'building': 'armyLvl1Building', 'id': castle.id }) }}">
+                                                        <a href="{{ path( 'upgrade', { 'building': 'Footmen', 'id': castle.id }) }}">
                                                             <button type="button" class="btn btn-lg btn-success bodytext" active>UPGRADE</button>
                                                         </a>
+                                                    {% endif %}
+                                                    <br>
+                                                    {% if castle.armyLvl1Building == 0 %}
+                                                        Costs 500 Food
+                                                    {% elseif castle.armyLvl1Building == 1 %}
+                                                        Costs 1000 Food and 500 Metal
+                                                    {% elseif castle.armyLvl1Building == 2 %}
+                                                        Costs 1500 Food and 1000 Metal
                                                     {% endif %}
                                                 </td>
                                                 <td>
                                                     {% if castle.armyLvl2Building >= 3 %}
                                                         <button type="button" class="btn btn-lg btn-primary bodytext" disabled>MAX</button>
                                                     {% else %}
-                                                        <a href="{{ path( 'upgrade', { 'building': 'armyLvl2Building', 'id': castle.id }) }}">
+                                                        <a href="{{ path( 'upgrade', { 'building': 'Archers', 'id': castle.id }) }}">
                                                             <button type="button" class="btn btn-lg btn-success bodytext" active>UPGRADE</button>
                                                         </a>
+                                                    {% endif %}
+                                                    <br>
+                                                    {% if castle.armyLvl2Building == 0 %}
+                                                        Costs 500 Food and 500 Metal
+                                                    {% elseif castle.armyLvl2Building == 1 %}
+                                                        Costs 1000 Food and 1000 Metal
+                                                    {% elseif castle.armyLvl2Building == 2 %}
+                                                        Costs 1500 Food and 1500 Metal
                                                     {% endif %}
                                                 </td>
                                                 <td>
                                                     {% if castle.armyLvl3Building >= 3 %}
                                                         <button type="button" class="btn btn-lg btn-primary bodytext" disabled>MAX</button>
                                                     {% else %}
-                                                        <a href="{{ path( 'upgrade', { 'building': 'armyLvl3Building', 'id': castle.id }) }}">
+                                                        <a href="{{ path( 'upgrade', { 'building': 'Cavalry', 'id': castle.id }) }}">
                                                             <button type="button" class="btn btn-lg btn-success bodytext" active>UPGRADE</button>
                                                         </a>
+                                                    {% endif %}
+                                                    <br>
+                                                    {% if castle.armyLvl3Building == 0 %}
+                                                        Costs 1000 Food and 1000 Metal
+                                                    {% elseif castle.armyLvl3Building == 1 %}
+                                                        Costs 2000 Food and 2000 Metal
+                                                    {% elseif castle.armyLvl3Building == 2 %}
+                                                        Costs 3500 Food and 3500 Metal
                                                     {% endif %}
                                                 </td>
                                             </tr>
@@ -173,7 +221,7 @@
                                                     <h2>Footmen building level</h2>
                                                 </th>
                                                 <th>
-                                                    <h2>Archer building level</h2>
+                                                    <h2>Archers building level</h2>
                                                 </th>
                                                 <th>
                                                     <h2>Cavalry building level</h2>
@@ -212,54 +260,102 @@
                                                     {% if castle.castleLvl >= 3 %}
                                                         <button type="button" class="btn btn-lg btn-primary bodytext" disabled>MAX</button>
                                                     {% else %}
-                                                        <a href="{{ path( 'upgrade', { 'building': 'castleLvl', 'id': castle.id }) }}">
+                                                        <a href="{{ path( 'upgrade', { 'building': 'Castle', 'id': castle.id }) }}">
                                                             <button type="button" class="btn btn-lg btn-success bodytext" active>UPGRADE</button>
                                                         </a>
+                                                    {% endif %}
+                                                    <br>
+                                                    {% if castle.castleLvl == 0 %}
+                                                        Costs 100 Food
+                                                    {% elseif castle.castleLvl == 1 %}
+                                                        Costs 500 Food and 500 Metal
+                                                    {% elseif castle.castleLvl == 2 %}
+                                                        Costs 1500 Food and 1500 Metal
                                                     {% endif %}
                                                 </td>
                                                 <td>
                                                     {% if castle.mineFoodLvl >= 3 %}
                                                         <button type="button" class="btn btn-lg btn-primary bodytext" disabled>MAX</button>
                                                     {% else %}
-                                                        <a href="{{ path( 'upgrade', { 'building': 'mineFoodLvl', 'id': castle.id }) }}">
+                                                        <a href="{{ path( 'upgrade', { 'building': 'Farm', 'id': castle.id }) }}">
                                                             <button type="button" class="btn btn-lg btn-success bodytext" active>UPGRADE</button>
                                                         </a>
+                                                    {% endif %}
+                                                    <br>
+                                                    {% if castle.mineFoodLvl == 0 %}
+                                                        Costs 100 Food
+                                                    {% elseif castle.mineFoodLvl == 1 %}
+                                                        Costs 250 Food and 100 Metal
+                                                    {% elseif castle.mineFoodLvl == 2 %}
+                                                        Costs 500 Food and 250 Metal
                                                     {% endif %}
                                                 </td>
                                                 <td>
                                                     {% if castle.mineMetalLvl >= 3 %}
                                                         <button type="button" class="btn btn-lg btn-primary bodytext" disabled>MAX</button>
                                                     {% else %}
-                                                        <a href="{{ path( 'upgrade', { 'building': 'mineMetalLvl', 'id': castle.id }) }}">
+                                                        <a href="{{ path( 'upgrade', { 'building': 'Metal Mine', 'id': castle.id }) }}">
                                                             <button type="button" class="btn btn-lg btn-success bodytext" active>UPGRADE</button>
                                                         </a>
+                                                    {% endif %}
+                                                    <br>
+                                                    {% if castle.mineMetalLvl == 0 %}
+                                                        Costs 200 Food
+                                                    {% elseif castle.mineMetalLvl == 1 %}
+                                                        Costs 300 Food and 300   Metal
+                                                    {% elseif castle.mineMetalLvl == 2 %}
+                                                        Costs 500 Food and 500 Metal
                                                     {% endif %}
                                                 </td>
                                                 <td>
                                                     {% if castle.armyLvl1Building >= 3 %}
                                                         <button type="button" class="btn btn-lg btn-primary bodytext" disabled>MAX</button>
                                                     {% else %}
-                                                        <a href="{{ path( 'upgrade', { 'building': 'armyLvl1Building', 'id': castle.id }) }}">
+                                                        <a href="{{ path( 'upgrade', { 'building': 'Footmen', 'id': castle.id }) }}">
                                                             <button type="button" class="btn btn-lg btn-success bodytext" active>UPGRADE</button>
                                                         </a>
+                                                    {% endif %}
+                                                    <br>
+                                                    {% if castle.armyLvl1Building == 0 %}
+                                                        Costs 500 Food
+                                                    {% elseif castle.armyLvl1Building == 1 %}
+                                                        Costs 1000 Food and 500 Metal
+                                                    {% elseif castle.armyLvl1Building == 2 %}
+                                                        Costs 1500 Food and 1000 Metal
                                                     {% endif %}
                                                 </td>
                                                 <td>
                                                     {% if castle.armyLvl2Building >= 3 %}
                                                         <button type="button" class="btn btn-lg btn-primary bodytext" disabled>MAX</button>
                                                     {% else %}
-                                                        <a href="{{ path( 'upgrade', { 'building': 'armyLvl2Building', 'id': castle.id }) }}">
+                                                        <a href="{{ path( 'upgrade', { 'building': 'Archers', 'id': castle.id }) }}">
                                                             <button type="button" class="btn btn-lg btn-success bodytext" active>UPGRADE</button>
                                                         </a>
+                                                    {% endif %}
+                                                    <br>
+                                                    {% if castle.armyLvl2Building == 0 %}
+                                                        Costs 500 Food and 500 Metal
+                                                    {% elseif castle.armyLvl2Building == 1 %}
+                                                        Costs 1000 Food and 1000 Metal
+                                                    {% elseif castle.armyLvl2Building == 2 %}
+                                                        Costs 1500 Food and 1500 Metal
                                                     {% endif %}
                                                 </td>
                                                 <td>
                                                     {% if castle.armyLvl3Building >= 3 %}
                                                         <button type="button" class="btn btn-lg btn-primary bodytext" disabled>MAX</button>
                                                     {% else %}
-                                                        <a href="{{ path( 'upgrade', { 'building': 'armyLvl3Building', 'id': castle.id }) }}">
+                                                        <a href="{{ path( 'upgrade', { 'building': 'Cavalry', 'id': castle.id }) }}">
                                                             <button type="button" class="btn btn-lg btn-success bodytext" active>UPGRADE</button>
                                                         </a>
+                                                    {% endif %}
+                                                    <br>
+                                                    {% if castle.armyLvl3Building == 0 %}
+                                                        Costs 1000 Food and 1000 Metal
+                                                    {% elseif castle.armyLvl3Building == 1 %}
+                                                        Costs 2000 Food and 2000 Metal
+                                                    {% elseif castle.armyLvl3Building == 2 %}
+                                                        Costs 3500 Food and 3500 Metal
                                                     {% endif %}
                                                 </td>
                                             </tr>
