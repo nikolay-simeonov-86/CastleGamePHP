@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -120,10 +122,17 @@ class Castle
     private $userId;
 
     /**
+     * @var BuildingUpdateTimers[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\BuildingUpdateTimers", mappedBy="castleId")
+     */
+    private $buildingUpdateTimers;
+
+    /**
      * Castle constructor
      */
     public function __construct()
     {
+        $this->buildingUpdateTimers = new ArrayCollection();
         $this->armyLvl1Count = 0;
         $this->armyLvl2Count = 0;
         $this->armyLvl3Count = 0;
@@ -469,6 +478,26 @@ class Castle
     public function getUserId()
     {
         return $this->userId;
+    }
+
+    /**
+     * Set buildingUpdateTimers
+     *
+     * @param BuildingUpdateTimers[] $buildingUpdateTimers
+     */
+    public function setBuildingUpdateTimers(array $buildingUpdateTimers)
+    {
+        $this->buildingUpdateTimers = $buildingUpdateTimers;
+    }
+
+    /**
+     * Get buildingUpdateTimers
+     *
+     * @return Collection|BuildingUpdateTimers[]
+     */
+    public function getCastles()
+    {
+        return $this->buildingUpdateTimers;
     }
 }
 

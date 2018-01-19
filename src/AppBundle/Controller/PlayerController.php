@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\BuildingUpdateTimers;
 use AppBundle\Entity\Castle;
 use AppBundle\Entity\User;
 use AppBundle\Repository\CastleRepository;
@@ -56,11 +57,15 @@ class PlayerController extends Controller
     {
         $user = $this->getUser();
         $userId = $user->getId();
-        $query = $this->em->createQuery('SELECT c 
-                                              FROM AppBundle\Entity\Castle c 
-                                              WHERE c.userId = ?1');
-        $query->setParameter(1, $userId);
-        $castles = $query->getResult();
+
+        $castles = $this->em->getRepository(Castle::class)->findBy(array('userId' => $userId));
+        foreach ($castles as $castle)
+        {
+            $this->castleService->updateCastle($castle->getId());
+        }
+
+//        dump($castles);
+//        die();
 
         return $this->render( 'view/user.html.twig', array('castles' => $castles, 'user' => $user));
     }
@@ -88,11 +93,11 @@ class PlayerController extends Controller
         $query->setParameter(1, $id);
         $user = $query->getResult();
 
-        $query = $this->em->createQuery('SELECT c 
-                                              FROM AppBundle\Entity\Castle c 
-                                              WHERE c.userId = ?1');
-        $query->setParameter(1, $id);
-        $castles = $query->getResult();
+        $castles = $this->em->getRepository(Castle::class)->findBy(array('userId' => $userId));
+        foreach ($castles as $castle)
+        {
+            $this->castleService->updateCastle($castle->getId());
+        }
 
         return $this->render( 'view/user_profile.html.twig', array('castles' => $castles, 'user' => $user));
     }
@@ -107,8 +112,7 @@ class PlayerController extends Controller
         $query = $this->em->createQuery('SELECT u.id, u.username, u.coordinates, u.castleIcon 
                                               FROM AppBundle\Entity\User u');
         $users = $query->getResult();
-//dump($users);
-//die();
+
         return $this->render('view/map.html.twig', array('users' => $users));
     }
 
@@ -121,12 +125,13 @@ class PlayerController extends Controller
     public function userCastlesAction(Request $request)
     {
         $userId = $this->getUser()->getId();
-        $query = $this->em->createQuery('SELECT c.id, c.name, c.armyLvl1Building, c.armyLvl2Building, c.armyLvl3Building, c.castleLvl, c.mineFoodLvl, c.mineMetalLvl, c.resourceFood, c.resourceMetal, c.castlePicture 
-                                              FROM AppBundle\Entity\Castle c 
-                                              WHERE c.userId = ?1');
-        $query->setParameter(1, $userId);
-        $castles = $query->getResult();
-//        dump($castles);
+        $castles = $this->em->getRepository(Castle::class)->findBy(array('userId' => $userId));
+        foreach ($castles as $castle)
+        {
+            $this->castleService->updateCastle($castle->getId());
+        }
+//        dump($updates);
+//        dump($castle);
 //        die();
         return $this->render('view/castles.html.twig', array('castles' => $castles));
     }
@@ -138,6 +143,7 @@ class PlayerController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_USER')")
+     * @throws \Exception
      */
     public function userUpgradeAction(int $id,string $building, Request $request)
     {
@@ -147,6 +153,8 @@ class PlayerController extends Controller
         $user = $this->getUser();
 
         $castle = $this->em->getRepository(Castle::class)->find($id);
+        $this->castleService->updateCastle($castle->getId());
+
         if (null == $castle)
         {
             throw $this->createNotFoundException('No castle found for id ' . $id);
@@ -156,6 +164,12 @@ class PlayerController extends Controller
         {
             try
             {
+                $finishDate = new BuildingUpdateTimers();
+                $finishDate->setCastleId($castle);
+                $finishDate->setBuilding($building);
+                $startDate = new \DateTime;
+                $finishDate->setFinishTime($startDate->add(new \DateInterval('PT1M')));
+
                 if ($building === 'Castle')
                 {
                     if ($castle->getCastleLvl() === 0)
@@ -168,7 +182,7 @@ class PlayerController extends Controller
                             throw $exception = new Exception('Not enough food to upgrade');
                         }
                         $user->setFood($foodafter);
-                        $castle->setCastleLvl('1');
+                        $finishDate->setUpgradeToLvl(1);
                     }
                     elseif ($castle->getCastleLvl() === 1)
                     {
@@ -193,7 +207,8 @@ class PlayerController extends Controller
                             throw $exception = new Exception('Not enough metal to upgrade');
                         }
                         $user->setFood($foodafter);
-                        $castle->setCastleLvl('2');
+                        $user->setMetal($metalafter);
+                        $finishDate->setUpgradeToLvl(2);
                     }
                     elseif ($castle->getCastleLvl() === 2)
                     {
@@ -222,7 +237,8 @@ class PlayerController extends Controller
                             throw $exception = new Exception('Not enough metal to upgrade');
                         }
                         $user->setFood($foodafter);
-                        $castle->setCastleLvl('3');
+                        $user->setMetal($metalafter);
+                        $finishDate->setUpgradeToLvl(3);
                     }
                 }
                 if ($building === 'Farm')
@@ -237,7 +253,7 @@ class PlayerController extends Controller
                             throw $exception = new Exception('Not enough food to upgrade');
                         }
                         $user->setFood($foodafter);
-                        $castle->setMineFoodLvl('1');
+                        $finishDate->setUpgradeToLvl(1);
                     }
                     elseif ($castle->getMineFoodLvl() === 1)
                     {
@@ -262,7 +278,8 @@ class PlayerController extends Controller
                             throw $exception = new Exception('Not enough metal to upgrade');
                         }
                         $user->setFood($foodafter);
-                        $castle->setMineFoodLvl('2');
+                        $user->setMetal($metalafter);
+                        $finishDate->setUpgradeToLvl(2);
                     }
                     elseif ($castle->getMineFoodLvl() === 2)
                     {
@@ -287,7 +304,8 @@ class PlayerController extends Controller
                             throw $exception = new Exception('Not enough metal to upgrade');
                         }
                         $user->setFood($foodafter);
-                        $castle->setMineFoodLvl('3');
+                        $user->setMetal($metalafter);
+                        $finishDate->setUpgradeToLvl(3);
                     }
                 }
                 if ($building === 'Metal Mine')
@@ -302,7 +320,7 @@ class PlayerController extends Controller
                             throw $exception = new Exception('Not enough food to upgrade');
                         }
                         $user->setFood($foodafter);
-                        $castle->setMineMetalLvl('1');
+                        $finishDate->setUpgradeToLvl(1);
                     }
                     elseif ($castle->getMineMetalLvl() === 1)
                     {
@@ -327,7 +345,8 @@ class PlayerController extends Controller
                             throw $exception = new Exception('Not enough metal to upgrade');
                         }
                         $user->setFood($foodafter);
-                        $castle->setMineMetalLvl('2');
+                        $user->setMetal($metalafter);
+                        $finishDate->setUpgradeToLvl(2);
                     }
                     elseif ($castle->getMineMetalLvl() === 2)
                     {
@@ -352,7 +371,8 @@ class PlayerController extends Controller
                             throw $exception = new Exception('Not enough metal to upgrade');
                         }
                         $user->setFood($foodafter);
-                        $castle->setMineMetalLvl('3');
+                        $user->setMetal($metalafter);
+                        $finishDate->setUpgradeToLvl(3);
                     }
                 }
                 if ($building === 'Footmen')
@@ -371,7 +391,7 @@ class PlayerController extends Controller
                             throw $exception = new Exception('Not enough food to upgrade');
                         }
                         $user->setFood($foodafter);
-                        $castle->setArmyLvl1Building('1');
+                        $finishDate->setUpgradeToLvl(1);
                     }
                     elseif ($castle->getArmyLvl1Building() === 1)
                     {
@@ -396,7 +416,8 @@ class PlayerController extends Controller
                             throw $exception = new Exception('Not enough metal to upgrade');
                         }
                         $user->setFood($foodafter);
-                        $castle->setArmyLvl1Building('2');
+                        $user->setMetal($metalafter);
+                        $finishDate->setUpgradeToLvl(2);
                     }
                     elseif ($castle->getArmyLvl1Building() === 2)
                     {
@@ -421,7 +442,8 @@ class PlayerController extends Controller
                             throw $exception = new Exception('Not enough metal to upgrade');
                         }
                         $user->setFood($foodafter);
-                        $castle->setArmyLvl1Building('3');
+                        $user->setMetal($metalafter);
+                        $finishDate->setUpgradeToLvl(3);
                     }
                 }
                 if ($building === 'Archers')
@@ -449,7 +471,8 @@ class PlayerController extends Controller
                             throw $exception = new Exception('Not enough metal to upgrade');
                         }
                         $user->setFood($foodafter);
-                        $castle->setArmyLvl2Building('1');
+                        $user->setMetal($metalafter);
+                        $finishDate->setUpgradeToLvl(1);
                     }
                     elseif ($castle->getArmyLvl2Building() === 1)
                     {
@@ -474,7 +497,8 @@ class PlayerController extends Controller
                             throw $exception = new Exception('Not enough metal to upgrade');
                         }
                         $user->setFood($foodafter);
-                        $castle->setArmyLvl2Building('2');
+                        $user->setMetal($metalafter);
+                        $finishDate->setUpgradeToLvl(2);
                     }
                     elseif ($castle->getArmyLvl2Building() === 2)
                     {
@@ -499,7 +523,8 @@ class PlayerController extends Controller
                             throw $exception = new Exception('Not enough metal to upgrade');
                         }
                         $user->setFood($foodafter);
-                        $castle->setArmyLvl2Building('3');
+                        $user->setMetal($metalafter);
+                        $finishDate->setUpgradeToLvl(3);
                     }
                 }
                 if ($building === 'Cavalry')
@@ -527,7 +552,8 @@ class PlayerController extends Controller
                             throw $exception = new Exception('Not enough metal to upgrade');
                         }
                         $user->setFood($foodafter);
-                        $castle->setArmyLvl3Building('1');
+                        $user->setMetal($metalafter);
+                        $finishDate->setUpgradeToLvl(1);
                     }
                     elseif ($castle->getArmyLvl3Building() === 1)
                     {
@@ -552,7 +578,8 @@ class PlayerController extends Controller
                             throw $exception = new Exception('Not enough metal to upgrade');
                         }
                         $user->setFood($foodafter);
-                        $castle->setArmyLvl3Building('2');
+                        $user->setMetal($metalafter);
+                        $finishDate->setUpgradeToLvl(2);
                     }
                     elseif ($castle->getArmyLvl3Building() === 2)
                     {
@@ -577,9 +604,11 @@ class PlayerController extends Controller
                             throw $exception = new Exception('Not enough metal to upgrade');
                         }
                         $user->setFood($foodafter);
-                        $castle->setArmyLvl3Building('3');
+                        $user->setMetal($metalafter);
+                        $finishDate->setUpgradeToLvl(3);
                     }
                 }
+                $this->em->persist($finishDate);
                 $this->em->flush();
                 return $this->redirectToRoute('user_castles');
             }
@@ -601,11 +630,9 @@ class PlayerController extends Controller
     public function userArmyAction(Request $request)
     {
         $userId = $this->getUser()->getId();
-        $query = $this->em->createQuery('SELECT c.id, c.name, c.armyLvl1Count, c.armyLvl2Count, c.armyLvl3Count, c.castlePicture
-                                              FROM AppBundle\Entity\Castle c 
-                                              WHERE c.userId = ?1');
-        $query->setParameter(1, $userId);
-        $castles = $query->getResult();
+
+        $castles = $this->em->getRepository(Castle::class)->find($userId);
+        $this->castleService->updateCastle($castles->getId());
 //        dump($castles);
 //        die();
         return $this->render('view/army.html.twig', array('castles' => $castles));

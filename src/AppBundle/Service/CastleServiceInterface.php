@@ -9,6 +9,7 @@
 namespace AppBundle\Service;
 
 
+use AppBundle\Entity\Castle;
 
 interface CastleServiceInterface
 {
@@ -23,4 +24,6 @@ interface CastleServiceInterface
     public function purchaseArmy();
 
     public function purchaseBuilding();
+
+    public function updateCastle(int $id);
 }

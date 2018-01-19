@@ -9,6 +9,7 @@
 namespace AppBundle\Service;
 
 
+use AppBundle\Entity\BuildingUpdateTimers;
 use AppBundle\Entity\Castle;
 use AppBundle\Repository\CastleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -104,5 +105,53 @@ class CastleService implements CastleServiceInterface
     public function castleInformation(int $id)
     {
         return $castle = $this->em->getRepository(Castle::class)->find($id);
+    }
+
+    /**
+     * @param int $id
+     */
+    public function updateCastle(int $id)
+    {
+        $updates = $this->em->getRepository(BuildingUpdateTimers::class)->findBy(array('castleId' => $id));
+        $castle = $this->em->getRepository(Castle::class)->find($id);
+
+        if ($updates)
+        {
+            foreach ($updates as $update)
+            {
+                $currentDatetime = new \DateTime("now");
+                if (null !== $update->getFinishTime())
+                {
+
+                    if ($update->getFinishTime() < $currentDatetime)
+                    {
+    //                    dump($updates->getFinishTime());
+    //                    dump($currentDatetime);
+    //                    dump('Hello');
+    //                    die();
+                        if ($update->getBuilding() == 'Castle') {
+                            $castle->setCastleLvl($update->getUpgradeToLvl());
+                        }
+                        if ($update->getBuilding() == 'Farm') {
+                            $castle->setMineFoodLvl($update->getUpgradeToLvl());
+                        }
+                        if ($update->getBuilding() == 'Metal Mine') {
+                            $castle->setMineMetalLvl($update->getUpgradeToLvl());
+                        }
+                        if ($update->getBuilding() == 'Footmen') {
+                            $castle->setArmyLvl1Building($update->getUpgradeToLvl());
+                        }
+                        if ($update->getBuilding() == 'Archers') {
+                            $castle->setArmyLvl2Building($update->getUpgradeToLvl());
+                        }
+                        if ($update->getBuilding() == 'Cavalry') {
+                            $castle->setArmyLvl3Building($update->getUpgradeToLvl());
+                        }
+                        $this->em->remove($update);
+                        $this->em->flush();
+                    }
+                }
+            }
+        }
     }
 }
