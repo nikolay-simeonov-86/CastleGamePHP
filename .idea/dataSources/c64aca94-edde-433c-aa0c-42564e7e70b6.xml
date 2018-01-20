@@ -987,171 +987,219 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="251" parent="4" name="castles">
+    <table id="251" parent="4" name="building_update_timers">
       <Engine>InnoDB</Engine>
       <Collation>utf8_unicode_ci</Collation>
     </table>
-    <table id="252" parent="4" name="users">
+    <table id="252" parent="4" name="castles">
       <Engine>InnoDB</Engine>
       <Collation>utf8_unicode_ci</Collation>
     </table>
-    <column id="253" parent="251" name="id">
+    <table id="253" parent="4" name="users">
+      <Engine>InnoDB</Engine>
+      <Collation>utf8_unicode_ci</Collation>
+    </table>
+    <column id="254" parent="251" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="254" parent="251" name="user_id">
+    <column id="255" parent="251" name="castle_id">
       <Position>2</Position>
       <DataType>int(11)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="255" parent="251" name="name">
+    <column id="256" parent="251" name="building">
       <Position>3</Position>
       <DataType>varchar(255)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="256" parent="251" name="army_lvl1_count">
+    <column id="257" parent="251" name="finish_time">
       <Position>4</Position>
-      <DataType>int(11)|0</DataType>
+      <DataType>datetime|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="257" parent="251" name="army_lvl2_count">
+    <column id="258" parent="251" name="upgrade_to_lvl">
       <Position>5</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="258" parent="251" name="army_lvl3_count">
+    <index id="259" parent="251" name="IDX_984C07CE1BAF0DD4">
+      <ColNames>castle_id</ColNames>
+    </index>
+    <key id="260" parent="251" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="261" parent="251" name="FK_984C07CE1BAF0DD4">
+      <ColNames>castle_id</ColNames>
+      <RefSchemaName>castle_game_php</RefSchemaName>
+      <RefTableName>castles</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="262" parent="252" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="263" parent="252" name="user_id">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="264" parent="252" name="name">
+      <Position>3</Position>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="265" parent="252" name="army_lvl1_count">
+      <Position>4</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="266" parent="252" name="army_lvl2_count">
+      <Position>5</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="267" parent="252" name="army_lvl3_count">
       <Position>6</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="259" parent="251" name="army_lvl1_building">
+    <column id="268" parent="252" name="army_lvl1_building">
       <Position>7</Position>
       <DataType>smallint(6)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="260" parent="251" name="army_lvl2_building">
+    <column id="269" parent="252" name="army_lvl2_building">
       <Position>8</Position>
       <DataType>smallint(6)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="261" parent="251" name="army_lvl3_building">
+    <column id="270" parent="252" name="army_lvl3_building">
       <Position>9</Position>
       <DataType>smallint(6)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="262" parent="251" name="castle_lvl">
+    <column id="271" parent="252" name="castle_lvl">
       <Position>10</Position>
       <DataType>smallint(6)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="263" parent="251" name="mine_food_lvl">
+    <column id="272" parent="252" name="mine_food_lvl">
       <Position>11</Position>
       <DataType>smallint(6)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="264" parent="251" name="mine_metal_lvl">
+    <column id="273" parent="252" name="mine_metal_lvl">
       <Position>12</Position>
       <DataType>smallint(6)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="265" parent="251" name="resource_food">
+    <column id="274" parent="252" name="resource_food">
       <Position>13</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="266" parent="251" name="resource_metal">
+    <column id="275" parent="252" name="resource_metal">
       <Position>14</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="267" parent="251" name="castle_picture">
+    <column id="276" parent="252" name="castle_picture">
       <Position>15</Position>
       <DataType>varchar(255)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="268" parent="251" name="IDX_2EFE750DA76ED395">
+    <index id="277" parent="252" name="IDX_2EFE750DA76ED395">
       <ColNames>user_id</ColNames>
     </index>
-    <key id="269" parent="251" name="PRIMARY">
+    <key id="278" parent="252" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="270" parent="251" name="FK_2EFE750DA76ED395">
+    <foreign-key id="279" parent="252" name="FK_2EFE750DA76ED395">
       <ColNames>user_id</ColNames>
       <RefSchemaName>castle_game_php</RefSchemaName>
       <RefTableName>users</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="271" parent="252" name="id">
+    <column id="280" parent="253" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="272" parent="252" name="username">
+    <column id="281" parent="253" name="username">
       <Position>2</Position>
       <DataType>varchar(15)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="273" parent="252" name="password">
+    <column id="282" parent="253" name="password">
       <Position>3</Position>
       <DataType>varchar(255)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="274" parent="252" name="coordinates">
+    <column id="283" parent="253" name="coordinates">
       <Position>4</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="275" parent="252" name="food">
+    <column id="284" parent="253" name="food">
       <Position>5</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="276" parent="252" name="metal">
+    <column id="285" parent="253" name="metal">
       <Position>6</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="277" parent="252" name="castle_icon">
+    <column id="286" parent="253" name="castle_icon">
       <Position>7</Position>
       <DataType>varchar(255)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="278" parent="252" name="UNIQ_1483A5E9F85E0677">
+    <index id="287" parent="253" name="UNIQ_1483A5E9F85E0677">
       <ColNames>username</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="279" parent="252" name="PRIMARY">
+    <key id="288" parent="253" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="280" parent="252" name="UNIQ_1483A5E9F85E0677">
+    <key id="289" parent="253" name="UNIQ_1483A5E9F85E0677">
       <ColNames>username</ColNames>
       <UnderlyingIndexName>UNIQ_1483A5E9F85E0677</UnderlyingIndexName>
     </key>

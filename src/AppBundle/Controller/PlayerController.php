@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class PlayerController extends Controller
 {
@@ -64,9 +65,6 @@ class PlayerController extends Controller
             $this->castleService->updateCastle($castle->getId());
         }
 
-//        dump($castles);
-//        die();
-
         return $this->render( 'view/user.html.twig', array('castles' => $castles, 'user' => $user));
     }
 
@@ -79,19 +77,13 @@ class PlayerController extends Controller
      */
     public function userProfileAction(int $id, Request $request)
     {
-        $user = $this->getUser();
-        $userId = $user->getId();
-
-        if ($userId === $id)
+        if ($this->getUser()->getId() === $id)
         {
             return $this->redirectToRoute('user');
         }
 
-        $query = $this->em->createQuery('SELECT u 
-                                              FROM AppBundle\Entity\User u 
-                                              WHERE u.id = ?1');
-        $query->setParameter(1, $id);
-        $user = $query->getResult();
+        $user = $this->em->getRepository(User::class)->find($id);
+        $userId = $user->getId();
 
         $castles = $this->em->getRepository(Castle::class)->findBy(array('userId' => $userId));
         foreach ($castles as $castle)
@@ -126,14 +118,30 @@ class PlayerController extends Controller
     {
         $userId = $this->getUser()->getId();
         $castles = $this->em->getRepository(Castle::class)->findBy(array('userId' => $userId));
+        $currentDateTime = new \DateTime("now");
+        $timeRemaining = array();
+        $allUpdates = array();
         foreach ($castles as $castle)
         {
             $this->castleService->updateCastle($castle->getId());
+
+            $updates = $this->em->getRepository(BuildingUpdateTimers::class)->findBy(array('castleId' => $castle->getId()));
+
+            if ($updates)
+            {
+                foreach ($updates as $update)
+                {
+                    $tempInterval = date_diff($update->getFinishTime(), $currentDateTime);
+                    $interval = $tempInterval->format('%H hours and %I minutes');
+                    $allUpdates[] = $update;
+                    $temp['id'] = $update->getId();
+                    $temp['building'] = $update->getBuilding();
+                    $temp['timeRemaining'] = $interval;
+                    $timeRemaining[] = $temp;
+                }
+            }
         }
-//        dump($updates);
-//        dump($castle);
-//        die();
-        return $this->render('view/castles.html.twig', array('castles' => $castles));
+        return $this->render('view/castles.html.twig', array('castles' => $castles, 'allUpdates' => $allUpdates, 'timeRemaining' => $timeRemaining));
     }
 
     /**
@@ -164,6 +172,8 @@ class PlayerController extends Controller
         {
             try
             {
+                $updates = $this->em->getRepository(BuildingUpdateTimers::class)->findBy(array('castleId' => $castle->getId()));
+
                 $finishDate = new BuildingUpdateTimers();
                 $finishDate->setCastleId($castle);
                 $finishDate->setBuilding($building);
@@ -172,6 +182,15 @@ class PlayerController extends Controller
 
                 if ($building === 'Castle')
                 {
+                    foreach ($updates as $update)
+                    {
+                        if ($castle->getId() == $update->getCastleId()->getId() && $update->getBuilding() == 'Castle')
+                        {
+                            $foodafter = null;
+                            $metalafter = null;
+                            throw $exception = new Exception('Upgrade in progress');
+                        }
+                    }
                     if ($castle->getCastleLvl() === 0)
                     {
                         $food = $user->getFood();
@@ -243,6 +262,15 @@ class PlayerController extends Controller
                 }
                 if ($building === 'Farm')
                 {
+                    foreach ($updates as $update)
+                    {
+                        if ($castle->getId() == $update->getCastleId()->getId() && $update->getBuilding() == 'Farm')
+                        {
+                            $foodafter = null;
+                            $metalafter = null;
+                            throw $exception = new Exception('Upgrade in progress');
+                        }
+                    }
                     if ($castle->getMineFoodLvl() === 0)
                     {
                         $food = $user->getFood();
@@ -310,6 +338,15 @@ class PlayerController extends Controller
                 }
                 if ($building === 'Metal Mine')
                 {
+                    foreach ($updates as $update)
+                    {
+                        if ($castle->getId() == $update->getCastleId()->getId() && $update->getBuilding() == 'Metal Mine')
+                        {
+                            $foodafter = null;
+                            $metalafter = null;
+                            throw $exception = new Exception('Upgrade in progress');
+                        }
+                    }
                     if ($castle->getMineMetalLvl() === 0)
                     {
                         $food = $user->getFood();
@@ -377,6 +414,15 @@ class PlayerController extends Controller
                 }
                 if ($building === 'Footmen')
                 {
+                    foreach ($updates as $update)
+                    {
+                        if ($castle->getId() == $update->getCastleId()->getId() && $update->getBuilding() == 'Footmen')
+                        {
+                            $foodafter = null;
+                            $metalafter = null;
+                            throw $exception = new Exception('Upgrade in progress');
+                        }
+                    }
                     if ($castle->getArmyLvl1Building() === 0)
                     {
                         $food = $user->getFood();
@@ -448,6 +494,15 @@ class PlayerController extends Controller
                 }
                 if ($building === 'Archers')
                 {
+                    foreach ($updates as $update)
+                    {
+                        if ($castle->getId() == $update->getCastleId()->getId() && $update->getBuilding() == 'Archers')
+                        {
+                            $foodafter = null;
+                            $metalafter = null;
+                            throw $exception = new Exception('Upgrade in progress');
+                        }
+                    }
                     if ($castle->getArmyLvl2Building() === 0)
                     {
                         $food = $user->getFood();
@@ -529,6 +584,15 @@ class PlayerController extends Controller
                 }
                 if ($building === 'Cavalry')
                 {
+                    foreach ($updates as $update)
+                    {
+                        if ($castle->getId() == $update->getCastleId()->getId() && $update->getBuilding() == 'Cavalry')
+                        {
+                            $foodafter = null;
+                            $metalafter = null;
+                            throw $exception = new Exception('Upgrade in progress');
+                        }
+                    }
                     if ($castle->getArmyLvl3Building() === 0)
                     {
                         $food = $user->getFood();

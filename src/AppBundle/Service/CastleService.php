@@ -120,7 +120,7 @@ class CastleService implements CastleServiceInterface
             foreach ($updates as $update)
             {
                 $currentDatetime = new \DateTime("now");
-                if (null !== $update->getFinishTime())
+                if (null != $update->getFinishTime())
                 {
 
                     if ($update->getFinishTime() < $currentDatetime)
