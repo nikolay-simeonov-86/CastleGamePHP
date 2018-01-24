@@ -6,30 +6,30 @@
 
 {% block body %}
 
-    <div class="container-fluid">
-        <div class="row align-items-center center">
-            <div class="col-xs-0 col-sm-0 col-lg-2"></div>
-            <div class="col-xs-12 col-sm-12 col-lg-8 text-center">
-                <table class="background" border="black" style="width:1400px;height:800px;">
+    <div class="row align-items-center center">
+        <div class="col-xs-0 col-sm-0 col-lg-2">
 
-                    {% for x in 0..9 %}
-                        <tr>
-                            {% for y in 0..9 %}
-                                {% set a =  x  ~  y  %}
-                                <td width="10%" height="10%">
-                                    {% for user in users %}
-                                        {% set userId =  user.id %}
-                                        {% if a == user.coordinates %}
-                                            <a href="{{ path( 'user_profile', { 'id': userId }) }}"><img src="{{ user.castleIcon }}" alt="" title="{{ user.username }}"></a>
-                                        {% endif %}
-                                    {% endfor %}
-                                </td>
-                            {% endfor %}
-                        </tr>
-                    {% endfor %}
+        </div>
+        <div class="col-xs-12 col-sm-12 col-lg-8 text-center">
+            <table class="background" border="black" style="width:1400px;height:800px;">
 
-                </table>
-            </div>
+                {% for x in 0..9 %}
+                    <tr>
+                        {% for y in 0..9 %}
+                            {% set a =  x  ~  y  %}
+                            <td width="10%" height="10%">
+                                {% for user in users %}
+                                    {% set userId =  user.id %}
+                                    {% if a == user.coordinates %}
+                                        <a href="{{ path( 'user_profile', { 'id': userId }) }}"><img src="{{ user.castleIcon }}" alt="" title="{{ user.username }}"></a>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+
+            </table>
         </div>
     </div>
 

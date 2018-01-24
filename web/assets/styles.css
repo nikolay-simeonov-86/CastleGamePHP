@@ -1,0 +1,110 @@
+html, body {
+    position: relative;
+    height: 100%;
+    margin: 0;
+    color: #c4ac7c;
+    background: url('/pictures/BackgroundAll.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+.menuinformationtextmetal {
+    color: darkblue;
+}
+.menuinformationtextfood {
+    color: darkred;
+}
+.bodytext {
+    text-shadow: 2px 2px 4px #000000;
+}
+table.background {
+    background: url("/pictures/Map.jpg") no-repeat;
+    table-layout: fixed;
+}
+table.background1 {
+    background: url("/pictures/TableStatsBackground.jpg");
+    table-layout: auto;
+}
+table.text {
+    text-decoration-color: #0000F0;
+}
+table {
+    color: black;
+    table-layout: fixed;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.topmargin {
+    margin-top: 5%; !important;
+}
+.container {
+    position: relative;
+    height: 14rem;
+    width: 75%;
+    margin-top: 100px;
+}
+.container-fluid {
+    position: absolute;
+    top: 50%;
+    left:50% !important;
+    transform: translate(-50%,-50%);
+}
+.jumbotron-fluid {
+    position: absolute;
+    margin-top: 3%;
+    top: 50%;
+    left:50% !important;
+    transform: translate(-50%,-50%);
+}
+.jumbotron {
+    position: absolute;
+    top: 50%;
+    left:50% !important;
+    transform: translate(-50%,-50%);
+}
+.navbarcolor {
+    color: #c4ac7c;
+}
+.bg-primary {
+    background: #c4ac7c !important;
+    color: #c4ac7c !important;
+}
+#navigation, .navbar .navbar-expand-lg{
+    background: url("/pictures/navbar_old-map-background_2550x2100.jpg") no-repeat;
+    background-size: cover;
+}
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.2), 0 10px 35px 0 rgba(0, 0, 0, 0.19);
+}
+.carousel-control-prev.paddingleft {
+    padding-left: 100px;
+}
+.carousel-control-next.paddingright {
+    padding-right: 100px;
+}
+.carousel-control-prev, .carousel-control-next {
+    height:0;
+    top:50%;
+}
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    height: 100px;
+    width: 100px;
+    outline: black;
+    background-size: 100%, 100%;
+    background-image: none;
+}
+.carousel-control-next-icon:after {
+    content: '>';
+    font-size: 40px;
+    font-weight: bold;
+    color: #4BB534;
+}
+.carousel-control-prev-icon:after {
+    content: '<';
+    font-size: 40px;
+    font-weight: bold;
+    color: red;
+}

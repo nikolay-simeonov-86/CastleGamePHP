@@ -128,10 +128,17 @@ class Castle
     private $buildingUpdateTimers;
 
     /**
+     * @var Army[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Army", mappedBy="castleId")
+     */
+    private $army;
+
+    /**
      * Castle constructor
      */
     public function __construct()
     {
+        $this->army = new ArrayCollection();
         $this->buildingUpdateTimers = new ArrayCollection();
         $this->armyLvl1Count = 0;
         $this->armyLvl2Count = 0;
@@ -495,9 +502,29 @@ class Castle
      *
      * @return Collection|BuildingUpdateTimers[]
      */
-    public function getCastles()
+    public function getBuildingUpdateTimers()
     {
         return $this->buildingUpdateTimers;
+    }
+
+    /**
+     * Set Army
+     *
+     * @param Army[] $army
+     */
+    public function setArmy(array $army)
+    {
+        $this->army = $army;
+    }
+
+    /**
+     * Get army
+     *
+     * @return Collection|Army[]
+     */
+    public function getArmy()
+    {
+        return $this->army;
     }
 }
 

@@ -2,17 +2,20 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Army;
 use AppBundle\Entity\BuildingUpdateTimers;
 use AppBundle\Entity\Castle;
 use AppBundle\Entity\User;
 use AppBundle\Repository\CastleRepository;
 use AppBundle\Service\CastleServiceInterface;
 use AppBundle\Service\UserServiceInterface;
+use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -695,10 +698,67 @@ class PlayerController extends Controller
     {
         $userId = $this->getUser()->getId();
 
-        $castles = $this->em->getRepository(Castle::class)->find($userId);
-        $this->castleService->updateCastle($castles->getId());
-//        dump($castles);
-//        die();
-        return $this->render('view/army.html.twig', array('castles' => $castles));
+        $castles = $this->em->getRepository(Castle::class)->findBy(array('userId' => $userId));
+        foreach ($castles as $castle)
+        {
+            $this->castleService->updateCastle($castle->getId());
+            $armytemp = $this->em->getRepository(Army::class)->findBy(array('castleId' => $castle->getId()));
+
+            if ($armytemp)
+            {
+                foreach ($armytemp as $army)
+                {
+                    $allArmy[] = $army;
+
+                }
+            }
+        }
+
+        return $this->render('view/army.html.twig', array('castles' => $castles, 'allArmy' => $allArmy));
+    }
+
+    /**
+     * @Route("/train_army/{id}/{army}", name="train_army")
+     * @param string $army
+     * @param int $id
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_USER')")
+     * @throws \Exception
+     */
+    public function userTrainArmy(int $id, string $army, Request $request)
+    {
+        $form = $this->createFormBuilder()->add('Amount', IntegerType::class)->add('Train', SubmitType::class)->getForm();
+        $form->handleRequest($request);
+
+        $maxAmount = 10;
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+
+            return $this->redirectToRoute('confirm_train_army', array('army' => $army, 'id' => $id, 'amount' => $form->get('Amount')->getData()));
+        }
+
+        return $this->render('view/train_army.html.twig', array('form' => $form->createView(), 'army' => $army, 'maxAmount' => $maxAmount));
+    }
+
+    /**
+     * @Route("/confirm_train_army/{id}/{army}/{amount}", name="confirm_train_army")
+     * @param int $id
+     * @param string $army
+     * @param int $amount
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function userConfirmTrainArmy(int $id, string $army, int $amount, Request $request)
+    {
+        $form = $this->createFormBuilder()->add('Confirm', SubmitType::class)->getForm();
+        $form->handleRequest($request);
+
+        $prizeFood = 10;
+        $prizeMetal = 10;
+
+        return $this->render('view/confirm_train_army.html.twig', array('form' => $form->createView(), 'amount' => $amount, 'army' => $army, 'prizeFood' => $prizeFood, 'prizeMetal' => $prizeMetal, 'id' => $id));
     }
 }

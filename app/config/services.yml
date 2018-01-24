@@ -45,6 +45,10 @@ services:
             factory: 'doctrine.orm.entity_manager:getRepository'
             arguments: ['AppBundle\Entity\BuildingUpdateTimersRepository']
 
+    AppBundle\Repository\ArmyRepository:
+                factory: 'doctrine.orm.entity_manager:getRepository'
+                arguments: ['AppBundle\Entity\ArmyRepository']
+
     AppBundle\Service\UserServiceInterface:
             alias: 'AppBundle\Service\UserService'
             public: false
