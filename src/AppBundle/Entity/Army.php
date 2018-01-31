@@ -2,7 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Collection;
 
 /**
  * Army
@@ -38,9 +40,9 @@ class Army
     /**
      * @var int
      *
-     * @ORM\Column(name="hp", type="integer")
+     * @ORM\Column(name="health", type="integer")
      */
-    private $hp;
+    private $health;
 
     /**
      * @var int
@@ -52,16 +54,9 @@ class Army
     /**
      * @var int
      *
-     * @ORM\Column(name="cost_food", type="integer")
+     * @ORM\Column(name="amount", type="integer")
      */
-    private $costFood;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="cost_metal", type="integer")
-     */
-    private $costMetal;
+    private $amount;
 
     /**
      * @var int
@@ -83,6 +78,20 @@ class Army
      * @ORM\JoinColumn(name="castle_id")
      */
     private $castleId;
+
+    /**
+     * @var ArmyTrainTimers[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ArmyTrainTimers", mappedBy="armyId")
+     */
+    private $armyTrainTimers;
+
+    /**
+     * Army constructor.
+     */
+    public function __construct()
+    {
+        $this->armyTrainTimers = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -143,27 +152,27 @@ class Army
     }
 
     /**
-     * Set hp
+     * Set health
      *
-     * @param integer $hp
+     * @param integer $health
      *
      * @return Army
      */
-    public function setHp($hp)
+    public function setHealth($health)
     {
-        $this->hp = $hp;
+        $this->health = $health;
 
         return $this;
     }
 
     /**
-     * Get hp
+     * Get health
      *
      * @return int
      */
-    public function getHp()
+    public function getHealth()
     {
-        return $this->hp;
+        return $this->health;
     }
 
     /**
@@ -191,51 +200,19 @@ class Army
     }
 
     /**
-     * Set costFood
-     *
-     * @param integer $costFood
-     *
-     * @return Army
-     */
-    public function setCostFood($costFood)
-    {
-        $this->costFood = $costFood;
-
-        return $this;
-    }
-
-    /**
-     * Get costFood
-     *
      * @return int
      */
-    public function getCostFood()
+    public function getAmount(): int
     {
-        return $this->costFood;
+        return $this->amount;
     }
 
     /**
-     * Set costMetal
-     *
-     * @param integer $costMetal
-     *
-     * @return Army
+     * @param int $amount
      */
-    public function setCostMetal($costMetal)
+    public function setAmount(int $amount)
     {
-        $this->costMetal = $costMetal;
-
-        return $this;
-    }
-
-    /**
-     * Get costMetal
-     *
-     * @return int
-     */
-    public function getCostMetal()
-    {
-        return $this->costMetal;
+        $this->amount = $amount;
     }
 
     /**
@@ -304,6 +281,26 @@ class Army
     public function getCastleId()
     {
         return $this->castleId;
+    }
+
+    /**
+     * Set armyTrainTimers
+     *
+     * @param ArmyTrainTimers[] $armyTrainTimers
+     */
+    public function setArmyTrainTimers(array $armyTrainTimers)
+    {
+        $this->armyTrainTimers = $armyTrainTimers;
+    }
+
+    /**
+     * Get armyTrainTimers
+     *
+     * @return Collection|ArmyTrainTimers[]
+     */
+    public function getArmyTrainTimers()
+    {
+        return $this->armyTrainTimers;
     }
 }
 

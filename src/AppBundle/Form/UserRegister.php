@@ -40,7 +40,7 @@ class UserRegister extends AbstractType
                                 ),
                     'Light' =>
                             array(
-                                'Elves' => 'Elves',
+                                'Elfs' => 'Elfs',
                                 'Mages' => 'Mages',
                                 'Olymp' => 'Olymp'
                                 ),
@@ -60,7 +60,7 @@ class UserRegister extends AbstractType
                                 ),
                             'Light' =>
                                 array(
-                                    'Elves' => 'Elves',
+                                    'Elfs' => 'Elfs',
                                     'Mages' => 'Mages',
                                     'Olymp' => 'Olymp'
                                 ),

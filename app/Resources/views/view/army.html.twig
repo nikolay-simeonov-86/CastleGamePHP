@@ -6,7 +6,7 @@
 
 {% block body %}
 
-    <div id="carouselExampleControls" class="carousel slide topmargin" data-ride="carousel" data-interval="false">
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">
         <div class="carousel-inner" role="listbox">
             {% for castle in castles %}
                 {% if loop.first %}
@@ -21,80 +21,80 @@
                             {% if castle.name == 'Dwarf' %}
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Footmen</h2>
-                                    <img src="/pictures/Units/DwarfCastle/DwarfFootmen.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/DwarfCastle/DwarfFootmen.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Archers</h2>
-                                    <img src="/pictures/Units/DwarfCastle/DwarfArchers.jpg" alt="" height="500" width="500">
+                                    <img src="/pictures/Units/DwarfCastle/DwarfArchers.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Cavalry</h2>
-                                    <img src="/pictures/Units/DwarfCastle/DwarfCavalry.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/DwarfCastle/DwarfCavalry.jpg" alt="" height=90% width=90%>
                                 </div>
                             {% elseif castle.name == 'Ninja' %}
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Footmen</h2>
-                                    <img src="/pictures/Units/NinjaCastle/NinjaFootmen.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/NinjaCastle/NinjaFootmen.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Archers</h2>
-                                    <img src="/pictures/Units/NinjaCastle/NinjaArchers.jpg" alt="" height="500" width="500">
+                                    <img src="/pictures/Units/NinjaCastle/NinjaArchers.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Cavalry</h2>
-                                    <img src="/pictures/Units/NinjaCastle/NinjaCavalry.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/NinjaCastle/NinjaCavalry.jpg" alt="" height=90% width=90%>
                                 </div>
                             {% elseif castle.name == 'Vampire' %}
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Footmen</h2>
-                                    <img src="/pictures/Units/VampireCastle/VampireFootmen.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/VampireCastle/VampireFootmen.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Archers</h2>
-                                    <img src="/pictures/Units/VampireCastle/VampireArchers.jpg" alt="" height="500" width="500">
+                                    <img src="/pictures/Units/VampireCastle/VampireArchers.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Cavalry</h2>
-                                    <img src="/pictures/Units/VampireCastle/VampireCavalry.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/VampireCastle/VampireCavalry.jpg" alt="" height=90% width=90%>
                                 </div>
-                            {% elseif castle.name == 'Elves' %}
+                            {% elseif castle.name == 'Elfs' %}
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Footmen</h2>
-                                    <img src="/pictures/Units/ElvesCastle/ElvesFootmen.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/ElfsCastle/ElfsFootmen.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Archers</h2>
-                                    <img src="/pictures/Units/ElvesCastle/ElvesArchers.jpg" alt="" height="500" width="500">
+                                    <img src="/pictures/Units/ElfsCastle/ElfsArchers.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Cavalry</h2>
-                                    <img src="/pictures/Units/ElvesCastle/ElvesCavalry.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/ElfsCastle/ElfsCavalry.jpg" alt="" height=90% width=90%>
                                 </div>
                             {% elseif castle.name == 'Mages' %}
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Footmen</h2>
-                                    <img src="/pictures/Units/MageCastle/MageFootmen.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/MageCastle/MageFootmen.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Archers</h2>
-                                    <img src="/pictures/Units/MageCastle/MageArchers.jpg" alt="" height="500" width="500">
+                                    <img src="/pictures/Units/MageCastle/MageArchers.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Cavalry</h2>
-                                    <img src="/pictures/Units/MageCastle/MageCavalry.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/MageCastle/MageCavalry.jpg" alt="" height=90% width=90%>
                                 </div>
                             {% elseif castle.name == 'Olymp' %}
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Footmen</h2>
-                                    <img src="/pictures/Units/OlympCastle/OlympFootmen.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/OlympCastle/OlympFootmen.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Archers</h2>
-                                    <img src="/pictures/Units/OlympCastle/OlympArchers.jpg" alt="" height="500" width="500">
+                                    <img src="/pictures/Units/OlympCastle/OlympArchers.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Cavalry</h2>
-                                    <img src="/pictures/Units/OlympCastle/OlympCavalry.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/OlympCastle/OlympCavalry.jpg" alt="" height=90% width=90%>
                                 </div>
                             {% endif %}
                         </div>
@@ -107,19 +107,34 @@
                                 </a>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-lg-3" align="center">
-                                <a href="{{ path( 'train_army', { 'army': 'Footmen', 'id': castle.id }) }}">
-                                    <button type="button" class="btn btn-lg btn-success bodytext" active>Train Footmen</button>
-                                </a>
+                                {% if castle.armyLvl1Building == 0 %}
+                                    <button type="button" class="btn btn-lg btn-success bodytext" disabled>Train Footmen</button>
+                                    <br>Build Barracks first
+                                {% else %}
+                                    <a href="{{ path( 'train_army', { 'army': 'Footmen', 'id': castle.id }) }}">
+                                        <button type="button" class="btn btn-lg btn-success bodytext" active>Train Footmen</button>
+                                    </a>
+                                {% endif %}
                             </div>
                             <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
-                                <a href="{{ path( 'train_army', { 'army': 'Archers', 'id': castle.id }) }}">
-                                    <button type="button" class="btn btn-lg btn-success bodytext" active>Train Archers</button>
-                                </a>
+                                {% if castle.armyLvl2Building == 0 %}
+                                    <button type="button" class="btn btn-lg btn-success bodytext" disabled>Train Footmen</button>
+                                    <br>Build Shooting Range first
+                                {% else %}
+                                    <a href="{{ path( 'train_army', { 'army': 'Archers', 'id': castle.id }) }}">
+                                        <button type="button" class="btn btn-lg btn-success bodytext" active>Train Archers</button>
+                                    </a>
+                                {% endif %}
                             </div>
                             <div class="col-xs-12 col-sm-12 col-lg-3" align="center">
-                                <a href="{{ path( 'train_army', { 'army': 'Cavalry', 'id': castle.id }) }}">
-                                    <button type="button" class="btn btn-lg btn-success bodytext" active>Train Cavalry</button>
-                                </a>
+                                {% if castle.armyLvl3Building == 0 %}
+                                    <button type="button" class="btn btn-lg btn-success bodytext" disabled>Train Footmen</button>
+                                    <br>Build Stables first
+                                {% else %}
+                                    <a href="{{ path( 'train_army', { 'army': 'Cavalry', 'id': castle.id }) }}">
+                                        <button type="button" class="btn btn-lg btn-success bodytext" active>Train Cavalry</button>
+                                    </a>
+                                {% endif %}
                             </div>
                             <div class="col-xs-6 col-sm-6 col-lg-1">
                                 <a class="carousel-control-next paddingright" href="#carouselExampleControls" role="button" data-slide="next">
@@ -135,33 +150,40 @@
                                     <thead align="center">
                                         <tr>
                                             <th>
-                                                <h2>Army Type</h2>
+                                                <h2>Type</h2>
                                             </th>
                                             <th>
-                                                <h2>Army Level</h2>
+                                                <h2>Amount</h2>
                                             </th>
                                             <th>
-                                                <h2>Army HP</h2>
+                                                <h2>Level</h2>
                                             </th>
                                             <th>
-                                                <h2>Army Damage</h2>
+                                                <h2>Health</h2>
                                             </th>
                                             <th>
-                                                <h2>Army Bonus Damage</h2>
+                                                <h2>Damage</h2>
+                                            </th>
+                                            <th>
+                                                <h2>Bonus Damage</h2>
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody align="center">
+                                    {% if allArmy is defined %}
                                     {% for army in allArmy if army.castleId.id == castle.id %}
                                         <tr>
                                             <td>
                                                 <h2>{{ army.name }}</h2>
                                             </td>
                                             <td>
+                                                <h2>{{ army.amount }}</h2>
+                                            </td>
+                                            <td>
                                                 <h2>{{ army.level }}</h2>
                                             </td>
                                             <td>
-                                                <h2>{{ army.hp }}</h2>
+                                                <h2>{{ army.health }}</h2>
                                             </td>
                                             <td>
                                                 <h2>{{ army.damage }}</h2>
@@ -178,11 +200,18 @@
                                         </tr>
                                     {% else %}
                                         <tr>
-                                            <td colspan="5">
+                                            <td colspan="6">
                                                 <h2>NO ARMY IN THIS CASTLE</h2>
                                             </td>
                                         </tr>
                                     {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="6">
+                                                <h2>NO ARMY IN THIS CASTLE</h2>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
                                     </tbody>
                                 </table>
                                 <br>
@@ -201,80 +230,80 @@
                             {% if castle.name == 'Dwarf' %}
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Footmen</h2>
-                                    <img src="/pictures/Units/DwarfCastle/DwarfFootmen.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/DwarfCastle/DwarfFootmen.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Archers</h2>
-                                    <img src="/pictures/Units/DwarfCastle/DwarfArchers.jpg" alt="" height="500" width="500">
+                                    <img src="/pictures/Units/DwarfCastle/DwarfArchers.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Cavalry</h2>
-                                    <img src="/pictures/Units/DwarfCastle/DwarfCavalry.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/DwarfCastle/DwarfCavalry.jpg" alt="" height=90% width=90%>
                                 </div>
                             {% elseif castle.name == 'Ninja' %}
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Footmen</h2>
-                                    <img src="/pictures/Units/NinjaCastle/NinjaFootmen.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/NinjaCastle/NinjaFootmen.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Archers</h2>
-                                    <img src="/pictures/Units/NinjaCastle/NinjaArchers.jpg" alt="" height="500" width="500">
+                                    <img src="/pictures/Units/NinjaCastle/NinjaArchers.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Cavalry</h2>
-                                    <img src="/pictures/Units/NinjaCastle/NinjaCavalry.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/NinjaCastle/NinjaCavalry.jpg" alt="" height=90% width=90%>
                                 </div>
                             {% elseif castle.name == 'Vampire' %}
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Footmen</h2>
-                                    <img src="/pictures/Units/VampireCastle/VampireFootmen.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/VampireCastle/VampireFootmen.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Archers</h2>
-                                    <img src="/pictures/Units/VampireCastle/VampireArchers.jpg" alt="" height="500" width="500">
+                                    <img src="/pictures/Units/VampireCastle/VampireArchers.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Cavalry</h2>
-                                    <img src="/pictures/Units/VampireCastle/VampireCavalry.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/VampireCastle/VampireCavalry.jpg" alt="" height=90% width=90%>
                                 </div>
-                            {% elseif castle.name == 'Elves' %}
+                            {% elseif castle.name == 'Elfs' %}
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Footmen</h2>
-                                    <img src="/pictures/Units/ElvesCastle/ElvesFootmen.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/ElfsCastle/ElfsFootmen.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Archers</h2>
-                                    <img src="/pictures/Units/ElvesCastle/ElvesArchers.jpg" alt="" height="500" width="500">
+                                    <img src="/pictures/Units/ElfsCastle/ElfsArchers.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Cavalry</h2>
-                                    <img src="/pictures/Units/ElvesCastle/ElvesCavalry.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/ElfsCastle/ElfsCavalry.jpg" alt="" height=90% width=90%>
                                 </div>
                             {% elseif castle.name == 'Mages' %}
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Footmen</h2>
-                                    <img src="/pictures/Units/MageCastle/MageFootmen.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/MageCastle/MageFootmen.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Archers</h2>
-                                    <img src="/pictures/Units/MageCastle/MageArchers.jpg" alt="" height="500" width="500">
+                                    <img src="/pictures/Units/MageCastle/MageArchers.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Cavalry</h2>
-                                    <img src="/pictures/Units/MageCastle/MageCavalry.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/MageCastle/MageCavalry.jpg" alt="" height=90% width=90%>
                                 </div>
                             {% elseif castle.name == 'Olymp' %}
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Footmen</h2>
-                                    <img src="/pictures/Units/OlympCastle/OlympFootmen.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/OlympCastle/OlympFootmen.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Archers</h2>
-                                    <img src="/pictures/Units/OlympCastle/OlympArchers.jpg" alt="" height="500" width="500">
+                                    <img src="/pictures/Units/OlympCastle/OlympArchers.jpg" alt="" height=90% width=90%>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                     <h2>Cavalry</h2>
-                                    <img src="/pictures/Units/OlympCastle/OlympCavalry.jpg" alt="" height="400" width="400">
+                                    <img src="/pictures/Units/OlympCastle/OlympCavalry.jpg" alt="" height=90% width=90%>
                                 </div>
                             {% endif %}
                         </div>
@@ -287,13 +316,34 @@
                                 </a>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-lg-3" align="center">
-                                <button type="button" class="btn btn-lg btn-success bodytext" active>TRAIN FOOTMEN</button>
+                                {% if castle.armyLvl1Building == 0 %}
+                                    <button type="button" class="btn btn-lg btn-success bodytext" disabled>Train Footmen</button>
+                                    <br>Build Barracks first
+                                {% else %}
+                                    <a href="{{ path( 'train_army', { 'army': 'Footmen', 'id': castle.id }) }}">
+                                        <button type="button" class="btn btn-lg btn-success bodytext" active>Train Footmen</button>
+                                    </a>
+                                {% endif %}
                             </div>
                             <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
-                                <button type="button" class="btn btn-lg btn-success bodytext" active>TRAIN ARCHERS</button>
+                                {% if castle.armyLvl2Building == 0 %}
+                                    <button type="button" class="btn btn-lg btn-success bodytext" disabled>Train Footmen</button>
+                                    <br>Build Shooting Range first
+                                {% else %}
+                                    <a href="{{ path( 'train_army', { 'army': 'Archers', 'id': castle.id }) }}">
+                                        <button type="button" class="btn btn-lg btn-success bodytext" active>Train Archers</button>
+                                    </a>
+                                {% endif %}
                             </div>
                             <div class="col-xs-12 col-sm-12 col-lg-3" align="center">
-                                <button type="button" class="btn btn-lg btn-success bodytext" active>TRAIN CAVALRY</button>
+                                {% if castle.armyLvl3Building == 0 %}
+                                    <button type="button" class="btn btn-lg btn-success bodytext" disabled>Train Footmen</button>
+                                    <br>Build Stables first
+                                {% else %}
+                                    <a href="{{ path( 'train_army', { 'army': 'Cavalry', 'id': castle.id }) }}">
+                                        <button type="button" class="btn btn-lg btn-success bodytext" active>Train Cavalry</button>
+                                    </a>
+                                {% endif %}
                             </div>
                             <div class="col-xs-6 col-sm-6 col-lg-1">
                                 <a class="carousel-control-next paddingright" href="#carouselExampleControls" role="button" data-slide="next">
@@ -309,33 +359,40 @@
                                     <thead align="center">
                                     <tr>
                                         <th>
-                                            <h2>Army Type</h2>
+                                            <h2>Type</h2>
                                         </th>
                                         <th>
-                                            <h2>Army Level</h2>
+                                            <h2>Amount</h2>
                                         </th>
                                         <th>
-                                            <h2>Army HP</h2>
+                                            <h2>Level</h2>
                                         </th>
                                         <th>
-                                            <h2>Army Damage</h2>
+                                            <h2>Health</h2>
                                         </th>
                                         <th>
-                                            <h2>Army Bonus Damage</h2>
+                                            <h2>Damage</h2>
+                                        </th>
+                                        <th>
+                                            <h2>Bonus Damage</h2>
                                         </th>
                                     </tr>
                                     </thead>
                                     <tbody align="center">
+                                    {% if allArmy is defined %}
                                     {% for army in allArmy if army.castleId.id == castle.id %}
                                         <tr>
                                             <td>
                                                 <h2>{{ army.name }}</h2>
                                             </td>
                                             <td>
+                                                <h2>{{ army.amount }}</h2>
+                                            </td>
+                                            <td>
                                                 <h2>{{ army.level }}</h2>
                                             </td>
                                             <td>
-                                                <h2>{{ army.hp }}</h2>
+                                                <h2>{{ army.health }}</h2>
                                             </td>
                                             <td>
                                                 <h2>{{ army.damage }}</h2>
@@ -352,11 +409,18 @@
                                         </tr>
                                     {% else %}
                                         <tr>
-                                            <td colspan="5">
+                                            <td colspan="6">
                                                 <h2>NO ARMY IN THIS CASTLE</h2>
                                             </td>
                                         </tr>
                                     {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="6">
+                                                <h2>NO ARMY IN THIS CASTLE</h2>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
                                     </tbody>
                                 </table>
                                 <br>

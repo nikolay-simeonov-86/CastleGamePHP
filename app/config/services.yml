@@ -38,16 +38,24 @@ services:
             arguments: ['AppBundle\Entity\User']
 
     AppBundle\Repository\CastleRepository:
-        factory: 'doctrine.orm.entity_manager:getRepository'
-        arguments: ['AppBundle\Entity\Castle']
+            factory: 'doctrine.orm.entity_manager:getRepository'
+            arguments: ['AppBundle\Entity\Castle']
+
+    AppBundle\Repository\ArmyRepository:
+            factory: 'doctrine.orm.entity_manager:getRepository'
+            arguments: ['AppBundle\Entity\Army']
 
     AppBundle\Repository\BuildingUpdateTimersRepository:
             factory: 'doctrine.orm.entity_manager:getRepository'
-            arguments: ['AppBundle\Entity\BuildingUpdateTimersRepository']
+            arguments: ['AppBundle\Entity\BuildingUpdateTimers']
 
-    AppBundle\Repository\ArmyRepository:
-                factory: 'doctrine.orm.entity_manager:getRepository'
-                arguments: ['AppBundle\Entity\ArmyRepository']
+    AppBundle\Repository\ArmyStatisticsRepository:
+            factory: 'doctrine.orm.entity_manager:getRepository'
+            arguments: ['AppBundle\Entity\ArmyStatistics']
+
+    AppBundle\Repository\ArmyTrainTimersRepository:
+            factory: 'doctrine.orm.entity_manager:getRepository'
+            arguments: ['AppBundle\Entity\ArmyTrainTimers']
 
     AppBundle\Service\UserServiceInterface:
             alias: 'AppBundle\Service\UserService'
@@ -55,4 +63,16 @@ services:
 
     AppBundle\Service\CastleServiceInterface:
             alias: 'AppBundle\Service\CastleService'
+            public: false
+
+    AppBundle\Service\ArmyServiceInterface:
+            alias: 'AppBundle\Service\ArmyService'
+            public: false
+
+    AppBundle\Service\ArmyStatisticsServiceInterface:
+            alias: 'AppBundle\Service\ArmyStatisticsService'
+            public: false
+
+    AppBundle\Service\ArmyTrainTimersServiceInterface:
+            alias: 'AppBundle\Service\ArmyTrainTimersService'
             public: false

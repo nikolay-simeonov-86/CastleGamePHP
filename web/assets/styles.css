@@ -9,14 +9,26 @@ html, body {
     background-size: cover;
     -o-background-size: cover;
 }
+.menuinformationtextfood {
+     color: darkred;
+ }
+.informationtextfood {
+    color: #ff0000;
+}
 .menuinformationtextmetal {
     color: darkblue;
 }
-.menuinformationtextfood {
-    color: darkred;
+.informationtextmetal {
+    color: #add8e6;
+}
+.traintime {
+    color: yellow;
 }
 .bodytext {
     text-shadow: 2px 2px 4px #000000;
+}
+.table thead th {
+    vertical-align: middle;
 }
 table.background {
     background: url("/pictures/Map.jpg") no-repeat;
@@ -34,8 +46,11 @@ table {
     table-layout: fixed;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-.topmargin {
-    margin-top: 5%; !important;
+.center-of-page{
+    margin-top: 20%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
 }
 .container {
     position: relative;
@@ -43,24 +58,18 @@ table {
     width: 75%;
     margin-top: 100px;
 }
+.margin-top {
+    margin-top: 5%;
+}
 .container-fluid {
     position: absolute;
-    top: 50%;
-    left:50% !important;
-    transform: translate(-50%,-50%);
+    margin-top: 5%;
 }
 .jumbotron-fluid {
     position: absolute;
-    margin-top: 3%;
-    top: 50%;
-    left:50% !important;
-    transform: translate(-50%,-50%);
 }
 .jumbotron {
     position: absolute;
-    top: 50%;
-    left:50% !important;
-    transform: translate(-50%,-50%);
 }
 .navbarcolor {
     color: #c4ac7c;

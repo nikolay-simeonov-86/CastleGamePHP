@@ -7,6 +7,9 @@ use AppBundle\Entity\User;
 use AppBundle\Form\UserRegister;
 use AppBundle\Service\CastleServiceInterface;
 use AppBundle\Service\UserServiceInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -16,6 +19,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RegistryController extends Controller
 {
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
     /**
      * @var UserServiceInterface
      */
@@ -28,11 +36,13 @@ class RegistryController extends Controller
 
     /**
      * SecurityController constructor.
+     * @param EntityManagerInterface $em
      * @param UserServiceInterface $userService
      * @param CastleServiceInterface $castleService
      */
-    public function __construct(UserServiceInterface $userService, CastleServiceInterface $castleService)
+    public function __construct(EntityManagerInterface $em, UserServiceInterface $userService, CastleServiceInterface $castleService)
     {
+        $this->em = $em;
         $this->userService = $userService;
         $this->castleService = $castleService;
     }
@@ -59,6 +69,18 @@ class RegistryController extends Controller
                 if (strlen($form->get('username')->getData()) > 15) {
                     throw $exception = new Exception('Username is too big');
                 }
+                if ($this->em->getRepository(User::class)->findOneBy(array('username' => $form->get('username')->getData()))) {
+                    throw $exception = new Exception('Username already taken');
+                }
+                $query = $this->em->createQuery('SELECT COUNT(u.id) FROM AppBundle\Entity\User u');
+                try {
+                    $count = $query->getSingleScalarResult();
+                } catch (NoResultException $e) {
+                } catch (NonUniqueResultException $e) {
+                }
+                if ($count >= 100) {
+                    throw $exception = new Exception('User limit reached');
+                }
                 $user->setCastleIcon($form->get('castle1')->getData());
                 if ($form->get('castle1')->getData() === 'Dwarf') {
                     $user->setCastleIcon('/pictures/CastleIcons/DwarfIconSmall.jpg');
@@ -66,8 +88,8 @@ class RegistryController extends Controller
                     $user->setCastleIcon('/pictures/CastleIcons/NinjaIconSmall.jpg');
                 } else if ($form->get('castle1')->getData() === 'Vampire') {
                     $user->setCastleIcon('/pictures/CastleIcons/VampireIconSmall.jpg');
-                } else if ($form->get('castle1')->getData() === 'Elves') {
-                    $user->setCastleIcon('/pictures/CastleIcons/ElvesIconSmall.jpg');
+                } else if ($form->get('castle1')->getData() === 'Elfs') {
+                    $user->setCastleIcon('/pictures/CastleIcons/ElfsIconSmall.jpg');
                 } else if ($form->get('castle1')->getData() === 'Mages') {
                     $user->setCastleIcon('/pictures/CastleIcons/MageIconSmall.jpg');
                 } else if ($form->get('castle1')->getData() === 'Olymp') {
@@ -85,8 +107,8 @@ class RegistryController extends Controller
                     $castle1->setCastlePicture('/pictures/Castles/DarkCastleNinja.jpg');
                 } else if ($castle1->getName() === 'Vampire') {
                     $castle1->setCastlePicture('/pictures/Castles/DarkCastleVampire.jpg');
-                } else if ($castle1->getName() === 'Elves') {
-                    $castle1->setCastlePicture('/pictures/Castles/LightCastleElves.jpg');
+                } else if ($castle1->getName() === 'Elfs') {
+                    $castle1->setCastlePicture('/pictures/Castles/LightCastleElfs.jpg');
                 } else if ($castle1->getName() === 'Mages') {
                     $castle1->setCastlePicture('/pictures/Castles/LightCastleMages.jpg');
                 } else if ($castle1->getName() === 'Olymp') {
@@ -101,8 +123,8 @@ class RegistryController extends Controller
                     $castle2->setCastlePicture('/pictures/Castles/DarkCastleNinja.jpg');
                 } else if ($castle2->getName() === 'Vampire') {
                     $castle2->setCastlePicture('/pictures/Castles/DarkCastleVampire.jpg');
-                } else if ($castle2->getName() === 'Elves') {
-                    $castle2->setCastlePicture('/pictures/Castles/LightCastleElves.jpg');
+                } else if ($castle2->getName() === 'Elfs') {
+                    $castle2->setCastlePicture('/pictures/Castles/LightCastleElfs.jpg');
                 } else if ($castle2->getName() === 'Mages') {
                     $castle2->setCastlePicture('/pictures/Castles/LightCastleMages.jpg');
                 } else if ($castle2->getName() === 'Olymp') {

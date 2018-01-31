@@ -2,8 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\ArmyStatistics;
 use AppBundle\Entity\User;
 use AppBundle\Repository\UserRepository;
+use AppBundle\Service\ArmyStatisticsService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -24,14 +26,21 @@ class DefaultController extends Controller
     private $userRepository;
 
     /**
+     * @var ArmyStatisticsService
+     */
+    private $armyStatisticsService;
+
+    /**
      * UserService constructor.
      * @param UserRepository $userRepository
      * @param EntityManagerInterface $em
+     * @param ArmyStatisticsService $armyStatisticsService
      */
-    public function __construct(UserRepository $userRepository, EntityManagerInterface $em)
+    public function __construct(UserRepository $userRepository, EntityManagerInterface $em, ArmyStatisticsService $armyStatisticsService)
     {
         $this->em = $em;
         $this->userRepository = $userRepository;
+        $this->armyStatisticsService = $armyStatisticsService;
     }
 
     /**
@@ -44,6 +53,10 @@ class DefaultController extends Controller
     {
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('user');
+        }
+        if (null == $this->em->getRepository(ArmyStatistics::class)->findAll())
+        {
+            $this->armyStatisticsService->createArmyStatistics();
         }
         return $this->render('view/home.html.twig');
     }

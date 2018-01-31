@@ -6,6 +6,7 @@
 
 {% block body %}
 
+    <div class="center-of-page">
     <div style="background:transparent !important" class="jumbotron text-center">
     <h1 class="navbarcolor">Login</h1>
     <form name="authenticate" action="{{ path('security_login') }}" method="post">
@@ -30,6 +31,7 @@
             <label class="navbarcolor" for="submit"></label>
             <input type="submit" id="submit" class="btn btn-primary btn-outline-success btn-lg active bodytext" value="LOGIN"></a>
     </form>
+    </div>
     </div>
 
 {% endblock body %}

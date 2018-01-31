@@ -3,10 +3,15 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Army;
+use AppBundle\Entity\ArmyStatistics;
+use AppBundle\Entity\ArmyTrainTimers;
 use AppBundle\Entity\BuildingUpdateTimers;
 use AppBundle\Entity\Castle;
 use AppBundle\Entity\User;
 use AppBundle\Repository\CastleRepository;
+use AppBundle\Service\ArmyServiceInterface;
+use AppBundle\Service\ArmyStatisticsServiceInterface;
+use AppBundle\Service\ArmyTrainTimersServiceInterface;
 use AppBundle\Service\CastleServiceInterface;
 use AppBundle\Service\UserServiceInterface;
 use Doctrine\DBAL\Types\TextType;
@@ -29,6 +34,7 @@ class PlayerController extends Controller
      * @var EntityManagerInterface
      */
     private $em;
+
     /**
      * @var UserServiceInterface
      */
@@ -40,16 +46,42 @@ class PlayerController extends Controller
     private $castleService;
 
     /**
+     * @var ArmyServiceInterface
+     */
+    private $armyService;
+
+    /**
+     * @var ArmyTrainTimersServiceInterface
+     */
+    private $armyTrainTimersService;
+
+    /**
+     * @var ArmyStatisticsServiceInterface
+     */
+    private $armyStatisticsService;
+
+    /**
      * CastleController constructor.
      * @param UserServiceInterface $userService
      * @param CastleServiceInterface $castleService
+     * @param ArmyServiceInterface $armyService
      * @param EntityManagerInterface $em
+     * @param ArmyTrainTimersServiceInterface $armyTrainTimersService
+     * @param ArmyStatisticsServiceInterface $armyStatisticsService
      */
-    public function __construct(UserServiceInterface $userService, CastleServiceInterface $castleService, EntityManagerInterface $em)
+    public function __construct(UserServiceInterface $userService,
+                                CastleServiceInterface $castleService,
+                                ArmyServiceInterface $armyService,
+                                EntityManagerInterface $em,
+                                ArmyTrainTimersServiceInterface $armyTrainTimersService,
+                                ArmyStatisticsServiceInterface $armyStatisticsService)
     {
         $this->em = $em;
         $this->userService = $userService;
         $this->castleService = $castleService;
+        $this->armyService = $armyService;
+        $this->armyTrainTimersService = $armyTrainTimersService;
+        $this->armyStatisticsService = $armyStatisticsService;
     }
 
     /**
@@ -699,17 +731,18 @@ class PlayerController extends Controller
         $userId = $this->getUser()->getId();
 
         $castles = $this->em->getRepository(Castle::class)->findBy(array('userId' => $userId));
+        $allArmy = [];
         foreach ($castles as $castle)
         {
             $this->castleService->updateCastle($castle->getId());
-            $armytemp = $this->em->getRepository(Army::class)->findBy(array('castleId' => $castle->getId()));
+            $armyTemp = $this->em->getRepository(Army::class)->findBy(array('castleId' => $castle->getId()));
 
-            if ($armytemp)
+            if ($armyTemp)
             {
-                foreach ($armytemp as $army)
+                foreach ($armyTemp as $army)
                 {
+                    $this->armyService->updateArmy($army->getId());
                     $allArmy[] = $army;
-
                 }
             }
         }
@@ -728,18 +761,190 @@ class PlayerController extends Controller
      */
     public function userTrainArmy(int $id, string $army, Request $request)
     {
+        $castle = $this->em->getRepository(Castle::class)->find($id);
+        $currentDateTime = new \DateTime("now");
+
+        if ($army == 'Footmen')
+        {
+            $level = $castle->getArmyLvl1Building();
+        }
+        elseif ($army == 'Archers')
+        {
+            $level = $castle->getArmyLvl2Building();
+        }
+        elseif ($army == 'Cavalry')
+        {
+            $level = $castle->getArmyLvl3Building();
+        }
+
+        $armyTemp = $this->em->getRepository(Army::class)->findOneBy(array('name' => $army, 'level' => $level, 'castleId' => $castle));
+        $armyVisualizeTemp = $this->em->getRepository(ArmyTrainTimers::class)->findBy(array('armyId' => $armyTemp, 'armyType' => $army));
+        $armyVisualize = [];
+        $counter = 0;
+        foreach ($armyVisualizeTemp as $armyVisualizeOne)
+        {
+            $tempInterval = date_diff($armyVisualizeOne->getFinishTime(), $currentDateTime);
+            $interval = $tempInterval->format('%D days %H hours and %I minutes');
+            $armyVisualizeTemp1[] = $armyVisualizeOne;
+            $temp['armyType'] = $armyVisualizeOne->getArmyType();
+            $temp['trainAmount'] = $armyVisualizeOne->getTrainAmount();
+            $temp['timeRemaining'] = $interval;
+            $armyVisualize[] = $temp;
+            $counter++;
+        }
+//        dump($armyTemp);
+//        dump($armyVisualizeTemp);
+//        die();
+
+        if ($army == 'Footmen')
+        {
+            if ($castle->getArmyLvl1Building() == 1)
+            {
+                $userFood = $this->getUser()->getFood();
+                $armyStatistics = $this->em->getRepository(ArmyStatistics::class)->findOneBy(array('name' => 'Footmen', 'level' => 1));
+                $foodCost = $armyStatistics->getCostFood();
+                $maxWithFood = $userFood/$foodCost;
+                $maxAmount = (int)floor($maxWithFood);
+            }
+            elseif ($castle->getArmyLvl1Building() == 2)
+            {
+                $userFood = $this->getUser()->getFood();
+                $userMetal = $this->getUser()->getMetal();
+                $armyStatistics = $this->em->getRepository(ArmyStatistics::class)->findOneBy(array('name' => 'Footmen', 'level' => 2));
+                $foodCost = $armyStatistics->getCostFood();
+                $metalCost = $armyStatistics->getCostMetal();
+                $maxWithFood = $userFood/$foodCost;
+                $maxWithMetal = $userMetal/$metalCost;
+                $maxAmount = (int)floor(min($maxWithFood, $maxWithMetal));
+            }
+            elseif ($castle->getArmyLvl1Building() == 3)
+            {
+                $userFood = $this->getUser()->getFood();
+                $userMetal = $this->getUser()->getMetal();
+                $armyStatistics = $this->em->getRepository(ArmyStatistics::class)->findOneBy(array('name' => 'Footmen', 'level' => 3));
+                $foodCost = $armyStatistics->getCostFood();
+                $metalCost = $armyStatistics->getCostMetal();
+                $maxWithFood = $userFood/$foodCost;
+                $maxWithMetal = $userMetal/$metalCost;
+                $maxAmount = (int)floor(min($maxWithFood, $maxWithMetal));
+            }
+        }
+        if ($army == 'Archers')
+        {
+            if ($castle->getArmyLvl2Building() == 1)
+            {
+                $userFood = $this->getUser()->getFood();
+                $armyStatistics = $this->em->getRepository(ArmyStatistics::class)->findOneBy(array('name' => 'Archers', 'level' => 1));
+                $foodCost = $armyStatistics->getCostFood();
+                $maxWithFood = $userFood/$foodCost;
+                $maxAmount = (int)floor($maxWithFood);
+            }
+            elseif ($castle->getArmyLvl2Building() == 2)
+            {
+                $userFood = $this->getUser()->getFood();
+                $userMetal = $this->getUser()->getMetal();
+                $armyStatistics = $this->em->getRepository(ArmyStatistics::class)->findOneBy(array('name' => 'Archers', 'level' => 2));
+                $foodCost = $armyStatistics->getCostFood();
+                $metalCost = $armyStatistics->getCostMetal();
+                $maxWithFood = $userFood/$foodCost;
+                $maxWithMetal = $userMetal/$metalCost;
+                $maxAmount = (int)floor(min($maxWithFood, $maxWithMetal));
+            }
+            elseif ($castle->getArmyLvl2Building() == 3)
+            {
+                $userFood = $this->getUser()->getFood();
+                $userMetal = $this->getUser()->getMetal();
+                $armyStatistics = $this->em->getRepository(ArmyStatistics::class)->findOneBy(array('name' => 'Archers', 'level' => 3));
+                $foodCost = $armyStatistics->getCostFood();
+                $metalCost = $armyStatistics->getCostMetal();
+                $maxWithFood = $userFood/$foodCost;
+                $maxWithMetal = $userMetal/$metalCost;
+                $maxAmount = (int)floor(min($maxWithFood, $maxWithMetal));
+            }
+        }
+        if ($army == 'Cavalry')
+        {
+            if ($castle->getArmyLvl3Building() == 1)
+            {
+                $userFood = $this->getUser()->getFood();
+                $armyStatistics = $this->em->getRepository(ArmyStatistics::class)->findOneBy(array('name' => 'Cavalry', 'level' => 1));
+                $foodCost = $armyStatistics->getCostFood();
+                $maxWithFood = $userFood/$foodCost;
+                $maxAmount = (int)floor($maxWithFood);
+            }
+            elseif ($castle->getArmyLvl3Building() == 2)
+            {
+                $userFood = $this->getUser()->getFood();
+                $userMetal = $this->getUser()->getMetal();
+                $armyStatistics = $this->em->getRepository(ArmyStatistics::class)->findOneBy(array('name' => 'Cavalry', 'level' => 2));
+                $foodCost = $armyStatistics->getCostFood();
+                $metalCost = $armyStatistics->getCostMetal();
+                $maxWithFood = $userFood/$foodCost;
+                $maxWithMetal = $userMetal/$metalCost;
+                $maxAmount = (int)floor(min($maxWithFood, $maxWithMetal));
+            }
+            elseif ($castle->getArmyLvl3Building() == 3)
+            {
+                $userFood = $this->getUser()->getFood();
+                $userMetal = $this->getUser()->getMetal();
+                $armyStatistics = $this->em->getRepository(ArmyStatistics::class)->findOneBy(array('name' => 'Cavalry', 'level' => 3));
+                $foodCost = $armyStatistics->getCostFood();
+                $metalCost = $armyStatistics->getCostMetal();
+                $maxWithFood = $userFood/$foodCost;
+                $maxWithMetal = $userMetal/$metalCost;
+                $maxAmount = (int)floor(min($maxWithFood, $maxWithMetal));
+            }
+        }
+
         $form = $this->createFormBuilder()->add('Amount', IntegerType::class)->add('Train', SubmitType::class)->getForm();
         $form->handleRequest($request);
 
-        $maxAmount = 10;
-
+        try
+        {
+            if ($counter >= 5)
+            {
+                throw $exception = new Exception('You can only train 5 groups at once');
+            }
+        }
+        catch (\Exception $exception)
+        {
+            $message = $exception->getMessage();
+            return $this->render('view/train_army.html.twig', array('form' => $form->createView(),
+                                                                'army' => $army,
+                                                                'maxAmount' => $maxAmount,
+                                                                'armyVisualize' => $armyVisualize,
+                                                                'message' => $message));
+        }
         if ($form->isSubmitted() && $form->isValid())
         {
-
-            return $this->redirectToRoute('confirm_train_army', array('army' => $army, 'id' => $id, 'amount' => $form->get('Amount')->getData()));
+            try
+            {
+                if ($form->get('Amount')->getData() > $maxAmount)
+                {
+                    throw $exception = new Exception('Not enough resources to train this many units');
+                }
+                if ($form->get('Amount')->getData() == 0)
+                {
+                    throw $exception = new Exception('Invalid input');
+                }
+            }
+            catch (\Exception $exception)
+            {
+                $message = $exception->getMessage();
+                return $this->render('view/train_army.html.twig', array('form' => $form->createView(),
+                                                                    'army' => $army,
+                                                                    'maxAmount' => $maxAmount,
+                                                                    'message' => $message));
+            }
+            return $this->redirectToRoute('confirm_train_army', array('army' => $army,
+                                                                            'id' => $id,
+                                                                            'amount' => $form->get('Amount')->getData()));
         }
 
-        return $this->render('view/train_army.html.twig', array('form' => $form->createView(), 'army' => $army, 'maxAmount' => $maxAmount));
+        return $this->render('view/train_army.html.twig', array('form' => $form->createView(),
+                                                            'army' => $army,
+                                                            'maxAmount' => $maxAmount,
+                                                            'armyVisualize' => $armyVisualize));
     }
 
     /**
@@ -756,9 +961,77 @@ class PlayerController extends Controller
         $form = $this->createFormBuilder()->add('Confirm', SubmitType::class)->getForm();
         $form->handleRequest($request);
 
-        $prizeFood = 10;
-        $prizeMetal = 10;
+        $castle = $this->em->getRepository(Castle::class)->find($id);
 
-        return $this->render('view/confirm_train_army.html.twig', array('form' => $form->createView(), 'amount' => $amount, 'army' => $army, 'prizeFood' => $prizeFood, 'prizeMetal' => $prizeMetal, 'id' => $id));
+        if ($army == 'Footmen')
+        {
+            $level = $castle->getArmyLvl1Building();
+        }
+        elseif ($army == 'Archers')
+        {
+            $level = $castle->getArmyLvl2Building();
+        }
+        elseif ($army == 'Cavalry')
+        {
+            $level = $castle->getArmyLvl3Building();
+        }
+
+        $result = $this->armyStatisticsService->armyCostAndTimeToTrain($army, $level, $amount);
+        list($prizeFood, $prizeMetal, $trainTime) = $result;
+
+        $armyTemp = $this->em->getRepository(Army::class)->findOneBy(array('name' => $army, 'level' => $level, 'castleId' => $castle));
+        $armyVisualizeTemp = $this->em->getRepository(ArmyTrainTimers::class)->findBy(array('armyId' => $armyTemp, 'armyType' => $army));
+        $counter = 0;
+        foreach ($armyVisualizeTemp as $armyVisualizeOne)
+        {
+            $counter++;
+        }
+
+        try
+        {
+            if ($counter >= 5)
+            {
+                throw $exception = new Exception('You can only train 5 groups at once');
+            }
+        }
+        catch (\Exception $exception)
+        {
+            $message = $exception->getMessage();
+            return $this->render('view/confirm_train_army.html.twig', array('form' => $form->createView(),
+                                                                        'amount' => $amount,
+                                                                        'army' => $army,
+                                                                        'prizeFood' => $prizeFood,
+                                                                        'prizeMetal' => $prizeMetal,
+                                                                        'trainTime' => $trainTime,
+                                                                        'id' => $id,
+                                                                        'message' => $message));
+        }
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $this->armyTrainTimersService->createArmyTrainTimer($army, $castle, $amount, $id);
+
+            $user = $this->getUser();
+            $message = $this->armyService->trainArmyUserPayment($user, $prizeFood, $prizeMetal);
+
+            if ($message)
+            {
+                return $this->render('view/confirm_train_army.html.twig', array('form' => $form->createView(),
+                                                                            'amount' => $amount,
+                                                                            'army' => $army,
+                                                                            'prizeFood' => $prizeFood,
+                                                                            'prizeMetal' => $prizeMetal,
+                                                                            'trainTime' => $trainTime,
+                                                                            'id' => $id,
+                                                                            'message' => $message));
+            }
+            return $this->redirectToRoute('user_army');
+        }
+        return $this->render('view/confirm_train_army.html.twig', array('form' => $form->createView(),
+                                                                    'amount' => $amount,
+                                                                    'army' => $army,
+                                                                    'prizeFood' => $prizeFood,
+                                                                    'prizeMetal' => $prizeMetal,
+                                                                    'trainTime' => $trainTime,
+                                                                    'id' => $id));
     }
 }

@@ -102,6 +102,10 @@ class CastleService implements CastleServiceInterface
 
     }
 
+    /**
+     * @param int $id
+     * @return Castle|null|object
+     */
     public function castleInformation(int $id)
     {
         return $castle = $this->em->getRepository(Castle::class)->find($id);
@@ -125,10 +129,7 @@ class CastleService implements CastleServiceInterface
 
                     if ($update->getFinishTime() < $currentDatetime)
                     {
-    //                    dump($updates->getFinishTime());
-    //                    dump($currentDatetime);
-    //                    dump('Hello');
-    //                    die();
+
                         if ($update->getBuilding() == 'Castle') {
                             $castle->setCastleLvl($update->getUpgradeToLvl());
                         }
