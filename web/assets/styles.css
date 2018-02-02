@@ -47,7 +47,7 @@ table {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .center-of-page{
-    margin-top: 20%;
+    margin-top: calc(15% + 100px);
     align-items: center;
     display: flex;
     justify-content: center;
@@ -63,7 +63,7 @@ table {
 }
 .container-fluid {
     position: absolute;
-    margin-top: 5%;
+    margin-top: 100px;
 }
 .jumbotron-fluid {
     position: absolute;
@@ -75,8 +75,8 @@ table {
     color: #c4ac7c;
 }
 .bg-primary {
-    background: #c4ac7c !important;
-    color: #c4ac7c !important;
+    background: #c4ac7c;
+    color: #c4ac7c;
 }
 #navigation, .navbar .navbar-expand-lg{
     background: url("/pictures/navbar_old-map-background_2550x2100.jpg") no-repeat;
@@ -116,4 +116,22 @@ table {
     font-size: 40px;
     font-weight: bold;
     color: red;
+}
+input[type=number]{
+    width: 400px;
+    height: 80px;
+    font-size: 80px;
+    text-align: center;
+    color: #c4ac7c;
+    text-shadow: 2px 2px 4px #000000;
+    background: transparent;
+    border: none;
+}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number] {
+    -moz-appearance:textfield;
 }

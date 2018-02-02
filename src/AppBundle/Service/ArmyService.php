@@ -10,6 +10,7 @@ namespace AppBundle\Service;
 
 
 use AppBundle\Entity\Army;
+use AppBundle\Entity\ArmyStatistics;
 use AppBundle\Entity\ArmyTrainTimers;
 use AppBundle\Entity\User;
 use AppBundle\Repository\ArmyRepository;
@@ -43,7 +44,7 @@ class ArmyService implements ArmyServiceInterface
      */
     public function updateArmy(int $id)
     {
-        $army = $this->em->getRepository(Army::class)->find($id);
+        $army = $this->armyRepository->find($id);
         $updates = $this->em->getRepository(ArmyTrainTimers::class)->findBy(array('armyId' => $army->getId()));
         if ($updates)
         {
@@ -104,5 +105,22 @@ class ArmyService implements ArmyServiceInterface
         $this->em->persist($user);
         $this->em->flush();
         return null;
+    }
+
+    public function maximumArmyAmountToTrain(int $userFood, int $userMetal, string $army, int $level)
+    {
+        $armyStatistics = $this->em->getRepository(ArmyStatistics::class)->findOneBy(array('name' => $army, 'level' => $level));
+        $foodCost = $armyStatistics->getCostFood();
+        $metalCost = $armyStatistics->getCostMetal();
+        $maxWithFood = $userFood/$foodCost;
+        if ($metalCost == 0)
+        {
+            return $maxAmount = (int)floor($maxWithFood);
+        }
+        else
+        {
+            $maxWithMetal = $userMetal/$metalCost;
+            return $maxAmount = (int)floor(min($maxWithFood, $maxWithMetal));
+        }
     }
 }

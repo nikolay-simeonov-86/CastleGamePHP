@@ -49,6 +49,10 @@ services:
             factory: 'doctrine.orm.entity_manager:getRepository'
             arguments: ['AppBundle\Entity\BuildingUpdateTimers']
 
+    AppBundle\Repository\BuildingUpdatePropertiesRepository:
+            factory: 'doctrine.orm.entity_manager:getRepository'
+            arguments: ['AppBundle\Entity\BuildingUpdateProperties']
+
     AppBundle\Repository\ArmyStatisticsRepository:
             factory: 'doctrine.orm.entity_manager:getRepository'
             arguments: ['AppBundle\Entity\ArmyStatistics']
@@ -63,6 +67,10 @@ services:
 
     AppBundle\Service\CastleServiceInterface:
             alias: 'AppBundle\Service\CastleService'
+            public: false
+
+    AppBundle\Service\BuildingUpdatePropertiesServiceInterface:
+            alias: 'AppBundle\Service\BuildingUpdatePropertiesService'
             public: false
 
     AppBundle\Service\ArmyServiceInterface:

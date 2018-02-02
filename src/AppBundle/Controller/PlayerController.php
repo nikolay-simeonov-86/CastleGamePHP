@@ -5,18 +5,16 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Army;
 use AppBundle\Entity\ArmyStatistics;
 use AppBundle\Entity\ArmyTrainTimers;
+use AppBundle\Entity\BuildingUpdateProperties;
 use AppBundle\Entity\BuildingUpdateTimers;
 use AppBundle\Entity\Castle;
 use AppBundle\Entity\User;
-use AppBundle\Repository\CastleRepository;
 use AppBundle\Service\ArmyServiceInterface;
 use AppBundle\Service\ArmyStatisticsServiceInterface;
 use AppBundle\Service\ArmyTrainTimersServiceInterface;
 use AppBundle\Service\CastleServiceInterface;
 use AppBundle\Service\UserServiceInterface;
-use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -25,8 +23,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 class PlayerController extends Controller
 {
@@ -198,6 +194,8 @@ class PlayerController extends Controller
         $castle = $this->em->getRepository(Castle::class)->find($id);
         $this->castleService->updateCastle($castle->getId());
 
+        $buildingUpdate = $this->em->getRepository(BuildingUpdateProperties::class)->findOneBy(array('name' => $building));
+
         if (null == $castle)
         {
             throw $this->createNotFoundException('No castle found for id ' . $id);
@@ -209,513 +207,30 @@ class PlayerController extends Controller
             {
                 $updates = $this->em->getRepository(BuildingUpdateTimers::class)->findBy(array('castleId' => $castle->getId()));
 
-                $finishDate = new BuildingUpdateTimers();
-                $finishDate->setCastleId($castle);
-                $finishDate->setBuilding($building);
-                $startDate = new \DateTime;
-                $finishDate->setFinishTime($startDate->add(new \DateInterval('PT1M')));
-
-                if ($building === 'Castle')
+                foreach ($updates as $update)
                 {
-                    foreach ($updates as $update)
+                    if ($castle->getId() == $update->getCastleId()->getId() && $update->getBuilding() == $building)
                     {
-                        if ($castle->getId() == $update->getCastleId()->getId() && $update->getBuilding() == 'Castle')
-                        {
-                            $foodafter = null;
-                            $metalafter = null;
-                            throw $exception = new Exception('Upgrade in progress');
-                        }
-                    }
-                    if ($castle->getCastleLvl() === 0)
-                    {
-                        $food = $user->getFood();
-                        $foodafter = $food - 100;
-                        $metalafter = null;
-                        if ($foodafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough food to upgrade');
-                        }
-                        $user->setFood($foodafter);
-                        $finishDate->setUpgradeToLvl(1);
-                    }
-                    elseif ($castle->getCastleLvl() === 1)
-                    {
-                        $food = $user->getFood();
-                        $metal = $user->getMetal();
-                        $foodafter = $food - 500;
-                        $metalafter = $metal - 500;
-                        if ($castle->getArmyLvl1Building() == 0)
-                        {
-                            throw $exception = new Exception('You need to build Footmen first');
-                        }
-                        if ($foodafter < 0 && $metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough resources to upgrade');
-                        }
-                        if ($foodafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough food to upgrade');
-                        }
-                        if ($metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough metal to upgrade');
-                        }
-                        $user->setFood($foodafter);
-                        $user->setMetal($metalafter);
-                        $finishDate->setUpgradeToLvl(2);
-                    }
-                    elseif ($castle->getCastleLvl() === 2)
-                    {
-                        $food = $user->getFood();
-                        $metal = $user->getMetal();
-                        $foodafter = $food - 1500;
-                        $metalafter = $metal - 1500;
-                        if ($castle->getArmyLvl1Building() == 0)
-                        {
-                            throw $exception = new Exception('You need to build Footmen first');
-                        }
-                        if ($castle->getArmyLvl2Building() == 0)
-                        {
-                            throw $exception = new Exception('You need to build Archers first');
-                        }
-                        if ($foodafter < 0 && $metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough resources to upgrade');
-                        }
-                        if ($foodafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough food to upgrade');
-                        }
-                        if ($metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough metal to upgrade');
-                        }
-                        $user->setFood($foodafter);
-                        $user->setMetal($metalafter);
-                        $finishDate->setUpgradeToLvl(3);
+                        throw $exception = new Exception('Upgrade in progress');
                     }
                 }
-                if ($building === 'Farm')
-                {
-                    foreach ($updates as $update)
-                    {
-                        if ($castle->getId() == $update->getCastleId()->getId() && $update->getBuilding() == 'Farm')
-                        {
-                            $foodafter = null;
-                            $metalafter = null;
-                            throw $exception = new Exception('Upgrade in progress');
-                        }
-                    }
-                    if ($castle->getMineFoodLvl() === 0)
-                    {
-                        $food = $user->getFood();
-                        $foodafter = $food - 100;
-                        $metalafter = null;
-                        if ($foodafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough food to upgrade');
-                        }
-                        $user->setFood($foodafter);
-                        $finishDate->setUpgradeToLvl(1);
-                    }
-                    elseif ($castle->getMineFoodLvl() === 1)
-                    {
-                        $food = $user->getFood();
-                        $metal = $user->getMetal();
-                        $foodafter = $food - 250;
-                        $metalafter = $metal - 100;
-                        if ($castle->getCastleLvl() == 0)
-                        {
-                            throw $exception = new Exception('You need to build Castle first');
-                        }
-                        if ($foodafter < 0 && $metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough resources to upgrade');
-                        }
-                        if ($foodafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough food to upgrade');
-                        }
-                        if ($metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough metal to upgrade');
-                        }
-                        $user->setFood($foodafter);
-                        $user->setMetal($metalafter);
-                        $finishDate->setUpgradeToLvl(2);
-                    }
-                    elseif ($castle->getMineFoodLvl() === 2)
-                    {
-                        $food = $user->getFood();
-                        $metal = $user->getMetal();
-                        $foodafter = $food - 500;
-                        $metalafter = $metal - 250;
-                        if ($castle->getCastleLvl() <= 1)
-                        {
-                            throw $exception = new Exception('You need to build Castle level 2 first');
-                        }
-                        if ($foodafter < 0 && $metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough resources to upgrade');
-                        }
-                        if ($foodafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough food to upgrade');
-                        }
-                        if ($metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough metal to upgrade');
-                        }
-                        $user->setFood($foodafter);
-                        $user->setMetal($metalafter);
-                        $finishDate->setUpgradeToLvl(3);
-                    }
-                }
-                if ($building === 'Metal Mine')
-                {
-                    foreach ($updates as $update)
-                    {
-                        if ($castle->getId() == $update->getCastleId()->getId() && $update->getBuilding() == 'Metal Mine')
-                        {
-                            $foodafter = null;
-                            $metalafter = null;
-                            throw $exception = new Exception('Upgrade in progress');
-                        }
-                    }
-                    if ($castle->getMineMetalLvl() === 0)
-                    {
-                        $food = $user->getFood();
-                        $foodafter = $food - 200;
-                        $metalafter = null;
-                        if ($foodafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough food to upgrade');
-                        }
-                        $user->setFood($foodafter);
-                        $finishDate->setUpgradeToLvl(1);
-                    }
-                    elseif ($castle->getMineMetalLvl() === 1)
-                    {
-                        $food = $user->getFood();
-                        $metal = $user->getMetal();
-                        $foodafter = $food - 300;
-                        $metalafter = $metal - 300;
-                        if ($castle->getCastleLvl() == 0)
-                        {
-                            throw $exception = new Exception('You need to build Castle first');
-                        }
-                        if ($foodafter < 0 && $metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough resources to upgrade');
-                        }
-                        if ($foodafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough food to upgrade');
-                        }
-                        if ($metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough metal to upgrade');
-                        }
-                        $user->setFood($foodafter);
-                        $user->setMetal($metalafter);
-                        $finishDate->setUpgradeToLvl(2);
-                    }
-                    elseif ($castle->getMineMetalLvl() === 2)
-                    {
-                        $food = $user->getFood();
-                        $metal = $user->getMetal();
-                        $foodafter = $food - 500;
-                        $metalafter = $metal - 500;
-                        if ($castle->getCastleLvl() <= 1)
-                        {
-                            throw $exception = new Exception('You need to build Castle level 2 first');
-                        }
-                        if ($foodafter < 0 && $metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough resources to upgrade');
-                        }
-                        if ($foodafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough food to upgrade');
-                        }
-                        if ($metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough metal to upgrade');
-                        }
-                        $user->setFood($foodafter);
-                        $user->setMetal($metalafter);
-                        $finishDate->setUpgradeToLvl(3);
-                    }
-                }
-                if ($building === 'Footmen')
-                {
-                    foreach ($updates as $update)
-                    {
-                        if ($castle->getId() == $update->getCastleId()->getId() && $update->getBuilding() == 'Footmen')
-                        {
-                            $foodafter = null;
-                            $metalafter = null;
-                            throw $exception = new Exception('Upgrade in progress');
-                        }
-                    }
-                    if ($castle->getArmyLvl1Building() === 0)
-                    {
-                        $food = $user->getFood();
-                        $foodafter = $food - 500;
-                        $metalafter = null;
-                        if ($castle->getCastleLvl() == 0)
-                        {
-                            throw $exception = new Exception('You need to build Castle first');
-                        }
-                        if ($foodafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough food to upgrade');
-                        }
-                        $user->setFood($foodafter);
-                        $finishDate->setUpgradeToLvl(1);
-                    }
-                    elseif ($castle->getArmyLvl1Building() === 1)
-                    {
-                        $food = $user->getFood();
-                        $metal = $user->getMetal();
-                        $foodafter = $food - 1000;
-                        $metalafter = $metal - 500;
-                        if ($castle->getCastleLvl() <= 1)
-                        {
-                            throw $exception = new Exception('You need to build Castle level 2 first');
-                        }
-                        if ($foodafter < 0 && $metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough resources to upgrade');
-                        }
-                        if ($foodafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough food to upgrade');
-                        }
-                        if ($metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough metal to upgrade');
-                        }
-                        $user->setFood($foodafter);
-                        $user->setMetal($metalafter);
-                        $finishDate->setUpgradeToLvl(2);
-                    }
-                    elseif ($castle->getArmyLvl1Building() === 2)
-                    {
-                        $food = $user->getFood();
-                        $metal = $user->getMetal();
-                        $foodafter = $food - 1500;
-                        $metalafter = $metal - 1000;
-                        if ($castle->getCastleLvl() <= 2)
-                        {
-                            throw $exception = new Exception('You need to build Castle level 3 first');
-                        }
-                        if ($foodafter < 0 && $metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough resources to upgrade');
-                        }
-                        if ($foodafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough food to upgrade');
-                        }
-                        if ($metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough metal to upgrade');
-                        }
-                        $user->setFood($foodafter);
-                        $user->setMetal($metalafter);
-                        $finishDate->setUpgradeToLvl(3);
-                    }
-                }
-                if ($building === 'Archers')
-                {
-                    foreach ($updates as $update)
-                    {
-                        if ($castle->getId() == $update->getCastleId()->getId() && $update->getBuilding() == 'Archers')
-                        {
-                            $foodafter = null;
-                            $metalafter = null;
-                            throw $exception = new Exception('Upgrade in progress');
-                        }
-                    }
-                    if ($castle->getArmyLvl2Building() === 0)
-                    {
-                        $food = $user->getFood();
-                        $metal = $user->getMetal();
-                        $foodafter = $food - 500;
-                        $metalafter = $metal - 500;
-                        if ($castle->getCastleLvl() == 0)
-                        {
-                            throw $exception = new Exception('You need to build Castle first');
-                        }
-                        if ($foodafter < 0 && $metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough resources to upgrade');
-                        }
-                        if ($foodafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough food to upgrade');
-                        }
-                        if ($metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough metal to upgrade');
-                        }
-                        $user->setFood($foodafter);
-                        $user->setMetal($metalafter);
-                        $finishDate->setUpgradeToLvl(1);
-                    }
-                    elseif ($castle->getArmyLvl2Building() === 1)
-                    {
-                        $food = $user->getFood();
-                        $metal = $user->getMetal();
-                        $foodafter = $food - 1000;
-                        $metalafter = $metal - 1000;
-                        if ($castle->getCastleLvl() <= 1)
-                        {
-                            throw $exception = new Exception('You need to build Castle level 2 first');
-                        }
-                        if ($foodafter < 0 && $metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough resources to upgrade');
-                        }
-                        if ($foodafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough food to upgrade');
-                        }
-                        if ($metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough metal to upgrade');
-                        }
-                        $user->setFood($foodafter);
-                        $user->setMetal($metalafter);
-                        $finishDate->setUpgradeToLvl(2);
-                    }
-                    elseif ($castle->getArmyLvl2Building() === 2)
-                    {
-                        $food = $user->getFood();
-                        $metal = $user->getMetal();
-                        $foodafter = $food - 1500;
-                        $metalafter = $metal - 1500;
-                        if ($castle->getCastleLvl() <= 2)
-                        {
-                            throw $exception = new Exception('You need to build Castle level 3 first');
-                        }
-                        if ($foodafter < 0 && $metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough resources to upgrade');
-                        }
-                        if ($foodafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough food to upgrade');
-                        }
-                        if ($metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough metal to upgrade');
-                        }
-                        $user->setFood($foodafter);
-                        $user->setMetal($metalafter);
-                        $finishDate->setUpgradeToLvl(3);
-                    }
-                }
-                if ($building === 'Cavalry')
-                {
-                    foreach ($updates as $update)
-                    {
-                        if ($castle->getId() == $update->getCastleId()->getId() && $update->getBuilding() == 'Cavalry')
-                        {
-                            $foodafter = null;
-                            $metalafter = null;
-                            throw $exception = new Exception('Upgrade in progress');
-                        }
-                    }
-                    if ($castle->getArmyLvl3Building() === 0)
-                    {
-                        $food = $user->getFood();
-                        $metal = $user->getMetal();
-                        $foodafter = $food - 1000;
-                        $metalafter = $metal - 1000;
-                        if ($castle->getCastleLvl() == 0)
-                        {
-                            throw $exception = new Exception('You need to build Castle first');
-                        }
-                        if ($foodafter < 0 && $metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough resources to upgrade');
-                        }
-                        if ($foodafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough food to upgrade');
-                        }
-                        if ($metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough metal to upgrade');
-                        }
-                        $user->setFood($foodafter);
-                        $user->setMetal($metalafter);
-                        $finishDate->setUpgradeToLvl(1);
-                    }
-                    elseif ($castle->getArmyLvl3Building() === 1)
-                    {
-                        $food = $user->getFood();
-                        $metal = $user->getMetal();
-                        $foodafter = $food - 2000;
-                        $metalafter = $metal - 2000;
-                        if ($castle->getCastleLvl() <= 1)
-                        {
-                            throw $exception = new Exception('You need to build Castle level 2 first');
-                        }
-                        if ($foodafter < 0 && $metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough resources to upgrade');
-                        }
-                        if ($foodafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough food to upgrade');
-                        }
-                        if ($metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough metal to upgrade');
-                        }
-                        $user->setFood($foodafter);
-                        $user->setMetal($metalafter);
-                        $finishDate->setUpgradeToLvl(2);
-                    }
-                    elseif ($castle->getArmyLvl3Building() === 2)
-                    {
-                        $food = $user->getFood();
-                        $metal = $user->getMetal();
-                        $foodafter = $food - 3500;
-                        $metalafter = $metal - 3500;
-                        if ($castle->getCastleLvl() <= 2)
-                        {
-                            throw $exception = new Exception('You need to build Castle level 3 first');
-                        }
-                        if ($foodafter < 0 && $metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough resources to upgrade');
-                        }
-                        if ($foodafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough food to upgrade');
-                        }
-                        if ($metalafter < 0)
-                        {
-                            throw $exception = new Exception('Not enough metal to upgrade');
-                        }
-                        $user->setFood($foodafter);
-                        $user->setMetal($metalafter);
-                        $finishDate->setUpgradeToLvl(3);
-                    }
-                }
-                $this->em->persist($finishDate);
-                $this->em->flush();
-                return $this->redirectToRoute('user_castles');
             }
             catch (Exception $exception)
             {
                 $message = $exception->getMessage();
-                return $this->render('view/upgrade.html.twig', array('form' => $form->createView(), 'building' => $building, 'message' => $message, 'foodafter' => $foodafter, 'metalafter' => $metalafter));
+                return $this->render('view/upgrade.html.twig', array('form' => $form->createView(),
+                                                                 'building' => $building,
+                                                                 'message' => $message));
             }
+            $message = $this->castleService->purchaseBuilding($building, $user, $castle, $buildingUpdate);
+
+            if ($message)
+            {
+                return $this->render('view/upgrade.html.twig', array('form' => $form->createView(),
+                                                                 'building' => $building,
+                                                                 'message' => $message));
+            }
+            return $this->redirectToRoute('user_castles');
         }
         return $this->render('view/upgrade.html.twig', array('form' => $form->createView(), 'building' => $building));
     }
@@ -792,111 +307,17 @@ class PlayerController extends Controller
             $armyVisualize[] = $temp;
             $counter++;
         }
-//        dump($armyTemp);
-//        dump($armyVisualizeTemp);
-//        die();
 
-        if ($army == 'Footmen')
-        {
-            if ($castle->getArmyLvl1Building() == 1)
-            {
-                $userFood = $this->getUser()->getFood();
-                $armyStatistics = $this->em->getRepository(ArmyStatistics::class)->findOneBy(array('name' => 'Footmen', 'level' => 1));
-                $foodCost = $armyStatistics->getCostFood();
-                $maxWithFood = $userFood/$foodCost;
-                $maxAmount = (int)floor($maxWithFood);
-            }
-            elseif ($castle->getArmyLvl1Building() == 2)
-            {
-                $userFood = $this->getUser()->getFood();
-                $userMetal = $this->getUser()->getMetal();
-                $armyStatistics = $this->em->getRepository(ArmyStatistics::class)->findOneBy(array('name' => 'Footmen', 'level' => 2));
-                $foodCost = $armyStatistics->getCostFood();
-                $metalCost = $armyStatistics->getCostMetal();
-                $maxWithFood = $userFood/$foodCost;
-                $maxWithMetal = $userMetal/$metalCost;
-                $maxAmount = (int)floor(min($maxWithFood, $maxWithMetal));
-            }
-            elseif ($castle->getArmyLvl1Building() == 3)
-            {
-                $userFood = $this->getUser()->getFood();
-                $userMetal = $this->getUser()->getMetal();
-                $armyStatistics = $this->em->getRepository(ArmyStatistics::class)->findOneBy(array('name' => 'Footmen', 'level' => 3));
-                $foodCost = $armyStatistics->getCostFood();
-                $metalCost = $armyStatistics->getCostMetal();
-                $maxWithFood = $userFood/$foodCost;
-                $maxWithMetal = $userMetal/$metalCost;
-                $maxAmount = (int)floor(min($maxWithFood, $maxWithMetal));
-            }
-        }
-        if ($army == 'Archers')
-        {
-            if ($castle->getArmyLvl2Building() == 1)
-            {
-                $userFood = $this->getUser()->getFood();
-                $armyStatistics = $this->em->getRepository(ArmyStatistics::class)->findOneBy(array('name' => 'Archers', 'level' => 1));
-                $foodCost = $armyStatistics->getCostFood();
-                $maxWithFood = $userFood/$foodCost;
-                $maxAmount = (int)floor($maxWithFood);
-            }
-            elseif ($castle->getArmyLvl2Building() == 2)
-            {
-                $userFood = $this->getUser()->getFood();
-                $userMetal = $this->getUser()->getMetal();
-                $armyStatistics = $this->em->getRepository(ArmyStatistics::class)->findOneBy(array('name' => 'Archers', 'level' => 2));
-                $foodCost = $armyStatistics->getCostFood();
-                $metalCost = $armyStatistics->getCostMetal();
-                $maxWithFood = $userFood/$foodCost;
-                $maxWithMetal = $userMetal/$metalCost;
-                $maxAmount = (int)floor(min($maxWithFood, $maxWithMetal));
-            }
-            elseif ($castle->getArmyLvl2Building() == 3)
-            {
-                $userFood = $this->getUser()->getFood();
-                $userMetal = $this->getUser()->getMetal();
-                $armyStatistics = $this->em->getRepository(ArmyStatistics::class)->findOneBy(array('name' => 'Archers', 'level' => 3));
-                $foodCost = $armyStatistics->getCostFood();
-                $metalCost = $armyStatistics->getCostMetal();
-                $maxWithFood = $userFood/$foodCost;
-                $maxWithMetal = $userMetal/$metalCost;
-                $maxAmount = (int)floor(min($maxWithFood, $maxWithMetal));
-            }
-        }
-        if ($army == 'Cavalry')
-        {
-            if ($castle->getArmyLvl3Building() == 1)
-            {
-                $userFood = $this->getUser()->getFood();
-                $armyStatistics = $this->em->getRepository(ArmyStatistics::class)->findOneBy(array('name' => 'Cavalry', 'level' => 1));
-                $foodCost = $armyStatistics->getCostFood();
-                $maxWithFood = $userFood/$foodCost;
-                $maxAmount = (int)floor($maxWithFood);
-            }
-            elseif ($castle->getArmyLvl3Building() == 2)
-            {
-                $userFood = $this->getUser()->getFood();
-                $userMetal = $this->getUser()->getMetal();
-                $armyStatistics = $this->em->getRepository(ArmyStatistics::class)->findOneBy(array('name' => 'Cavalry', 'level' => 2));
-                $foodCost = $armyStatistics->getCostFood();
-                $metalCost = $armyStatistics->getCostMetal();
-                $maxWithFood = $userFood/$foodCost;
-                $maxWithMetal = $userMetal/$metalCost;
-                $maxAmount = (int)floor(min($maxWithFood, $maxWithMetal));
-            }
-            elseif ($castle->getArmyLvl3Building() == 3)
-            {
-                $userFood = $this->getUser()->getFood();
-                $userMetal = $this->getUser()->getMetal();
-                $armyStatistics = $this->em->getRepository(ArmyStatistics::class)->findOneBy(array('name' => 'Cavalry', 'level' => 3));
-                $foodCost = $armyStatistics->getCostFood();
-                $metalCost = $armyStatistics->getCostMetal();
-                $maxWithFood = $userFood/$foodCost;
-                $maxWithMetal = $userMetal/$metalCost;
-                $maxAmount = (int)floor(min($maxWithFood, $maxWithMetal));
-            }
-        }
+        $userFood = $this->getUser()->getFood();
+        $userMetal = $this->getUser()->getMetal();
 
-        $form = $this->createFormBuilder()->add('Amount', IntegerType::class)->add('Train', SubmitType::class)->getForm();
+        $maxAmount = $this->armyService->maximumArmyAmountToTrain($userFood, $userMetal, $army, $level);
+
+        $form = $this->createFormBuilder()->add('Amount', IntegerType::class, array('attr' =>
+                                                                                            array('value' => 1,
+                                                                                                  'min' => 1,
+                                                                                                  'max' => $maxAmount)))
+                                            ->add('Train', SubmitType::class)->getForm();
         $form->handleRequest($request);
 
         try

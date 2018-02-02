@@ -9,10 +9,13 @@
 namespace AppBundle\Service;
 
 
+use AppBundle\Entity\BuildingUpdateProperties;
 use AppBundle\Entity\BuildingUpdateTimers;
 use AppBundle\Entity\Castle;
+use AppBundle\Entity\User;
 use AppBundle\Repository\CastleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class CastleService implements CastleServiceInterface
@@ -81,25 +84,269 @@ class CastleService implements CastleServiceInterface
          */
     }
 
-    public function purchaseBuilding()
+    /**
+     * @param string $building
+     * @param User $user
+     * @param Castle $castle
+     * @param BuildingUpdateProperties $buildingUpdate
+     * @return null|string
+     */
+    public function purchaseBuilding(string $building, User $user, Castle $castle, BuildingUpdateProperties $buildingUpdate)
     {
-        /**
-         * Get a sellect from a form of the building from the single castle view
-         * Make variables for price of upgrade
-         * if (selected building is max lvl)
-         * Give a message that building is max lvl
-         * if (selected->price < incomeAll)
-         * Render a button accept or cancel on the same view
-         * else display a message with incomeAll-amount+price
-         * If accept calculate incomeAll-selected->price and update user.incomeAll
-         * Then update column from 1 to 2 if update from lvl1 to lvl2 and from 2 to 3 if lvl2 to lvl3
-         * Render updated view with success message
-         */
+        if ($building === 'Castle')
+        {
+            $level = $castle->getCastleLvl();
+        }
+        elseif ($building === 'Farm')
+        {
+            $level = $castle->getMineFoodLvl();
+        }
+        elseif ($building === 'Metal Mine')
+        {
+            $level = $castle->getMineMetalLvl();
+        }
+        elseif ($building === 'Footmen')
+        {
+            $level = $castle->getArmyLvl1Building();
+        }
+        elseif ($building === 'Archers')
+        {
+            $level = $castle->getArmyLvl2Building();
+        }
+        elseif ($building === 'Cavalry')
+        {
+            $level = $castle->getArmyLvl3Building();
+        }
+
+        if ($level === 0)
+        {
+            $foodCost = $buildingUpdate->getLevel1Food();
+            $metalCost = $buildingUpdate->getLevel1Metal();
+            $upgradeTimer = $buildingUpdate->getLevel1Timer();
+        }
+        elseif ($level === 1)
+        {
+            $foodCost = $buildingUpdate->getLevel2Food();
+            $metalCost = $buildingUpdate->getLevel2Metal();
+            $upgradeTimer = $buildingUpdate->getLevel2Timer();
+        }
+        elseif ($level === 2)
+        {
+            $foodCost = $buildingUpdate->getLevel3Food();
+            $metalCost = $buildingUpdate->getLevel3Metal();
+            $upgradeTimer = $buildingUpdate->getLevel3Timer();
+        }
+
+        $food = $user->getFood();
+        $metal = $user->getMetal();
+
+        try
+        {
+            if ($building === 'Castle')
+            {
+                if ($level === 1)
+                {
+                    if ($castle->getArmyLvl1Building() === 0)
+                    {
+                        throw $exception = new Exception('You need to build Footmen first');
+                    }
+                }
+                elseif ($level === 2)
+                {
+                    if ($castle->getArmyLvl1Building() === 0)
+                    {
+                        throw $exception = new Exception('You need to build Footmen first');
+                    }
+                    if ($castle->getArmyLvl2Building() === 0)
+                    {
+                        throw $exception = new Exception('You need to build Archers first');
+                    }
+                }
+            }
+            elseif ($building === 'Farm')
+            {
+                if ($level === 1)
+                {
+                    if ($castle->getCastleLvl() === 0)
+                    {
+                        throw $exception = new Exception('You need to build Castle first');
+                    }
+                }
+                elseif ($level === 2)
+                {
+                    if ($castle->getCastleLvl() === 1)
+                    {
+                        throw $exception = new Exception('You need to build Castle level 2 first');
+                    }
+                }
+            }
+            elseif ($building === 'Metal Mine')
+            {
+                if ($level === 1)
+                {
+                    if ($castle->getCastleLvl() === 0)
+                    {
+                        throw $exception = new Exception('You need to build Castle first');
+                    }
+                }
+                elseif ($level === 2)
+                {
+                    if ($castle->getCastleLvl() === 1)
+                    {
+                        throw $exception = new Exception('You need to build Castle level 2 first');
+                    }
+                }
+            }
+            elseif ($building === 'Footmen')
+            {
+                if ($level === 0)
+                {
+                    if ($castle->getCastleLvl() === 0)
+                    {
+                        throw $exception = new Exception('You need to build Castle first');
+                    }
+                }
+                elseif ($level === 1)
+                {
+                    if ($castle->getCastleLvl() === 1)
+                    {
+                        throw $exception = new Exception('You need to build Castle level 2 first');
+                    }
+                }
+                elseif ($level === 2)
+                {
+                    if ($castle->getCastleLvl() === 2)
+                    {
+                        throw $exception = new Exception('You need to build Castle level 3 first');
+                    }
+                }
+            }
+            elseif ($building === 'Archers')
+            {
+                if ($level === 0)
+                {
+                    if ($castle->getCastleLvl() === 0)
+                    {
+                        throw $exception = new Exception('You need to build Castle first');
+                    }
+                }
+                elseif ($level === 1)
+                {
+                    if ($castle->getCastleLvl() === 1)
+                    {
+                        throw $exception = new Exception('You need to build Castle level 2 first');
+                    }
+                }
+                elseif ($level === 2)
+                {
+                    if ($castle->getCastleLvl() === 2)
+                    {
+                        throw $exception = new Exception('You need to build Castle level 3 first');
+                    }
+                }
+            }
+            elseif ($building === 'Cavalry')
+            {
+                if ($level === 0)
+                {
+                    if ($castle->getCastleLvl() === 0)
+                    {
+                        throw $exception = new Exception('You need to build Castle first');
+                    }
+                }
+                elseif ($level === 1)
+                {
+                    if ($castle->getCastleLvl() === 1)
+                    {
+                        throw $exception = new Exception('You need to build Castle level 2 first');
+                    }
+                }
+                elseif ($level === 2)
+                {
+                    if ($castle->getCastleLvl() === 2)
+                    {
+                        throw $exception = new Exception('You need to build Castle level 3 first');
+                    }
+                }
+            }
+
+            $foodafter = $food - $foodCost;
+            $metalafter = $metal - $metalCost;
+
+            if ($foodafter < 0 && $metalafter < 0)
+            {
+                $foodMessage = abs($foodafter);
+                $metalMessage = abs($metalafter);
+                throw $exception = new Exception("Not enough resources to upgrade. You need $foodMessage more food and $metalMessage more metal.");
+            }
+            if ($foodafter < 0)
+            {
+                $foodMessage = abs($foodafter);
+                throw $exception = new Exception("Not enough food to upgrade. You need $foodMessage more food.");
+            }
+            if ($metalafter < 0)
+            {
+                $metalMessage = abs($metalafter);
+                throw $exception = new Exception("Not enough metal to upgrade. You need $metalMessage more metal.");
+            }
+
+            $finishDate = new BuildingUpdateTimers();
+            $finishDate->setCastleId($castle);
+            $finishDate->setBuilding($building);
+            $startDate = new \DateTime;
+            $finishDate->setFinishTime($startDate->add(new \DateInterval("PT" . $upgradeTimer . "M")));
+            $finishDate->setUpgradeToLvl($level+1);
+
+            $user->setFood($foodafter);
+            $user->setMetal($metalafter);
+
+            $this->em->persist($finishDate);
+            $this->em->persist($user);
+            $this->em->flush();
+        }
+        catch (Exception $exception)
+        {
+            return $message = $exception->getMessage();
+        }
+        catch (\Exception $e)
+        {
+            return $message = $e->getMessage();
+        }
+
+        return null;
     }
 
-    public function buildCastle($name)
+    public function buildNewCastle(User $user, string $name)
     {
-
+        $castle = new Castle();
+        $castle->setName($name);
+        $castle->setUserId($user);
+        if ($name == 'Dwarf')
+        {
+            $castle->setCastlePicture('/pictures/Castles/DarkCastleDwarf.jpg');
+        }
+        elseif ($name == 'Ninja')
+        {
+            $castle->setCastlePicture('/pictures/Castles/DarkCastleNinja.jpg');
+        }
+        elseif ($name == 'Vampire')
+        {
+            $castle->setCastlePicture('/pictures/Castles/DarkCastleVampire.jpg');
+        }
+        elseif ($name == 'Elfs')
+        {
+            $castle->setCastlePicture('/pictures/Castles/LightCastleElfs.jpg');
+        }
+        elseif ($name == 'Mages')
+        {
+            $castle->setCastlePicture('/pictures/Castles/LightCastleMages.jpg');
+        }
+        elseif ($name == 'Olymp')
+        {
+            $castle->setCastlePicture('/pictures/Castles/LightCastleOlymp.jpg');
+        }
+        $this->em->persist($castle);
+        $this->em->flush();
     }
 
     /**
@@ -113,11 +360,12 @@ class CastleService implements CastleServiceInterface
 
     /**
      * @param int $id
+     * @return null
      */
     public function updateCastle(int $id)
     {
         $updates = $this->em->getRepository(BuildingUpdateTimers::class)->findBy(array('castleId' => $id));
-        $castle = $this->em->getRepository(Castle::class)->find($id);
+        $castle = $this->castleRepository->find($id);
 
         if ($updates)
         {
@@ -154,5 +402,6 @@ class CastleService implements CastleServiceInterface
                 }
             }
         }
+        return null;
     }
 }

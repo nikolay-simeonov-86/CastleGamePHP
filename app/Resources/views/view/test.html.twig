@@ -7,6 +7,11 @@
 {% block body %}
 
     <div class="container-fluid">
+        <h1>{{ form(form) }}</h1>
+        <form name="registrationForm">
+            <input type="range" name="ageInputName" id="ageInputId" value="24" min="1" max="100" oninput="ageOutputId.value = ageInputId.value"><br>
+            <output name="ageOutputName" id="ageOutputId">0</output>
+        </form>
     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner" role="listbox">
         {% for user in users %}

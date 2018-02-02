@@ -121,7 +121,6 @@ class ArmyStatisticsService implements ArmyStatisticsServiceInterface
         $cavalryLvl2->setBonusDamage(5);
         $cavalryLvl2->setTrainTime(5);
 
-
         $cavalryLvl3 = new ArmyStatistics();
         $cavalryLvl3->setName('Cavalry');
         $cavalryLvl3->setLevel(3);
@@ -131,7 +130,6 @@ class ArmyStatisticsService implements ArmyStatisticsServiceInterface
         $cavalryLvl3->setCostMetal(100);
         $cavalryLvl3->setBonusDamage(5);
         $cavalryLvl3->setTrainTime(10);
-
 
         $this->em->persist($footmenLvl1);
         $this->em->persist($footmenLvl2);
@@ -143,6 +141,8 @@ class ArmyStatisticsService implements ArmyStatisticsServiceInterface
         $this->em->persist($cavalryLvl2);
         $this->em->persist($cavalryLvl3);
         $this->em->flush();
+
+        return null;
     }
 
     /**
@@ -153,7 +153,7 @@ class ArmyStatisticsService implements ArmyStatisticsServiceInterface
      */
     public function armyCostAndTimeToTrain(string $army, int $level, int $amount)
     {
-        $armyStats = $this->em->getRepository(ArmyStatistics::class)->findOneBy(array('name' => $army, 'level' => $level));
+        $armyStats = $this->armyStatisticsRepository->findOneBy(array('name' => $army, 'level' => $level));
         $prizeFood = $amount*$armyStats->getCostFood();
         $prizeMetal = $amount*$armyStats->getCostMetal();
         $trainTimeMinutes = $amount*$armyStats->getTrainTime();

@@ -12,13 +12,6 @@
                 <h1>Are you sure you want to upgrade the {{ building }}?</h1>
                 {% if message is defined %}
                     <h2 class="text-danger">{{ message }}</h2>
-                    {% if foodafter < 0 and metalafter < 0 %}
-                        <h4 class="text-danger">You need {{ foodafter|abs }} food and {{ metalafter|abs }} metal.</h4>
-                    {% elseif foodafter < 0 %}
-                        <h4 class="text-danger">You need {{ foodafter|abs }} food.</h4>
-                    {% elseif metalafter < 0 %}
-                        <h4 class="text-danger">You need {{ metalafter|abs }} metal.</h4>
-                    {% endif %}
                 {% endif %}
             </div>
         </div>

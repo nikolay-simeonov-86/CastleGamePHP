@@ -16,4 +16,6 @@ interface ArmyServiceInterface
     public function updateArmy(int $id);
 
     public function trainArmyUserPayment(User $user, int $prizeFood, int $prizeMetal);
+
+    public function maximumArmyAmountToTrain(int $userFood, int $userMetal, string $army, int $level);
 }

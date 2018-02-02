@@ -3,14 +3,18 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\ArmyStatistics;
+use AppBundle\Entity\BuildingUpdateProperties;
 use AppBundle\Entity\User;
 use AppBundle\Repository\UserRepository;
 use AppBundle\Service\ArmyStatisticsService;
+use AppBundle\Service\BuildingUpdatePropertiesService;
+use AppBundle\Service\CastleServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
@@ -31,16 +35,34 @@ class DefaultController extends Controller
     private $armyStatisticsService;
 
     /**
-     * UserService constructor.
-     * @param UserRepository $userRepository
-     * @param EntityManagerInterface $em
-     * @param ArmyStatisticsService $armyStatisticsService
+     * @var CastleServiceInterface
      */
-    public function __construct(UserRepository $userRepository, EntityManagerInterface $em, ArmyStatisticsService $armyStatisticsService)
+    private $castleService;
+
+    /**
+     * @var BuildingUpdatePropertiesService
+     */
+    private $buildingUpdatePropertiesService;
+
+    /**
+     * UserService constructor.
+     * @param EntityManagerInterface $em
+     * @param UserRepository $userRepository
+     * @param ArmyStatisticsService $armyStatisticsService
+     * @param CastleServiceInterface $castleService
+     * @param BuildingUpdatePropertiesService $buildingUpdatePropertiesService
+     */
+    public function __construct(EntityManagerInterface $em,
+                                UserRepository $userRepository,
+                                ArmyStatisticsService $armyStatisticsService,
+                                CastleServiceInterface $castleService,
+                                BuildingUpdatePropertiesService $buildingUpdatePropertiesService)
     {
         $this->em = $em;
         $this->userRepository = $userRepository;
         $this->armyStatisticsService = $armyStatisticsService;
+        $this->castleService = $castleService;
+        $this->buildingUpdatePropertiesService = $buildingUpdatePropertiesService;
     }
 
     /**
@@ -58,14 +80,19 @@ class DefaultController extends Controller
         {
             $this->armyStatisticsService->createArmyStatistics();
         }
+        if (null == $this->em->getRepository(BuildingUpdateProperties::class)->findAll())
+        {
+            $this->buildingUpdatePropertiesService->createBuildingUpdateProperties();
+        }
         return $this->render('view/home.html.twig');
     }
 
     /**
      * @Route("/test", name="view_test_template")
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function baseTemplateAction()
+    public function baseTemplateAction(Request $request)
     {
         $userId = $this->getUser()->getId();
         $query = $this->em->createQuery('SELECT u FROM AppBundle\Entity\User u WHERE u.id = ?1');
@@ -76,8 +103,20 @@ class DefaultController extends Controller
                                               WHERE c.userId = ?1');
         $query->setParameter(1, $userId);
         $castles = $query->getResult();
+
+        $form = $this->createFormBuilder()->add('create', SubmitType::class)->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $castleName = 'Dwarf';
+            $user = $this->getUser();
+            $this->castleService->buildNewCastle($user, $castleName);
+            return $this->redirectToRoute('user_castles');
+        }
+
 //        dump($castles);
 //        die();
-        return $this->render('view/test.html.twig', array('users' => $users, 'castles' => $castles));
+        return $this->render('view/test.html.twig', array('form' => $form->createView(), 'users' => $users, 'castles' => $castles));
     }
 }

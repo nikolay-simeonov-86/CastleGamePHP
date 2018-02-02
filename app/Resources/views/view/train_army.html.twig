@@ -6,82 +6,80 @@
 
 {% block body %}
 
-    <div class="container-fluid">
+    <div class="row">
+        <div class="col" align="center">
+            <h1>Choose how many {{ army }} you want to train</h1>
+        </div>
+    </div>
+    {% if message is defined %}
         <div class="row">
             <div class="col" align="center">
-                <h1>Choose how many {{ army }} you want to train</h1>
+                <h2 class="text-danger">{{ message }}</h2>
             </div>
         </div>
-        {% if message is defined %}
-            <div class="row">
-                <div class="col" align="center">
-                    <h2 class="text-danger">{{ message }}</h2>
-                </div>
-            </div>
-        {% endif %}
-        <br>
-        {{ form_start(form)}}
-            <div class="form-group" align="center">
-                <label  class="navbarcolor" for="app_bundle_user_register_Username">Amount</label><br/>
-                {{ form_widget(form.Amount) }}<br>
-                <small id="usernameHelp" class="form-text text-muted navbarcolor">Enter amount here</small>
-                <br>
-                <h4>You can train maximum {{ maxAmount }} units with your resources</h4>
-                <br>
-                {{ form_widget(form.Train, {'attr': {'type': 'button', 'class': 'btn btn-lg btn-success bodytext'}}) }}
-            </div>
-        {{ form_end(form) }}
-        <br>
-        <div class="row">
-            <div class="col" align="center">
-                <a href="{{ path('user_army') }}" class="btn btn-info btn-lg bg-danger active bodytext">Decline</a>
-            </div>
+    {% endif %}
+    <br>
+    {{ form_start(form)}}
+        <div class="form-group" align="center">
+            <label  class="navbarcolor" for="app_bundle_user_register_Username">Amount</label><br/>
+            {{ form_widget(form.Amount) }}<br>
+            <small id="usernameHelp" class="form-text text-muted navbarcolor">Enter amount here</small>
+            <br>
+            <h4>You can train maximum {{ maxAmount }} units with your resources</h4>
+            <br>
+            {{ form_widget(form.Train, {'attr': {'type': 'button', 'class': 'btn btn-lg btn-success bodytext'}}) }}
         </div>
-        <br>
-        <div class="row">
-            <div class="col-3"></div>
-            <div class="col-6" align="center">
-                <table class="background1 table table-inverse table-hover" align="center">
-                    <thead align="center">
-                    <tr>
-                        <th>
-                            <h2>Type</h2>
-                        </th>
-                        <th>
-                            <h2>Amount</h2>
-                        </th>
-                        <th>
-                            <h2>Time Remaining</h2>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody align="center">
-                    {% if armyVisualize is not empty %}
-                        {% for armyVisualizeOne in armyVisualize %}
-                            <tr>
-                                <td>
-                                    <h2>{{ armyVisualizeOne.armyType }}</h2>
-                                </td>
-                                <td>
-                                    <h2>{{ armyVisualizeOne.trainAmount }}</h2>
-                                </td>
-                                <td>
-                                    <h2>{{ armyVisualizeOne.timeRemaining }}</h2>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    {% else %}
+    {{ form_end(form) }}
+    <br>
+    <div class="row">
+        <div class="col" align="center">
+            <a href="{{ path('user_army') }}" class="btn btn-info btn-lg bg-danger active bodytext">Decline</a>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6" align="center">
+            <table class="background1 table table-inverse table-hover" align="center">
+                <thead align="center">
+                <tr>
+                    <th>
+                        <h2>Type</h2>
+                    </th>
+                    <th>
+                        <h2>Amount</h2>
+                    </th>
+                    <th>
+                        <h2>Time Remaining</h2>
+                    </th>
+                </tr>
+                </thead>
+                <tbody align="center">
+                {% if armyVisualize is not empty %}
+                    {% for armyVisualizeOne in armyVisualize %}
                         <tr>
-                            <td colspan="3">
-                                <h2>NO ARMY IS TRAINIG</h2>
+                            <td>
+                                <h2>{{ armyVisualizeOne.armyType }}</h2>
+                            </td>
+                            <td>
+                                <h2>{{ armyVisualizeOne.trainAmount }}</h2>
+                            </td>
+                            <td>
+                                <h2>{{ armyVisualizeOne.timeRemaining }}</h2>
                             </td>
                         </tr>
-                    {% endif %}
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-3"></div>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="3">
+                            <h2>NO ARMY IS TRAINIG</h2>
+                        </td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
         </div>
+        <div class="col-3"></div>
     </div>
 
 {% endblock %}

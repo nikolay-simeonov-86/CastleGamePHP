@@ -9,13 +9,15 @@
 namespace AppBundle\Service;
 
 
+use AppBundle\Entity\BuildingUpdateProperties;
 use AppBundle\Entity\Castle;
+use AppBundle\Entity\User;
 
 interface CastleServiceInterface
 {
     public function castleInformation(int $id);
 
-    public function buildCastle($name);
+    public function buildNewCastle(User $user, string $name);
 
     public function getArmyCount();
 
@@ -23,7 +25,7 @@ interface CastleServiceInterface
 
     public function purchaseArmy();
 
-    public function purchaseBuilding();
+    public function purchaseBuilding(string $building, User $user, Castle $castle, BuildingUpdateProperties $buildingUpdate);
 
     public function updateCastle(int $id);
 }
