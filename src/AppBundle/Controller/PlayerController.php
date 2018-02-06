@@ -9,11 +9,13 @@ use AppBundle\Entity\BuildingUpdateProperties;
 use AppBundle\Entity\BuildingUpdateTimers;
 use AppBundle\Entity\Castle;
 use AppBundle\Entity\User;
+use AppBundle\Entity\UserSpies;
 use AppBundle\Service\ArmyServiceInterface;
 use AppBundle\Service\ArmyStatisticsServiceInterface;
 use AppBundle\Service\ArmyTrainTimersServiceInterface;
 use AppBundle\Service\CastleServiceInterface;
 use AppBundle\Service\UserServiceInterface;
+use AppBundle\Service\UserSpiesServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -57,6 +59,11 @@ class PlayerController extends Controller
     private $armyStatisticsService;
 
     /**
+     * @var UserSpiesServiceInterface
+     */
+    private $userSpiesService;
+
+    /**
      * CastleController constructor.
      * @param UserServiceInterface $userService
      * @param CastleServiceInterface $castleService
@@ -64,13 +71,15 @@ class PlayerController extends Controller
      * @param EntityManagerInterface $em
      * @param ArmyTrainTimersServiceInterface $armyTrainTimersService
      * @param ArmyStatisticsServiceInterface $armyStatisticsService
+     * @param UserSpiesServiceInterface $userSpiesService
      */
     public function __construct(UserServiceInterface $userService,
                                 CastleServiceInterface $castleService,
                                 ArmyServiceInterface $armyService,
                                 EntityManagerInterface $em,
                                 ArmyTrainTimersServiceInterface $armyTrainTimersService,
-                                ArmyStatisticsServiceInterface $armyStatisticsService)
+                                ArmyStatisticsServiceInterface $armyStatisticsService,
+                                UserSpiesServiceInterface $userSpiesService)
     {
         $this->em = $em;
         $this->userService = $userService;
@@ -78,6 +87,7 @@ class PlayerController extends Controller
         $this->armyService = $armyService;
         $this->armyTrainTimersService = $armyTrainTimersService;
         $this->armyStatisticsService = $armyStatisticsService;
+        $this->userSpiesService = $userSpiesService;
     }
 
     /**
@@ -117,12 +127,55 @@ class PlayerController extends Controller
         $userId = $user->getId();
 
         $castles = $this->em->getRepository(Castle::class)->findBy(array('userId' => $userId));
+        $count = 0;
         foreach ($castles as $castle)
         {
+            if ($count == 0)
+            {
+                $mainCastleId = $castle->getId();
+            }
             $this->castleService->updateCastle($castle->getId());
+            $count++;
         }
 
-        return $this->render( 'view/user_profile.html.twig', array('castles' => $castles, 'user' => $user));
+        $loggedUser = $this->getUser();
+        $this->userSpiesService->expireUserSpy($loggedUser);
+
+        $form = $this->createFormBuilder()->add('spy', SubmitType::class)->getForm();
+        $form->handleRequest($request);
+
+        if ($this->em->getRepository(UserSpies::class)->findOneBy(array('userId' => $loggedUser, 'targetUserId' => $id)))
+        {
+            $userSpyCheck = $this->em->getRepository(UserSpies::class)->findOneBy(array('userId' => $loggedUser, 'targetUserId' => $id));
+            $currentDateTime = new \DateTime("now");
+            $tempInterval = date_diff($userSpyCheck->getExpirationDate(), $currentDateTime);
+            $interval = $tempInterval->format('%I minutes');
+            $armyAll = $this->em->getRepository(Army::class)->findBy(array('castleId' => $mainCastleId));
+            return $this->render( 'view/user_profile.html.twig', array('form' => $form->createView(),
+                                                                    'castles' => $castles,
+                                                                    'user' => $user,
+                                                                    'interval' => $interval,
+                                                                    'armyAll' => $armyAll));
+        }
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $message = $this->userSpiesService->purchaseUserSpy($loggedUser);
+            if ($message)
+            {
+                return $this->render( 'view/user_profile.html.twig', array('form' => $form->createView(),
+                                                                        'castles' => $castles,
+                                                                        'user' => $user,
+                                                                        'message' => $message));
+            }
+            $this->userSpiesService->createUserSpy($loggedUser, $id);
+
+            return $this->redirectToRoute('user_profile', array('id' => $id));
+        }
+
+        return $this->render( 'view/user_profile.html.twig', array('form' => $form->createView(),
+                                                                'castles' => $castles,
+                                                                'user' => $user));
     }
 
     /**

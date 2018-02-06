@@ -73,8 +73,15 @@ class User implements UserInterface
      */
     private $castles;
 
+    /**
+     * @var UserSpies[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\UserSpies", mappedBy="userId")
+     */
+    private $userSpies;
+
     public function __construct()
     {
+        $this->userSpies = new ArrayCollection();
         $this->castles = new ArrayCollection();
         $this->food = 200;
         $this->metal = 0;
@@ -244,6 +251,26 @@ class User implements UserInterface
     public function getCastles()
     {
         return $this->castles;
+    }
+
+    /**
+     * Set userSpies
+     *
+     * @param UserSpies[] $userSpies
+     */
+    public function setUserSpies(array $userSpies)
+    {
+        $this->userSpies = $userSpies;
+    }
+
+    /**
+     * Get userSpies
+     *
+     * @return Collection|UserSpies[]
+     */
+    public function getUserSpies()
+    {
+        return $this->userSpies;
     }
 
     /**

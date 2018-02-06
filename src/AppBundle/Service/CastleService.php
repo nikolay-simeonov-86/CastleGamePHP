@@ -31,7 +31,7 @@ class CastleService implements CastleServiceInterface
     private $castleRepository;
 
     /**
-     * UserService constructor.
+     * CastleService constructor.
      * @param CastleRepository $castleRepository
      * @param EntityManagerInterface $em
      */
@@ -366,18 +366,16 @@ class CastleService implements CastleServiceInterface
     {
         $updates = $this->em->getRepository(BuildingUpdateTimers::class)->findBy(array('castleId' => $id));
         $castle = $this->castleRepository->find($id);
+        $currentDatetime = new \DateTime("now");
 
         if ($updates)
         {
             foreach ($updates as $update)
             {
-                $currentDatetime = new \DateTime("now");
                 if (null != $update->getFinishTime())
                 {
-
                     if ($update->getFinishTime() < $currentDatetime)
                     {
-
                         if ($update->getBuilding() == 'Castle') {
                             $castle->setCastleLvl($update->getUpgradeToLvl());
                         }

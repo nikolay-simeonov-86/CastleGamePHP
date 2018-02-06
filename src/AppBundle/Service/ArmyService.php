@@ -29,7 +29,7 @@ class ArmyService implements ArmyServiceInterface
     private $armyRepository;
 
     /**
-     * UserService constructor.
+     * ArmyService constructor.
      * @param ArmyRepository $armyRepository
      * @param EntityManagerInterface $em
      */

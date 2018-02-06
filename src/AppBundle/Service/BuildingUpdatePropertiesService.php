@@ -26,7 +26,7 @@ class BuildingUpdatePropertiesService implements BuildingUpdatePropertiesService
     private $buildingUpdatePropertiesRepository;
 
     /**
-     * UserService constructor.
+     * BuildingUpdatePropertiesService constructor.
      * @param BuildingUpdatePropertiesRepository $buildingUpdatePropertiesRepository
      * @param EntityManagerInterface $em
      */

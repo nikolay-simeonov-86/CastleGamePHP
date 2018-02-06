@@ -26,7 +26,7 @@ class ArmyStatisticsService implements ArmyStatisticsServiceInterface
     private $armyStatisticsRepository;
 
     /**
-     * UserService constructor.
+     * ArmyStatisticsService constructor.
      * @param ArmyStatisticsRepository $armyStatisticsRepository
      * @param EntityManagerInterface $em
      */

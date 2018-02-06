@@ -12,80 +12,80 @@
         {% endblock head %}
     </head>
     <body>
-    <main>
         <header>
-        <!-- Navigation -->
-        <div class="menu" style="position: absolute;z-index: 1">
-        <nav class="navbar navbar-expand-lg navbar-light" id="navigation" role="navigation">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    {% if app.user %}
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{{ path('user') }}"><h2>Home</h2><span class="sr-only">(current)</span></a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{{ path('homepage') }}"><h2>Home</h2><span class="sr-only">(current)</span></a>
-                        </li>
-                    {% endif %}
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{{ path('map') }}"><h2>Map</h2></a>
-                        </li>
-                    {% if app.user %}
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{{ path('user_castles') }}"><h2>Castles</h2></a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link disabled" href="#"><h2>Castles</h2></a>
-                        </li>
-                    {% endif %}
-                    {% if app.user %}
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{{ path('user_army') }}"><h2>Army</h2></a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link disabled" href="#"><h2>Army</h2></a>
-                        </li>
-                    {% endif %}
-                </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <span>
-                        {% if app.user %}
-                            <div class="menuinformationtextfood">Food: {{ app.user.food }}</div>
-                            <div class="menuinformationtextmetal">Metal: {{ app.user.metal}}</div>
-                        {% endif %}
-                    </span><pre>    </pre>
-                    <span class="navbar-text">
-                        {% if app.user %}
-                            <h3>{{ app.user.username }}</h3>
-                        {% else %}
-                            <h3>Username</h3>
-                        {% endif %}
-                    </span><pre>  </pre>
-                    {% if app.user %}
-                        <a href="{{ logout_path('main') }}" class="btn btn-info btn-lg bg-danger active bodytext">LOGOUT</a>
-                    {% else %}
-                        <a href="{{ logout_path('main') }}" class="btn btn-info btn-lg bg-info disabled bodytext">LOGOUT</a>
-                    {% endif %}
-                </form>
+            <!-- Navigation -->
+            <div class="menu" style="position: absolute;z-index: 1">
+                <nav class="navbar navbar-expand-lg navbar-light" id="navigation" role="navigation">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                            {% if app.user %}
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{{ path('user') }}"><h2>Home</h2><span class="sr-only">(current)</span></a>
+                                </li>
+                            {% else %}
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{{ path('homepage') }}"><h2>Home</h2><span class="sr-only">(current)</span></a>
+                                </li>
+                            {% endif %}
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{{ path('map') }}"><h2>Map</h2></a>
+                                </li>
+                            {% if app.user %}
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{{ path('user_castles') }}"><h2>Castles</h2></a>
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link disabled" href="#"><h2>Castles</h2></a>
+                                </li>
+                            {% endif %}
+                            {% if app.user %}
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{{ path('user_army') }}"><h2>Army</h2></a>
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link disabled" href="#"><h2>Army</h2></a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                        <form class="form-inline my-2 my-lg-0">
+                            <span>
+                                {% if app.user %}
+                                    <div class="menuinformationtextfood">Food: {{ app.user.food }}</div>
+                                    <div class="menuinformationtextmetal">Metal: {{ app.user.metal}}</div>
+                                {% endif %}
+                            </span><pre>    </pre>
+                            <span class="navbar-text">
+                                {% if app.user %}
+                                    <h3>{{ app.user.username }}</h3>
+                                {% else %}
+                                    <h3>Username</h3>
+                                {% endif %}
+                            </span><pre>  </pre>
+                            {% if app.user %}
+                                <a href="{{ logout_path('main') }}" class="btn btn-info btn-lg bg-danger active bodytext">LOGOUT</a>
+                            {% else %}
+                                <a href="{{ logout_path('main') }}" class="btn btn-info btn-lg bg-info disabled bodytext">LOGOUT</a>
+                            {% endif %}
+                        </form>
+                    </div>
+                </nav>
             </div>
-        </nav>
-        </div>
         </header>
-        <div class="container-fluid bodytext body">
-            {% block body %}
-            {% endblock body %}
-        </div>
+        <main>
+            <section class="container-fluid bodytext body">
+                {% block body %}
+                {% endblock body %}
+            </section>
+        </main>
         <footer>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
         </footer>
-    </main>
     </body>
 </html>

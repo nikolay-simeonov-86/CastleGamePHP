@@ -5,7 +5,21 @@
 {% endblock %}
 
 {% block body %}
-<div class="margin-top">
+
+    {% if message is defined %}
+        <div class="row">
+            <div class="col" align="center">
+                <h2 class="text-danger">{{ message }}</h2>
+            </div>
+        </div>
+    {% endif %}
+    {% if interval is defined %}
+        <div class="row">
+            <div class="col" align="center">
+                <h2 class="text-danger">You have {{ interval }} left until spying ends</h2>
+            </div>
+        </div>
+    {% endif %}
     <div class="row align-items-center center">
         <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
             <table class="background1 table table-inverse table-hover">
@@ -38,7 +52,11 @@
                         <h2>Food</h2>
                     </td>
                     <td>
-                        <h2>{{ user.food }}</h2>
+                        {% if interval is defined %}
+                            <h2>{{ user.food }}</h2>
+                        {% else %}
+                            <h2>Requires spy</h2>
+                        {% endif %}
                     </td>
                 </tr>
                 <tr>
@@ -46,7 +64,11 @@
                         <h2>Metal</h2>
                     </td>
                     <td>
-                        <h2>{{ user.metal }}</h2>
+                        {% if interval is defined %}
+                            <h2>{{ user.metal }}</h2>
+                        {% else %}
+                            <h2>Requires spy</h2>
+                        {% endif %}
                     </td>
                 </tr>
                 <tr>
@@ -105,12 +127,95 @@
             </div>
         </div>
     </div>
-    <div class="row mt-5 align-items-center center">
-        <div class="col-12" align="center">
-            <a href="#" class="btn btn-info btn-lg bg-danger active bodytext">ATTACK</a>
+    <br>
+    <div class="row align-items-center center">
+        <div class="col-3" align="center">
+        </div>
+        <div class="col-6" align="center">
+            <table class="background1 table table-inverse table-hover">
+                <thead>
+                <tr>
+                    <th>
+                        <h2>Main Castle</h2>
+                    </th>
+                    <th>
+                        <h2>Army</h2>
+                    </th>
+                    <th>
+                        <h2>Level</h2>
+                    </th>
+                    <th>
+                        <h2>Count</h2>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if armyAll is defined %}
+                    {% if armyAll is empty %}
+                        <tr>
+                            <td>
+                                <h2>
+                                    {% for castle in castles %}
+                                        {% if loop.first %}
+                                            {{ castle.name }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </h2>
+                            </td>
+                            <td colspan="3">
+                                <h2 align="center">User has no army in his main castle</h2>
+                            </td>
+                        </tr>
+                    {% else %}
+                        {% for army in armyAll %}
+                            <tr>
+                                <td>
+                                    <h2>{{ army.castleId.name }}</h2>
+                                </td>
+                                <td>
+                                    <h2>{{ army.name }}</h2>
+                                </td>
+                                <td>
+                                    <h2>{{ army.level }}</h2>
+                                </td>
+                                <td>
+                                    <h2>{{ army.amount }}</h2>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                {% else %}
+                    <tr>
+                        <td colspan="4">
+                            <h2 align="center">Requires spy</h2>
+                        </td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-3" align="center">
         </div>
     </div>
-</div>
-
+    <div class="row align-items-center center">
+        <div class="col-5" align="right">
+            {% if interval is defined %}
+                <button type="button" class="btn btn-lg btn-success bodytext" disabled>Spy</button>
+                <small id="form_spy_help" class="form-text text-muted navbarcolor">Send a spy for 100 Food and 100 Metal</small>
+            {% else %}
+                {{ form_start(form) }}
+                {{ form_widget(form.spy, {'attr': {'type': 'button', 'class': 'btn btn-lg btn-success bodytext'}}) }}
+                {{ form_end(form) }}
+                <small id="form_spy_help" class="form-text text-muted navbarcolor">Send a spy for 100 Food and 100 Metal</small>
+            {% endif %}
+        </div>
+        <div class="col-2" align="center">
+            <h1>OR</h1>
+        </div>
+        <div class="col-5" align="left">
+            <a href="#" id="attack" class="btn btn-info btn-lg bg-danger active bodytext">ATTACK</a>
+            <small id="attack_help" class="form-text text-muted navbarcolor">Gather troops and send an Attack</small>
+        </div>
+    </div>
 
 {% endblock %}

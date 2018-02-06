@@ -29,7 +29,7 @@ class ArmyTrainTimersService implements ArmyTrainTimersServiceInterface
     private $armyTrainTimersRepository;
 
     /**
-     * UserService constructor.
+     * ArmyTrainTimersService constructor.
      * @param ArmyTrainTimersRepository $armyTrainTimersRepository
      * @param EntityManagerInterface $em
      */
