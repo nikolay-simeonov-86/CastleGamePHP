@@ -31,6 +31,13 @@ class UserSpies
     /**
      * @var \DateTime
      *
+     * @ORM\Column(name="start_date", type="datetime")
+     */
+    private $startDate;
+
+    /**
+     * @var \DateTime
+     *
      * @ORM\Column(name="expiration_date", type="datetime")
      */
     private $expirationDate;
@@ -74,6 +81,30 @@ class UserSpies
     public function getTargetUserId()
     {
         return $this->targetUserId;
+    }
+
+    /**
+     * Set startDate.
+     *
+     * @param \DateTime $startDate
+     *
+     * @return UserSpies
+     */
+    public function setStartDate($startDate)
+    {
+        $this->startDate = $startDate;
+
+        return $this;
+    }
+
+    /**
+     * Get startDate.
+     *
+     * @return \DateTime
+     */
+    public function getStartDate()
+    {
+        return $this->startDate;
     }
 
     /**

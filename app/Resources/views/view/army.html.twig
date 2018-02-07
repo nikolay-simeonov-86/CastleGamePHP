@@ -109,7 +109,7 @@
                             <div class="col-xs-12 col-sm-12 col-lg-3" align="center">
                                 {% if castle.armyLvl1Building == 0 %}
                                     <button type="button" class="btn btn-lg btn-success bodytext" disabled>Train Footmen</button>
-                                    <br>Build Barracks first
+                                    <br><small class="form-text navbarcolor">Build Barracks first</small>
                                 {% else %}
                                     <a href="{{ path( 'train_army', { 'army': 'Footmen', 'id': castle.id }) }}">
                                         <button type="button" class="btn btn-lg btn-success bodytext" active>Train Footmen</button>
@@ -119,7 +119,7 @@
                             <div class="col-xs-12 col-sm-12 col-lg-4" align="center">
                                 {% if castle.armyLvl2Building == 0 %}
                                     <button type="button" class="btn btn-lg btn-success bodytext" disabled>Train Footmen</button>
-                                    <br>Build Shooting Range first
+                                    <br><small class="form-text navbarcolor">Build Shooting Range first</small>
                                 {% else %}
                                     <a href="{{ path( 'train_army', { 'army': 'Archers', 'id': castle.id }) }}">
                                         <button type="button" class="btn btn-lg btn-success bodytext" active>Train Archers</button>
@@ -129,7 +129,8 @@
                             <div class="col-xs-12 col-sm-12 col-lg-3" align="center">
                                 {% if castle.armyLvl3Building == 0 %}
                                     <button type="button" class="btn btn-lg btn-success bodytext" disabled>Train Footmen</button>
-                                    <br>Build Stables first
+                                    <br>
+                                    <small class="form-text navbarcolor">Build Stables first</small>
                                 {% else %}
                                     <a href="{{ path( 'train_army', { 'army': 'Cavalry', 'id': castle.id }) }}">
                                         <button type="button" class="btn btn-lg btn-success bodytext" active>Train Cavalry</button>

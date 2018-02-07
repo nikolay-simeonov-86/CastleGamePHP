@@ -148,14 +148,27 @@ class PlayerController extends Controller
         {
             $userSpyCheck = $this->em->getRepository(UserSpies::class)->findOneBy(array('userId' => $loggedUser, 'targetUserId' => $id));
             $currentDateTime = new \DateTime("now");
-            $tempInterval = date_diff($userSpyCheck->getExpirationDate(), $currentDateTime);
-            $interval = $tempInterval->format('%I minutes');
-            $armyAll = $this->em->getRepository(Army::class)->findBy(array('castleId' => $mainCastleId));
-            return $this->render( 'view/user_profile.html.twig', array('form' => $form->createView(),
-                                                                    'castles' => $castles,
-                                                                    'user' => $user,
-                                                                    'interval' => $interval,
-                                                                    'armyAll' => $armyAll));
+
+            if ($userSpyCheck->getStartDate() < $currentDateTime)
+            {
+                $tempInterval = date_diff($userSpyCheck->getExpirationDate(), $currentDateTime);
+                $interval = $tempInterval->format('%I minutes');
+                $armyAll = $this->em->getRepository(Army::class)->findBy(array('castleId' => $mainCastleId));
+                return $this->render( 'view/user_profile.html.twig', array('form' => $form->createView(),
+                                                                        'castles' => $castles,
+                                                                        'user' => $user,
+                                                                        'interval' => $interval,
+                                                                        'armyAll' => $armyAll));
+            }
+            else
+            {
+                $tempInterval = date_diff($userSpyCheck->getStartDate(), $currentDateTime);
+                $timeLeft = $tempInterval->format('%I minutes');
+                return $this->render( 'view/user_profile.html.twig', array('form' => $form->createView(),
+                                                                        'castles' => $castles,
+                                                                        'user' => $user,
+                                                                        'timeLeft' => $timeLeft));
+            }
         }
 
         if ($form->isSubmitted() && $form->isValid())
@@ -346,6 +359,8 @@ class PlayerController extends Controller
         }
 
         $armyTemp = $this->em->getRepository(Army::class)->findOneBy(array('name' => $army, 'level' => $level, 'castleId' => $castle));
+        $this->armyService->updateArmy($armyTemp->getId());
+
         $armyVisualizeTemp = $this->em->getRepository(ArmyTrainTimers::class)->findBy(array('armyId' => $armyTemp, 'armyType' => $army));
         $armyVisualize = [];
         $counter = 0;
@@ -454,6 +469,8 @@ class PlayerController extends Controller
         list($prizeFood, $prizeMetal, $trainTime) = $result;
 
         $armyTemp = $this->em->getRepository(Army::class)->findOneBy(array('name' => $army, 'level' => $level, 'castleId' => $castle));
+        $this->armyService->updateArmy($armyTemp->getId());
+
         $armyVisualizeTemp = $this->em->getRepository(ArmyTrainTimers::class)->findBy(array('armyId' => $armyTemp, 'armyType' => $army));
         $counter = 0;
         foreach ($armyVisualizeTemp as $armyVisualizeOne)

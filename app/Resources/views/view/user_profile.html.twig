@@ -13,24 +13,23 @@
             </div>
         </div>
     {% endif %}
+    {% if timeLeft is defined %}
+        <div class="row">
+            <div class="col" align="center">
+                <h2 class="text-danger">{{ timeLeft }} until the spy reaches the castle</h2>
+            </div>
+        </div>
+    {% endif %}
     {% if interval is defined %}
         <div class="row">
             <div class="col" align="center">
-                <h2 class="text-danger">You have {{ interval }} left until spying ends</h2>
+                <h2 class="text-danger">{{ interval }} until spying ends</h2>
             </div>
         </div>
     {% endif %}
     <div class="row align-items-center center">
         <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
             <table class="background1 table table-inverse table-hover">
-                <tr>
-                    <td>
-                        <h2>ID</h2>
-                    </td>
-                    <td>
-                        <h2>{{ user.id }}</h2>
-                    </td>
-                </tr>
                 <tr>
                     <td>
                         <h2>Username</h2>
@@ -199,14 +198,14 @@
     </div>
     <div class="row align-items-center center">
         <div class="col-5" align="right">
-            {% if interval is defined %}
-                <button type="button" class="btn btn-lg btn-success bodytext" disabled>Spy</button>
-                <small id="form_spy_help" class="form-text text-muted navbarcolor">Send a spy for 100 Food and 100 Metal</small>
+            {% if interval is defined or timeLeft is defined %}
+                <button type="button" class="btn btn-lg btn-primary bodytext" disabled>Spy</button>
+                <small id="form_spy_help" class="form-text navbarcolor">Send a spy for 100 Food and 100 Metal</small>
             {% else %}
                 {{ form_start(form) }}
                 {{ form_widget(form.spy, {'attr': {'type': 'button', 'class': 'btn btn-lg btn-success bodytext'}}) }}
                 {{ form_end(form) }}
-                <small id="form_spy_help" class="form-text text-muted navbarcolor">Send a spy for 100 Food and 100 Metal</small>
+                <small id="form_spy_help" class="form-text navbarcolor">Send a spy for 100 Food and 100 Metal</small>
             {% endif %}
         </div>
         <div class="col-2" align="center">
@@ -214,7 +213,7 @@
         </div>
         <div class="col-5" align="left">
             <a href="#" id="attack" class="btn btn-info btn-lg bg-danger active bodytext">ATTACK</a>
-            <small id="attack_help" class="form-text text-muted navbarcolor">Gather troops and send an Attack</small>
+            <small id="attack_help" class="form-text navbarcolor">Gather troops and send an Attack</small>
         </div>
     </div>
 

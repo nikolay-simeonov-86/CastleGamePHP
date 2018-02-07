@@ -12,6 +12,9 @@ namespace AppBundle\Service;
 use AppBundle\Entity\User;
 use AppBundle\Entity\UserSpies;
 use AppBundle\Repository\UserSpiesRepository;
+use ClassesWithParents\D;
+use DateInterval;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 
@@ -47,11 +50,9 @@ class UserSpiesService implements UserSpiesServiceInterface
         $userSpy = new UserSpies();
         $userSpy->setUserId($loggedUser);
         $userSpy->setTargetUserId($id);
-        $dateTimeNow = new \DateTime("now");
-        try {
-            $expirationDate = $dateTimeNow->add(new \DateInterval('PT' . 60 . 'M'));
-        } catch (\Exception $e) {
-        }
+        $startDate = new DateTime("now + 60 minutes");
+        $expirationDate = new DateTime("now + 120 minutes");
+        $userSpy->setStartDate($startDate);
         $userSpy->setExpirationDate($expirationDate);
         $this->em->persist($userSpy);
         $this->em->flush();

@@ -99,11 +99,11 @@
                                                 {% else %}
                                                 <br>
                                                 {% if castle.castleLvl == 0 %}
-                                                    Costs 100 Food
+                                                    {{ 'Costs 100 Food' }}
                                                 {% elseif castle.castleLvl == 1 %}
-                                                    Costs 500 Food and 500 Metal
+                                                    {{ 'Costs 500 Food and 500 Metal' }}
                                                 {% elseif castle.castleLvl == 2 %}
-                                                    Costs 1500 Food and 1500 Metal
+                                                    {{ 'Costs 1500 Food and 1500 Metal' }}
                                                 {% endif %}
                                                 {% endfor %}
                                             </td>
@@ -127,11 +127,11 @@
                                                 {% else %}
                                                 <br>
                                                 {% if castle.mineFoodLvl == 0 %}
-                                                    Costs 100 Food
+                                                    {{ 'Costs 100 Food' }}
                                                 {% elseif castle.mineFoodLvl == 1 %}
-                                                    Costs 250 Food and 100 Metal
+                                                    {{ 'Costs 250 Food and 100 Metal' }}
                                                 {% elseif castle.mineFoodLvl == 2 %}
-                                                    Costs 500 Food and 250 Metal
+                                                    {{ 'Costs 500 Food and 250 Metal' }}
                                                 {% endif %}
                                                 {% endfor %}
                                             </td>
@@ -155,11 +155,11 @@
                                                 {% else %}
                                                 <br>
                                                 {% if castle.mineMetalLvl == 0 %}
-                                                    Costs 200 Food
+                                                    {{ 'Costs 200 Food' }}
                                                 {% elseif castle.mineMetalLvl == 1 %}
-                                                    Costs 300 Food and 300 Metal
+                                                    {{ 'Costs 300 Food and 300 Metal' }}
                                                 {% elseif castle.mineMetalLvl == 2 %}
-                                                    Costs 500 Food and 500 Metal
+                                                    {{ 'Costs 500 Food and 500 Metal' }}
                                                 {% endif %}
                                                 {% endfor %}
                                             </td>
@@ -183,11 +183,11 @@
                                                 {% else %}
                                                 <br>
                                                 {% if castle.armyLvl1Building == 0 %}
-                                                    Costs 500 Food
+                                                    {{ 'Costs 500 Food' }}
                                                 {% elseif castle.armyLvl1Building == 1 %}
-                                                    Costs 1000 Food and 500 Metal
+                                                    {{ 'Costs 1000 Food and 500 Metal' }}
                                                 {% elseif castle.armyLvl1Building == 2 %}
-                                                    Costs 1500 Food and 1000 Metal
+                                                    {{ 'Costs 1500 Food and 1000 Metal' }}
                                                 {% endif %}
                                                 {% endfor %}
                                             </td>
@@ -211,11 +211,11 @@
                                                 {% else %}
                                                 <br>
                                                 {% if castle.armyLvl2Building == 0 %}
-                                                    Costs 500 Food and 500 Metal
+                                                    {{ 'Costs 500 Food and 500 Metal' }}
                                                 {% elseif castle.armyLvl2Building == 1 %}
-                                                    Costs 1000 Food and 1000 Metal
+                                                    {{ 'Costs 1000 Food and 1000 Metal' }}
                                                 {% elseif castle.armyLvl2Building == 2 %}
-                                                    Costs 1500 Food and 1500 Metal
+                                                    {{ 'Costs 1500 Food and 1500 Metal' }}
                                                 {% endif %}
                                                 {% endfor %}
                                             </td>
@@ -239,11 +239,11 @@
                                                 {% else %}
                                                 <br>
                                                 {% if castle.armyLvl3Building == 0 %}
-                                                    Costs 1000 Food and 1000 Metal
+                                                    {{ 'Costs 1000 Food and 1000 Metal' }}
                                                 {% elseif castle.armyLvl3Building == 1 %}
-                                                    Costs 2000 Food and 2000 Metal
+                                                    {{ 'Costs 2000 Food and 2000 Metal' }}
                                                 {% elseif castle.armyLvl3Building == 2 %}
-                                                    Costs 3500 Food and 3500 Metal
+                                                    {{ 'Costs 3500 Food and 3500 Metal' }}
                                                 {% endif %}
                                                 {% endfor %}
                                             </td>
@@ -258,7 +258,7 @@
                     <div class="carousel-item">
                         <div class="row align-items-center center">
                             <div class="col-xs-1 col-sm-1 col-lg-4" align="center">
-                                <h1>{{ castleCounter }}</h1>
+                                <h1></h1>{{ castleCounter }}</h1>
                             </div>
                             <div class="col-xs-11 col-sm-11 col-lg-4">
                                 <img class="d-block w-100" src="{{ castle.castlePicture }}" alt="" title="{{ castle.name }}" height="400" width="400"><br>
@@ -343,11 +343,11 @@
                                                 {% else %}
                                                     <br>
                                                     {% if castle.castleLvl == 0 %}
-                                                        Costs 100 Food
+                                                        {{ 'Costs 100 Food' }}
                                                     {% elseif castle.castleLvl == 1 %}
-                                                        Costs 500 Food and 500 Metal
+                                                        {{ 'Costs 500 Food and 500 Metal' }}
                                                     {% elseif castle.castleLvl == 2 %}
-                                                        Costs 1500 Food and 1500 Metal
+                                                        {{ 'Costs 1500 Food and 1500 Metal' }}
                                                     {% endif %}
                                                 {% endfor %}
                                             </td>
@@ -371,11 +371,11 @@
                                                 {% else %}
                                                     <br>
                                                     {% if castle.mineFoodLvl == 0 %}
-                                                        Costs 100 Food
+                                                        {{ 'Costs 100 Food' }}
                                                     {% elseif castle.mineFoodLvl == 1 %}
-                                                        Costs 250 Food and 100 Metal
+                                                        {{ 'Costs 250 Food and 100 Metal' }}
                                                     {% elseif castle.mineFoodLvl == 2 %}
-                                                        Costs 500 Food and 250 Metal
+                                                        {{ 'Costs 500 Food and 250 Metal' }}
                                                     {% endif %}
                                                 {% endfor %}
                                             </td>
@@ -399,11 +399,11 @@
                                                 {% else %}
                                                     <br>
                                                     {% if castle.mineMetalLvl == 0 %}
-                                                        Costs 200 Food
+                                                        {{ 'Costs 200 Food' }}
                                                     {% elseif castle.mineMetalLvl == 1 %}
-                                                        Costs 300 Food and 300 Metal
+                                                        {{ 'Costs 300 Food and 300 Metal' }}
                                                     {% elseif castle.mineMetalLvl == 2 %}
-                                                        Costs 500 Food and 500 Metal
+                                                        {{ 'Costs 500 Food and 500 Metal' }}
                                                     {% endif %}
                                                 {% endfor %}
                                             </td>
@@ -427,11 +427,11 @@
                                                 {% else %}
                                                     <br>
                                                     {% if castle.armyLvl1Building == 0 %}
-                                                        Costs 500 Food
+                                                        {{ 'Costs 500 Food' }}
                                                     {% elseif castle.armyLvl1Building == 1 %}
-                                                        Costs 1000 Food and 500 Metal
+                                                        {{ 'Costs 1000 Food and 500 Metal' }}
                                                     {% elseif castle.armyLvl1Building == 2 %}
-                                                        Costs 1500 Food and 1000 Metal
+                                                        {{ 'Costs 1500 Food and 1000 Metal' }}
                                                     {% endif %}
                                                 {% endfor %}
                                             </td>
@@ -455,11 +455,11 @@
                                                 {% else %}
                                                     <br>
                                                     {% if castle.armyLvl2Building == 0 %}
-                                                        Costs 500 Food and 500 Metal
+                                                        {{ 'Costs 500 Food and 500 Metal' }}
                                                     {% elseif castle.armyLvl2Building == 1 %}
-                                                        Costs 1000 Food and 1000 Metal
+                                                        {{ 'Costs 1000 Food and 1000 Metal' }}
                                                     {% elseif castle.armyLvl2Building == 2 %}
-                                                        Costs 1500 Food and 1500 Metal
+                                                        {{ 'Costs 1500 Food and 1500 Metal' }}
                                                     {% endif %}
                                                 {% endfor %}
                                             </td>
@@ -483,11 +483,11 @@
                                                 {% else %}
                                                     <br>
                                                     {% if castle.armyLvl3Building == 0 %}
-                                                        Costs 1000 Food and 1000 Metal
+                                                        {{ 'Costs 1000 Food and 1000 Metal' }}
                                                     {% elseif castle.armyLvl3Building == 1 %}
-                                                        Costs 2000 Food and 2000 Metal
+                                                        {{ 'Costs 2000 Food and 2000 Metal' }}
                                                     {% elseif castle.armyLvl3Building == 2 %}
-                                                        Costs 3500 Food and 3500 Metal
+                                                        {{ 'Costs 3500 Food and 3500 Metal' }}
                                                     {% endif %}
                                                 {% endfor %}
                                             </td>
@@ -498,7 +498,6 @@
                         </div>
                     </div>
                 {% endif %}
-
             {% endfor %}
         </div>
         <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
