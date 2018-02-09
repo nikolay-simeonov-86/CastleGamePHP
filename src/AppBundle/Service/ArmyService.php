@@ -107,6 +107,13 @@ class ArmyService implements ArmyServiceInterface
         return null;
     }
 
+    /**
+     * @param int $userFood
+     * @param int $userMetal
+     * @param string $army
+     * @param int $level
+     * @return int
+     */
     public function maximumArmyAmountToTrain(int $userFood, int $userMetal, string $army, int $level)
     {
         $armyStatistics = $this->em->getRepository(ArmyStatistics::class)->findOneBy(array('name' => $army, 'level' => $level));

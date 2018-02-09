@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Castle;
 use AppBundle\Entity\User;
+use AppBundle\Entity\UserUpdateResources;
 use AppBundle\Form\UserRegister;
 use AppBundle\Service\CastleServiceInterface;
 use AppBundle\Service\UserServiceInterface;
@@ -133,15 +134,20 @@ class RegistryController extends Controller
 
                 $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
                 $user->setPassword($password);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($user);
-                $em->flush();
+                $this->em->persist($user);
+                $this->em->flush();
+
+                $userUpdateResource = new UserUpdateResources();
+                $userUpdateResource->setUserId($user);
+                $userUpdateResource->setLastUpdateDate(new \DateTime("now"));
+                $this->em->persist($userUpdateResource);
+                $this->em->flush();
 
                 $castle1->setUserId($user);
                 $castle2->setUserId($user);
-                $em->persist($castle1);
-                $em->persist($castle2);
-                $em->flush();
+                $this->em->persist($castle1);
+                $this->em->persist($castle2);
+                $this->em->flush();
 
                 return $this->redirectToRoute("security_login");
             }

@@ -19,12 +19,6 @@ interface CastleServiceInterface
 
     public function buildNewCastle(User $user, string $name);
 
-    public function getArmyCount();
-
-    public function getBuildingLevels();
-
-    public function purchaseArmy();
-
     public function purchaseBuilding(string $building, User $user, Castle $castle, BuildingUpdateProperties $buildingUpdate);
 
     public function updateCastle(int $id);

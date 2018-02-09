@@ -87,18 +87,18 @@
                     {% endif %}
 
                     <label class="navbarcolor" for="app_bundle_user_register_Password_first">Password</label><br>
-                    {{ form_widget(form.password.first) }}<br>
+                    {{ form_widget(form.password.first) }}<br><br>
                     <label class="navbarcolor" for="app_bundle_user_register_Password_second">Confirm password</label><br>
                     {{ form_widget(form.password.second) }}<br>
                     <small id="passwordHelp" class="form-text navbarcolor">Choose a password.</small><br>
 
-                    <label class="navbarcolor" for="app_bundle_user_register_castle1">Castle One</label><br>
+                    <label class="navbarcolor" for="app_bundle_user_register_castle1">Main Castle</label><br>
                     {{ form_widget(form.castle1) }}<br>
                     <small id="castleChooseHelp" class="form-text navbarcolor">Choose main castle.</small><br>
 
-                    <label class="navbarcolor" for="app_bundle_user_register_castle2">Castle Two</label><br>
+                    <label class="navbarcolor" for="app_bundle_user_register_castle2">Secondary Castle</label><br>
                     {{ form_widget(form.castle2) }}<br>
-                    <small id="castleChooseHelp" class="form-text navbarcolor">Choose second castle.</small><br>
+                    <small id="castleChooseHelp" class="form-text navbarcolor">Choose secondary castle.</small><br>
 
                     {{ form_row(form._token) }}
                 <div class="btn btn-lg btn-success">

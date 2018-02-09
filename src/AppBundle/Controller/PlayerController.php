@@ -16,6 +16,7 @@ use AppBundle\Service\ArmyTrainTimersServiceInterface;
 use AppBundle\Service\CastleServiceInterface;
 use AppBundle\Service\UserServiceInterface;
 use AppBundle\Service\UserSpiesServiceInterface;
+use AppBundle\Service\UserUpdateResourcesServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -64,6 +65,11 @@ class PlayerController extends Controller
     private $userSpiesService;
 
     /**
+     * @var UserUpdateResourcesServiceInterface
+     */
+    private $userUpdateResourcesService;
+
+    /**
      * CastleController constructor.
      * @param UserServiceInterface $userService
      * @param CastleServiceInterface $castleService
@@ -72,6 +78,7 @@ class PlayerController extends Controller
      * @param ArmyTrainTimersServiceInterface $armyTrainTimersService
      * @param ArmyStatisticsServiceInterface $armyStatisticsService
      * @param UserSpiesServiceInterface $userSpiesService
+     * @param UserUpdateResourcesServiceInterface $userUpdateResourcesService
      */
     public function __construct(UserServiceInterface $userService,
                                 CastleServiceInterface $castleService,
@@ -79,7 +86,8 @@ class PlayerController extends Controller
                                 EntityManagerInterface $em,
                                 ArmyTrainTimersServiceInterface $armyTrainTimersService,
                                 ArmyStatisticsServiceInterface $armyStatisticsService,
-                                UserSpiesServiceInterface $userSpiesService)
+                                UserSpiesServiceInterface $userSpiesService,
+                                UserUpdateResourcesServiceInterface $userUpdateResourcesService)
     {
         $this->em = $em;
         $this->userService = $userService;
@@ -88,6 +96,7 @@ class PlayerController extends Controller
         $this->armyTrainTimersService = $armyTrainTimersService;
         $this->armyStatisticsService = $armyStatisticsService;
         $this->userSpiesService = $userSpiesService;
+        $this->userUpdateResourcesService = $userUpdateResourcesService;
     }
 
     /**
@@ -97,6 +106,7 @@ class PlayerController extends Controller
      */
     public function userHomepageAction()
     {
+//        $this->userUpdateResourcesService->updateUsersResources();
         $user = $this->getUser();
         $userId = $user->getId();
 
@@ -118,6 +128,7 @@ class PlayerController extends Controller
      */
     public function userProfileAction(int $id, Request $request)
     {
+        $this->userUpdateResourcesService->updateUsersResources();
         if ($this->getUser()->getId() === $id)
         {
             return $this->redirectToRoute('user');

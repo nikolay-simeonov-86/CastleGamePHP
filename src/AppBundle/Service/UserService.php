@@ -52,21 +52,6 @@ class UserService implements UserServiceInterface
         return "mnogo pari";
     }
 
-    public function getUserCastles()
-    {
-        // TODO: Implement getUserCastles() method.
-    }
-
-    public function getAllUserCastles()
-    {
-        // TODO: Implement getAllUserCastles() method.
-    }
-
-    public function getOneUserCastles()
-    {
-        // TODO: Implement getOneUserCastle() method.
-    }
-
     /**
      * @return string
      */

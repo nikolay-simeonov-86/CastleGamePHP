@@ -22,30 +22,60 @@
                     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                             {% if app.user %}
+                                {% if app.request.get('_route') == 'user' %}
+                                    <li class="nav-item active">
+                                        <a class="nav-link selected-menu" href="{{ path('user') }}"><h2>Home</h2><span class="sr-only">(current)</span></a>
+                                    </li>
+                                {% else %}
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="{{ path('user') }}"><h2>Home</h2><span class="sr-only">(current)</span></a>
+                                    </li>
+                                {% endif %}
+                            {% else %}
+                                {% if app.request.get('_route') == 'homepage' %}
+                                    <li class="nav-item active">
+                                        <a class="nav-link selected-menu" href="{{ path('homepage') }}"><h2>Home</h2><span class="sr-only">(current)</span></a>
+                                    </li>
+                                {% else %}
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="{{ path('homepage') }}"><h2>Home</h2><span class="sr-only">(current)</span></a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+                            {% if app.request.get('_route') == 'map' %}
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="{{ path('user') }}"><h2>Home</h2><span class="sr-only">(current)</span></a>
+                                    <a class="nav-link selected-menu" href="{{ path('map') }}"><h2>Map</h2></a>
                                 </li>
                             {% else %}
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="{{ path('homepage') }}"><h2>Home</h2><span class="sr-only">(current)</span></a>
-                                </li>
-                            {% endif %}
-                                <li class="nav-item active">
                                     <a class="nav-link" href="{{ path('map') }}"><h2>Map</h2></a>
                                 </li>
+                            {% endif %}
                             {% if app.user %}
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="{{ path('user_castles') }}"><h2>Castles</h2></a>
-                                </li>
+                                {% if app.request.get('_route') == 'user_castles' %}
+                                    <li class="nav-item active">
+                                        <a class="nav-link selected-menu" href="{{ path('user_castles') }}"><h2>Castles</h2></a>
+                                    </li>
+                                {% else %}
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="{{ path('user_castles') }}"><h2>Castles</h2></a>
+                                    </li>
+                                {% endif %}
                             {% else %}
                                 <li class="nav-item">
                                     <a class="nav-link disabled" href="#"><h2>Castles</h2></a>
                                 </li>
                             {% endif %}
                             {% if app.user %}
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="{{ path('user_army') }}"><h2>Army</h2></a>
-                                </li>
+                                {% if app.request.get('_route') == 'user_army' %}
+                                    <li class="nav-item active">
+                                        <a class="nav-link selected-menu" href="{{ path('user_army') }}"><h2>Army</h2></a>
+                                    </li>
+                                {% else %}
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="{{ path('user_army') }}"><h2>Army</h2></a>
+                                    </li>
+                                {% endif %}
                             {% else %}
                                 <li class="nav-item">
                                     <a class="nav-link disabled" href="#"><h2>Army</h2></a>

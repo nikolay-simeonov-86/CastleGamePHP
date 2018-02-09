@@ -4,7 +4,9 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\ArmyStatistics;
 use AppBundle\Entity\BuildingUpdateProperties;
+use AppBundle\Entity\Castle;
 use AppBundle\Entity\User;
+use AppBundle\Entity\UserUpdateResources;
 use AppBundle\Repository\UserRepository;
 use AppBundle\Service\ArmyStatisticsService;
 use AppBundle\Service\BuildingUpdatePropertiesService;
@@ -94,29 +96,62 @@ class DefaultController extends Controller
      */
     public function baseTemplateAction(Request $request)
     {
-        $userId = $this->getUser()->getId();
-        $query = $this->em->createQuery('SELECT u FROM AppBundle\Entity\User u WHERE u.id = ?1');
-        $query->setParameter(1, $userId);
-        $users = $query->getResult();
-        $query = $this->em->createQuery('SELECT partial c.{id, name, armyLvl1Building, armyLvl2Building, armyLvl3Building, castleLvl, mineFoodLvl, mineMetalLvl, resourceFood, resourceMetal, castlePicture} 
-                                              FROM AppBundle\Entity\Castle c 
-                                              WHERE c.userId = ?1');
-        $query->setParameter(1, $userId);
-        $castles = $query->getResult();
+        $currentDateTime = new \DateTime("now + 60 minutes");
+        $user = $this->getUser();
+            $foodUser = 0;
+            $food = $user->getFood();
+            $metal = $user->getMetal();
+            $userUpdateResources = $this->em->getRepository(UserUpdateResources::class)->findOneBy(array('userId' => $user->getId()));
+            $castles = $this->em->getRepository(Castle::class)->findBy(array('userId' => $user->getId()));
+            foreach ($castles as  $castle)
+            {
+                $tempInterval = date_diff($userUpdateResources->getLastUpdateDate(), $currentDateTime);
+                $interval = $tempInterval->format("%y %m %d %h %i %s");
+                list($year, $month, $day, $hour, $minute, $second) = array_map('intval', explode(' ', $interval));
+                $minutes = (int)floor((($year * 365.25 + $month * 30 + $day) * 24 + $hour) * 60 + $minute + $second/60);
+                if ($minutes > 1)
+                {
+                    if ($castle->getMineFoodLvl() == 0)
+                    {
+                        $foodTemp = 0;
+                    }
+                    elseif ($castle->getMineFoodLvl() == 1)
+                    {
+                        $foodTemp = $minutes*1;
+                    }
+                    elseif ($castle->getMineFoodLvl() == 2)
+                    {
+                        $foodTemp = $minutes*2;
+                    }
+                    elseif ($castle->getMineFoodLvl() == 3)
+                    {
+                        $foodTemp = $minutes*5;
+                    }
 
-        $form = $this->createFormBuilder()->add('create', SubmitType::class)->getForm();
-        $form->handleRequest($request);
+                    if ($castle->getMineMetalLvl() == 0)
+                    {
+                        $metalTemp = 0;
+                    }
+                    elseif ($castle->getMineMetalLvl() == 1)
+                    {
+                        $metalTemp = $minutes*1;
+                    }
+                    elseif ($castle->getMineMetalLvl() == 2)
+                    {
+                        $metalTemp = $minutes*2;
+                    }
+                    elseif ($castle->getMineMetalLvl() == 3)
+                    {
+                        $metalTemp = $minutes*3;
+                    }
+                }
+                $foodUser = $foodUser+$foodTemp;
+                dump($foodTemp);
+            }
+            dump($minutes);
+            dump($foodUser);
+            die();
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $castleName = 'Dwarf';
-            $user = $this->getUser();
-            $this->castleService->buildNewCastle($user, $castleName);
-            return $this->redirectToRoute('user_castles');
-        }
-
-//        dump($castles);
-//        die();
-        return $this->render('view/test.html.twig', array('form' => $form->createView(), 'users' => $users, 'castles' => $castles));
+        return $this->render('view/test.html.twig', array('users' => $users));
     }
 }

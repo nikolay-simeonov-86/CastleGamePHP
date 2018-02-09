@@ -79,8 +79,15 @@ class User implements UserInterface
      */
     private $userSpies;
 
+    /**
+     * @var UserUpdateResources[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\UserSpies", mappedBy="userId")
+     */
+    private $userUpdateResources;
+
     public function __construct()
     {
+        $this->userUpdateResources = new ArrayCollection();
         $this->userSpies = new ArrayCollection();
         $this->castles = new ArrayCollection();
         $this->food = 200;
@@ -271,6 +278,26 @@ class User implements UserInterface
     public function getUserSpies()
     {
         return $this->userSpies;
+    }
+
+    /**
+     * Set userUpdateResources
+     *
+     * @param UserUpdateResources[] $userUpdateResources
+     */
+    public function setUserUpdateResources(array $userUpdateResources)
+    {
+        $this->userUpdateResources = $userUpdateResources;
+    }
+
+    /**
+     * Get userUpdateResources
+     *
+     * @return Collection|UserUpdateResources[]
+     */
+    public function getUserUpdateResources()
+    {
+        return $this->userUpdateResources;
     }
 
     /**

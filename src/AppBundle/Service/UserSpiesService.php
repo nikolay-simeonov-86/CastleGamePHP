@@ -98,6 +98,9 @@ class UserSpiesService implements UserSpiesServiceInterface
         return null;
     }
 
+    /**
+     * @param User $loggedUser
+     */
     public function expireUserSpy(User $loggedUser)
     {
         $userSpies = $this->em->getRepository(UserSpies::class)->findBy(array('userId' => $loggedUser));

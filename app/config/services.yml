@@ -41,6 +41,10 @@ services:
             factory: 'doctrine.orm.entity_manager:getRepository'
             arguments: ['AppBundle\Entity\UserSpies']
 
+    AppBundle\Repository\UserUpdateResourcesRepository:
+            factory: 'doctrine.orm.entity_manager:getRepository'
+            arguments: ['AppBundle\Entity\UserUpdateResources']
+
     AppBundle\Repository\CastleRepository:
             factory: 'doctrine.orm.entity_manager:getRepository'
             arguments: ['AppBundle\Entity\Castle']
@@ -71,6 +75,10 @@ services:
 
     AppBundle\Service\UserSpiesServiceInterface:
             alias: 'AppBundle\Service\UserSpiesService'
+            public: false
+
+    AppBundle\Service\UserUpdateResourcesServiceInterface:
+            alias: 'AppBundle\Service\UserUpdateResourcesService'
             public: false
 
     AppBundle\Service\CastleServiceInterface:
