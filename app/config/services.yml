@@ -45,6 +45,10 @@ services:
             factory: 'doctrine.orm.entity_manager:getRepository'
             arguments: ['AppBundle\Entity\UserUpdateResources']
 
+    AppBundle\Repository\UserMessagesRepository:
+            factory: 'doctrine.orm.entity_manager:getRepository'
+            arguments: ['AppBundle\Entity\UserMessages']
+
     AppBundle\Repository\CastleRepository:
             factory: 'doctrine.orm.entity_manager:getRepository'
             arguments: ['AppBundle\Entity\Castle']
@@ -79,6 +83,10 @@ services:
 
     AppBundle\Service\UserUpdateResourcesServiceInterface:
             alias: 'AppBundle\Service\UserUpdateResourcesService'
+            public: false
+
+    AppBundle\Service\UserMessagesServiceInterface:
+            alias: 'AppBundle\Service\UserMessagesService'
             public: false
 
     AppBundle\Service\CastleServiceInterface:

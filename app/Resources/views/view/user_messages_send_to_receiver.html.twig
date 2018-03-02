@@ -1,0 +1,35 @@
+{% extends 'view/base.html.twig' %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/user_messages_inbox.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="background2">
+        <img class="background-papyrus" src="/pictures/Messages/BattleReportBackground.png" alt="">
+        <img class="crow-flying" src="{{ asset('pictures/Messages/FlyingCrow.png') }}" alt="">
+        <img class="crow-landing" src="{{ asset('pictures/Messages/LandingRaven.png') }}" alt="">
+        <div class="smaller-div">
+            <div class="row align-items-center center">
+                <div class="col-12">
+                    <h2>Send a message to<br>{{ receiver }}</h2><br>
+                    {{ form_start(form) }}
+                    {% if message is defined %}
+                        <div class="row">
+                            <div class="col" align="center">
+                                <h2 class="text-danger">{{ message }}</h2>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {{ form_widget(form.message) }}<br>
+                    <small id="no-effects">Message can be maximum 250 symbols</small><br>
+                    {{ form_widget(form.Send) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+            <br>
+            <a class="btn btn-info btn-lg bg-danger active bodytext cursor-pointer" href="{{ path('user_messages_inbox_sender', {'sender': receiver, 'page': 1}) }}">Back</a>
+        </div>
+    </div>
+{% endblock %}
+

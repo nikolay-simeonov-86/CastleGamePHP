@@ -47,11 +47,6 @@ class UserService implements UserServiceInterface
         return $users = $this->userRepository->find($user->getUsername());
     }
 
-    public function calculateUserIncome()
-    {
-        return "mnogo pari";
-    }
-
     /**
      * @return string
      */

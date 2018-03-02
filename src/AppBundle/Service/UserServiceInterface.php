@@ -16,7 +16,5 @@ interface UserServiceInterface
 {
     public function getUserInformation(UserInterface $user);
 
-    public function calculateUserIncome();
-
     public function setCoordinates();
 }

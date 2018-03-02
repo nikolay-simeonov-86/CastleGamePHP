@@ -1,0 +1,73 @@
+.pagination > ul > li {
+    display: inline-block;
+}
+.pagination > ul {
+    margin: auto;
+    padding-left: 0;
+}
+.pagination {
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+.table {
+    border: none;
+    text-shadow: none;
+    box-shadow: none;
+    table-layout: auto;
+}
+.table thead th {
+     border: 1px solid #E9ECEF;
+     border-bottom: 2px solid #E9ECEF;
+}
+.table tr td {
+    border: 1px solid #E9ECEF;
+    overflow-wrap: break-word;
+    padding: 5px;
+    vertical-align: middle;
+}
+.table tr td a {
+    display: block;
+    padding: 15px 15px;
+    text-decoration: none;
+}
+.smaller-div {
+    position: absolute;
+    width: 40%;
+    text-align: center;
+    top: 22%;
+    left: 30%;
+}
+.background2 {
+    text-align: center;
+    width: 100%;
+}
+.background-papyrus {
+    position: relative;
+    width: 100%;
+    height: 1200px;
+}
+.crow-flying {
+    position: absolute;
+    width: 15%;
+    top: 16%;
+    left: 66%;
+}
+.crow-landing {
+    position: absolute;
+    width: 10%;
+    top: 69%;
+    left: 22%;
+}
+.send-a-message-button {
+    margin-top: 20px;
+}
+.textarea {
+    padding: 2%;
+    margin-top: 5px;
+}
+#no-effects {
+    color: black;
+    text-shadow: none;
+}

@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         {% block stylesheets %}
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+            <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
             <link href="{{ asset('assets/styles.css') }}" type="text/css" rel="stylesheet" />
         {% endblock %}
         {% block head %}
@@ -88,14 +89,37 @@
                                     <div class="menuinformationtextfood">Food: {{ app.user.food }}</div>
                                     <div class="menuinformationtextmetal">Metal: {{ app.user.metal}}</div>
                                 {% endif %}
-                            </span><pre>    </pre>
+                            </span>
                             <span class="navbar-text">
                                 {% if app.user %}
-                                    <h3>{{ app.user.username }}</h3>
+                                    {% if user_messages_count > 0 %}
+                                        {% if user_messages_count > 99 %}
+                                            <h3>{{ app.user.username }}</h3>
+                                            <div class="message-icon-wrapper">
+                                                <a href="{{ path( 'user_messages_inbox', {'page': 1} ) }}">
+                                                    <i class="fas fa-envelope"></i><span class="unread-messages-count">99+</span>
+                                                </a>
+                                            </div>
+                                        {% else %}
+                                            <h3>{{ app.user.username }}</h3>
+                                            <div class="message-icon-wrapper">
+                                                <a href="{{ path( 'user_messages_inbox', {'page': 1} ) }}">
+                                                    <i class="fas fa-envelope"></i><span class="unread-messages-count">{{ user_messages_count }}</span>
+                                                </a>
+                                            </div>
+                                        {% endif %}
+                                    {% else %}
+                                        <h3>{{ app.user.username }}</h3>
+                                        <div class="message-icon-wrapper">
+                                            <a href="{{ path( 'user_messages_inbox', {'page': 1} ) }}">
+                                                <i class="fas fa-envelope"></i>
+                                            </a>
+                                        </div>
+                                    {% endif %}
                                 {% else %}
                                     <h3>Username</h3>
                                 {% endif %}
-                            </span><pre>  </pre>
+                            </span>
                             {% if app.user %}
                                 <a href="{{ logout_path('main') }}" class="btn btn-info btn-lg bg-danger active bodytext">LOGOUT</a>
                             {% else %}

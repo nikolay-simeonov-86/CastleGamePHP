@@ -85,8 +85,15 @@ class User implements UserInterface
      */
     private $userUpdateResources;
 
+    /**
+     * @var UserMessages[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\UserMessages", mappedBy="userId")
+     */
+    private $userMessages;
+
     public function __construct()
     {
+        $this->userMessages = new ArrayCollection();
         $this->userUpdateResources = new ArrayCollection();
         $this->userSpies = new ArrayCollection();
         $this->castles = new ArrayCollection();
@@ -298,6 +305,26 @@ class User implements UserInterface
     public function getUserUpdateResources()
     {
         return $this->userUpdateResources;
+    }
+
+    /**
+     * Set userMessages
+     *
+     * @param UserMessages[] $userMessages
+     */
+    public function setUserMessages(array $userMessages)
+    {
+        $this->userMessages = $userMessages;
+    }
+
+    /**
+     * Get userMessages
+     *
+     * @return Collection|UserMessages[]
+     */
+    public function getUserMessages()
+    {
+        return $this->userMessages;
     }
 
     /**

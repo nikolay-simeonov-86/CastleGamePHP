@@ -9,23 +9,29 @@ use AppBundle\Entity\BuildingUpdateProperties;
 use AppBundle\Entity\BuildingUpdateTimers;
 use AppBundle\Entity\Castle;
 use AppBundle\Entity\User;
+use AppBundle\Entity\UserMessages;
 use AppBundle\Entity\UserSpies;
 use AppBundle\Service\ArmyServiceInterface;
 use AppBundle\Service\ArmyStatisticsServiceInterface;
 use AppBundle\Service\ArmyTrainTimersServiceInterface;
 use AppBundle\Service\CastleServiceInterface;
+use AppBundle\Service\UserMessagesServiceInterface;
 use AppBundle\Service\UserServiceInterface;
 use AppBundle\Service\UserSpiesServiceInterface;
 use AppBundle\Service\UserUpdateResourcesServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class PlayerController extends Controller
 {
@@ -70,6 +76,11 @@ class PlayerController extends Controller
     private $userUpdateResourcesService;
 
     /**
+     * @var UserMessagesServiceInterface
+     */
+    private $userMessagesService;
+
+    /**
      * CastleController constructor.
      * @param UserServiceInterface $userService
      * @param CastleServiceInterface $castleService
@@ -79,6 +90,7 @@ class PlayerController extends Controller
      * @param ArmyStatisticsServiceInterface $armyStatisticsService
      * @param UserSpiesServiceInterface $userSpiesService
      * @param UserUpdateResourcesServiceInterface $userUpdateResourcesService
+     * @param UserMessagesServiceInterface $userMessagesService
      */
     public function __construct(UserServiceInterface $userService,
                                 CastleServiceInterface $castleService,
@@ -87,7 +99,8 @@ class PlayerController extends Controller
                                 ArmyTrainTimersServiceInterface $armyTrainTimersService,
                                 ArmyStatisticsServiceInterface $armyStatisticsService,
                                 UserSpiesServiceInterface $userSpiesService,
-                                UserUpdateResourcesServiceInterface $userUpdateResourcesService)
+                                UserUpdateResourcesServiceInterface $userUpdateResourcesService,
+                                UserMessagesServiceInterface $userMessagesService)
     {
         $this->em = $em;
         $this->userService = $userService;
@@ -97,6 +110,7 @@ class PlayerController extends Controller
         $this->armyStatisticsService = $armyStatisticsService;
         $this->userSpiesService = $userSpiesService;
         $this->userUpdateResourcesService = $userUpdateResourcesService;
+        $this->userMessagesService = $userMessagesService;
     }
 
     /**
@@ -106,9 +120,14 @@ class PlayerController extends Controller
      */
     public function userHomepageAction()
     {
-//        $this->userUpdateResourcesService->updateUsersResources();
         $user = $this->getUser();
+
+        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+
         $userId = $user->getId();
+
+//        $this->userUpdateResourcesService->updateUsersResources();
 
         $castles = $this->em->getRepository(Castle::class)->findBy(array('userId' => $userId));
         foreach ($castles as $castle)
@@ -128,7 +147,12 @@ class PlayerController extends Controller
      */
     public function userProfileAction(int $id, Request $request)
     {
-        $this->userUpdateResourcesService->updateUsersResources();
+        $user = $this->getUser();
+        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+
+//        $this->userUpdateResourcesService->updateUsersResources();
+
         if ($this->getUser()->getId() === $id)
         {
             return $this->redirectToRoute('user');
@@ -209,6 +233,13 @@ class PlayerController extends Controller
      */
     public function viewMapAction()
     {
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            $user = $this->getUser();
+            $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+            $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+        }
+
         $query = $this->em->createQuery('SELECT u.id, u.username, u.coordinates, u.castleIcon 
                                               FROM AppBundle\Entity\User u');
         $users = $query->getResult();
@@ -224,6 +255,10 @@ class PlayerController extends Controller
      */
     public function userCastlesAction(Request $request)
     {
+        $user = $this->getUser();
+        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+
         $userId = $this->getUser()->getId();
         $castles = $this->em->getRepository(Castle::class)->findBy(array('userId' => $userId));
         $currentDateTime = new \DateTime("now");
@@ -267,11 +302,16 @@ class PlayerController extends Controller
         $form->handleRequest($request);
 
         $user = $this->getUser();
+        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
 
         $castle = $this->em->getRepository(Castle::class)->find($id);
         $this->castleService->updateCastle($castle->getId());
 
         $buildingUpdate = $this->em->getRepository(BuildingUpdateProperties::class)->findOneBy(array('name' => $building));
+
+        $costsArray = $this->castleService->purchaseBuildingCost($building, $castle, $buildingUpdate);
+        list($foodCost, $metalCost, $updateTimer) = $costsArray;
 
         if (null == $castle)
         {
@@ -296,20 +336,30 @@ class PlayerController extends Controller
             {
                 $message = $exception->getMessage();
                 return $this->render('view/upgrade.html.twig', array('form' => $form->createView(),
-                                                                 'building' => $building,
-                                                                 'message' => $message));
+                                                                            'building' => $building,
+                                                                            'foodCost' => $foodCost,
+                                                                            'metalCost' => $metalCost,
+                                                                            'updateTimer' => $updateTimer,
+                                                                            'message' => $message));
             }
             $message = $this->castleService->purchaseBuilding($building, $user, $castle, $buildingUpdate);
 
             if ($message)
             {
                 return $this->render('view/upgrade.html.twig', array('form' => $form->createView(),
-                                                                 'building' => $building,
-                                                                 'message' => $message));
+                                                                            'building' => $building,
+                                                                            'foodCost' => $foodCost,
+                                                                            'metalCost' => $metalCost,
+                                                                            'updateTimer' => $updateTimer,
+                                                                            'message' => $message));
             }
             return $this->redirectToRoute('user_castles');
         }
-        return $this->render('view/upgrade.html.twig', array('form' => $form->createView(), 'building' => $building));
+        return $this->render('view/upgrade.html.twig', array('form' => $form->createView(),
+                                                                    'building' => $building,
+                                                                    'foodCost' => $foodCost,
+                                                                    'metalCost' => $metalCost,
+                                                                    'updateTimer' => $updateTimer));
     }
 
     /**
@@ -320,6 +370,10 @@ class PlayerController extends Controller
      */
     public function userArmyAction(Request $request)
     {
+        $user = $this->getUser();
+        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+
         $userId = $this->getUser()->getId();
 
         $castles = $this->em->getRepository(Castle::class)->findBy(array('userId' => $userId));
@@ -351,8 +405,12 @@ class PlayerController extends Controller
      * @Security("has_role('ROLE_USER')")
      * @throws \Exception
      */
-    public function userTrainArmy(int $id, string $army, Request $request)
+    public function userTrainArmyAction(int $id, string $army, Request $request)
     {
+        $user = $this->getUser();
+        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+
         $castle = $this->em->getRepository(Castle::class)->find($id);
         $currentDateTime = new \DateTime("now");
 
@@ -456,8 +514,12 @@ class PlayerController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_USER')")
      */
-    public function userConfirmTrainArmy(int $id, string $army, int $amount, Request $request)
+    public function userConfirmTrainArmyAction(int $id, string $army, int $amount, Request $request)
     {
+        $user = $this->getUser();
+        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+
         $form = $this->createFormBuilder()->add('Confirm', SubmitType::class)->getForm();
         $form->handleRequest($request);
 
@@ -535,5 +597,252 @@ class PlayerController extends Controller
                                                                     'prizeMetal' => $prizeMetal,
                                                                     'trainTime' => $trainTime,
                                                                     'id' => $id));
+    }
+
+    /**
+     * @Route("/messages/inbox/{page}", name="user_messages_inbox")
+     * @param int $page
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function userMessagesInboxAction(int $page = 0, Request $request)
+    {
+        $user = $this->getUser();
+        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+
+        $countPerPage = 8;
+
+        $countQuery = $this->em->createQueryBuilder()
+            ->select('Count(DISTINCT u.senderUsername)')
+            ->from('AppBundle:UserMessages', 'u')
+            ->where('u.userId = ?1')
+            ->setParameter(1, $user);
+        $finalCountQuery = $countQuery->getQuery();
+        try {
+            $totalCount = $finalCountQuery->getSingleScalarResult();
+        } catch (NonUniqueResultException $e) {
+            $totalCount = 0;
+        }
+
+        if ($totalCount>0)
+        {
+            $totalPages=ceil($totalCount/$countPerPage);
+
+            if(!is_numeric($page)){
+                $page=1;
+            }
+            else{
+                $page=floor($page);
+            }
+            if($totalCount<=$countPerPage){
+                $page=1;
+            }
+            if(($page*$countPerPage)>$totalCount){
+                $page=$totalPages;
+            }
+            $offset=0;
+            if($page>1){
+                $offset = $countPerPage * ($page-1);
+            }
+            $visualQuery = $this->em->createQueryBuilder()
+                ->select('DISTINCT(u.senderUsername), COUNT(u.message), MAX(u.sentDate)')
+                ->from('AppBundle:UserMessages', 'u')
+                ->where('u.userId = ?1')
+                ->groupBy('u.senderUsername')
+                ->orderBy('u.sentDate', 'DESC')
+                ->setParameter(1, $user)
+                ->setFirstResult($offset)
+                ->setMaxResults($countPerPage);
+            $visualFinalQuery = $visualQuery->getQuery();
+            $finalTableArrayResult = $visualFinalQuery->getArrayResult();
+        }
+        else
+        {
+            $finalTableArrayResult = [];
+            $totalPages = 0;
+        }
+
+        return $this->render('view/user_messages_inbox.html.twig', array('finalTableArrayResult'=>$finalTableArrayResult,
+                                                                     'totalPages'=>$totalPages,
+                                                                     'currentPage'=> $page));
+    }
+
+    /**
+     * @Route("/messages/inbox/{sender}/{page}", name="user_messages_inbox_sender")
+     * @param string $sender
+     * @param int $page
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function userMessagesInboxSenderAction(string $sender, $page = 0, Request $request)
+    {
+        $user = $this->getUser();
+        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+
+        $countPerPage = 3;
+
+        $countQuery = $this->em->createQueryBuilder()
+            ->select('COUNT(u.message)')
+            ->from('AppBundle:UserMessages', 'u')
+            ->where('u.userId = ?1 AND u.senderUsername = ?2')
+            ->setParameter(1, $user)
+            ->setParameter(2, $sender);
+        $finalCountQuery = $countQuery->getQuery();
+        try {
+            $totalCount = $finalCountQuery->getSingleScalarResult();
+        } catch (NonUniqueResultException $e) {
+            $totalCount = 0;
+        }
+
+        if ($totalCount>0)
+        {
+            $totalPages=ceil($totalCount/$countPerPage);
+
+            if(!is_numeric($page)){
+                $page=1;
+            }
+            else{
+                $page=floor($page);
+            }
+            if($totalCount<=$countPerPage){
+                $page=1;
+            }
+            if(($page*$countPerPage)>$totalCount){
+                $page=$totalPages;
+            }
+            $offset=0;
+            if($page>1){
+                $offset = $countPerPage * ($page-1);
+            }
+            $visualQuery = $this->em->createQueryBuilder()
+                ->select('u.id, u.senderUsername, u.message, TRIM(u.sentDate)')
+                ->from('AppBundle:UserMessages', 'u')
+                ->where('u.userId = ?1 AND u.senderUsername = ?2')
+                ->orderBy('u.sentDate', 'DESC')
+                ->setParameter(1, $user)
+                ->setParameter(2, $sender)
+                ->setFirstResult($offset)
+                ->setMaxResults($countPerPage);
+            $visualFinalQuery = $visualQuery->getQuery();
+            $finalTableArrayResult = $visualFinalQuery->getArrayResult();
+
+            $sendersMessages = $this->em->getRepository(UserMessages::class)->findBy(array('userId' => $user, 'senderUsername' => $sender));
+            foreach ($sendersMessages as $sendersMessage)
+            {
+                $sendersMessage->setVisited(true);
+                $this->em->persist($sendersMessage);
+                $this->em->flush();
+            }
+        }
+        else
+        {
+            $finalTableArrayResult = [];
+            $totalPages = 0;
+        }
+
+        return $this->render('view/user_messages_inbox_sender.html.twig', array('finalTableArrayResult'=>$finalTableArrayResult,
+                                                                                    'totalPages'=>$totalPages,
+                                                                                    'currentPage'=> $page,
+                                                                                    'sender' => $sender));
+    }
+
+    /**
+     * @Route("/messages/inbox/{sender}/{page}/{id}", name="user_messages_inbox_sender_delete")
+     * @param string $sender
+     * @param int $page
+     * @param int $id
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function userMessagesInboxSenderDeleteAction(string $sender, int $page, int $id, Request $request)
+    {
+        $message = $this->em->getRepository(UserMessages::class)->findOneBy(array('id' => $id));
+        $this->em->remove($message);
+        $this->em->flush();
+
+        return $this->redirectToRoute('user_messages_inbox_sender', array('sender' => $sender, 'page' => $page));
+    }
+
+    /**
+     * @Route("/messages/send/", name="user_messages_send")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function userMessagesSendAction(Request $request)
+    {
+        $user = $this->getUser();
+        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+
+        $form = $this->createFormBuilder()
+            ->add('receiver', TextType::class)
+            ->add('message', TextareaType::class, array('attr' => array('class' => 'textarea', 'maxlength' => '250', 'rows' => '5', 'wrap' => 'hard', 'cols' => '50')))
+            ->add('Send', SubmitType::class, array('attr' => array('type' => 'button', 'class' => 'btn btn-lg btn-success bodytext cursor-pointer send-a-message-button')))
+            ->getForm();
+        $form->handleRequest($request);
+
+        $receiver = $form->get('receiver')->getData();
+        $formMessage = trim(preg_replace('/\s+/', ' ', $form->get('message')->getData()));
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $message = $this->userMessagesService->createNewMessage($user, $receiver, $formMessage);
+            if ($message)
+            {
+                return $this->render('view/user_messages_send.html.twig', array('form' => $form->createView(),
+                    'message' => $message));
+            }
+            else
+            {
+                return $this->redirectToRoute('user_messages_inbox');
+            }
+        }
+        return $this->render('view/user_messages_send.html.twig', array('form' => $form->createView()));
+    }
+
+    /**
+     * @Route("/messages/send/{receiver}", name="user_messages_send_to_receiver")
+     * @param string $receiver
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function userMessagesSendToReceiverAction(string $receiver, Request $request)
+    {
+        $user = $this->getUser();
+        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+
+        $form = $this->createFormBuilder()
+            ->add('message', TextareaType::class, array('attr' => array('class' => 'textarea', 'maxlength' => '250', 'rows' => '5', 'wrap' => 'hard', 'cols' => '50')))
+            ->add('Send', SubmitType::class, array('attr' => array('type' => 'button', 'class' => 'btn btn-lg btn-success bodytext cursor-pointer send-a-message-button')))
+            ->getForm();
+        $form->handleRequest($request);
+
+        $formMessage = trim(preg_replace('/\s+/', ' ', $form->get('message')->getData()));
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $message = $this->userMessagesService->createNewMessage($user, $receiver, $formMessage);
+            if ($message)
+            {
+                return $this->render('view/user_messages_send_to_receiver.html.twig', array('form' => $form->createView(),
+                                                                                                    'message' => $message,
+                                                                                                    'receiver' => $receiver));
+            }
+            else
+            {
+                return $this->redirectToRoute('user_messages_inbox_sender', array('sender' => $receiver,
+                                                                                        'page' => 1));
+            }
+        }
+        return $this->render('view/user_messages_send_to_receiver.html.twig', array('form' => $form->createView(),
+                                                                                'receiver' => $receiver));
     }
 }

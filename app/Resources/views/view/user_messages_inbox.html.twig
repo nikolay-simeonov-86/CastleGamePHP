@@ -1,0 +1,110 @@
+{% extends 'view/base.html.twig' %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/user_messages_inbox.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="background2">
+        <img class="background-papyrus" src="/pictures/Messages/BattleReportBackground.png" alt="">
+        <img class="crow-flying" src="{{ asset('pictures/Messages/FlyingCrow.png') }}" alt="">
+        <img class="crow-landing" src="{{ asset('pictures/Messages/LandingRaven.png') }}" alt="">
+        <div class="smaller-div">
+            <div class="row align-items-center center">
+                <div class="col-12">
+                    {% if totalPages > 0 %}
+                        <table class="table table-bordered table-inverse table-hover">
+                            <thead>
+                            <tr>
+                                <th colspan="4">Inbox</th>
+                            </tr>
+                            <tr>
+                                <th>Sender</th>
+                                <th>Messages</th>
+                                <th>Last message date</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for finalTableArrayResultOne in finalTableArrayResult %}
+                                <tr>
+                                    {% if finalTableArrayResultOne is iterable %}
+                                        <td><a href="{{ path('user_messages_inbox_sender',{'sender': finalTableArrayResultOne.1, 'page': 1}) }}">{{ finalTableArrayResultOne.1 }}</a></td>
+                                        <td>{{ finalTableArrayResultOne.2 }}<br>{% if finalTableArrayResultOne.2 <= 1 %}message{% else %}messages{% endif %}</td>
+                                        <td>{{ finalTableArrayResultOne.3 }}</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <table class="table table-inverse table-hover">
+                            <thead>
+                            <tr>
+                                <th>Inbox</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>You have no messages</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row align-items-center center">
+                <div class="col-12">
+                    {% if totalPages > 0 %}
+                        <div class="pagination">
+                            <ul>
+                                {% for i in 1..totalPages %}
+                                    {% if loop.first %}
+                                        <li class="prev">
+                                            {% if currentPage==1 %}
+                                                <a href="{{ path('user_messages_inbox', {'id': app.user.id, 'page':currentPage-1}) }}">
+                                                    <button type="button" class="btn" disabled>←</button>
+                                                </a>
+                                            {% else %}
+                                                <a href="{{path('user_messages_inbox',{'id': app.user.id, 'page':currentPage-1})}}">
+                                                    <button type="button" class="btn cursor-pointer">←</button>
+                                                </a>
+                                            {% endif %}
+                                        </li>
+                                    {% endif %}
+                                    <li class="next">
+                                        {% if currentPage == loop.index %}
+                                            <a href="{{path('user_messages_inbox',{'id': app.user.id, 'page':loop.index})}}">
+                                                <button type="button" class="btn" disabled>{{ loop.index }}</button>
+                                            </a>
+                                        {% else %}
+                                            <a href="{{path('user_messages_inbox',{'id': app.user.id, 'page':loop.index})}}">
+                                                <button type="button" class="btn cursor-pointer">{{ loop.index }}</button>
+                                            </a>
+                                        {% endif %}
+                                    </li>
+                                    {% if loop.last %}
+                                        <li class="next">
+                                            {% if currentPage==totalPages %}
+                                                <a href="{{path('user_messages_inbox',{'id': app.user.id, 'page':currentPage+1})}}">
+                                                    <button type="button" class="btn" disabled >→</button>
+                                                </a>
+                                            {% else %}
+                                                <a href="{{path('user_messages_inbox',{'id': app.user.id, 'page':currentPage+1})}}">
+                                                    <button type="button" class="btn cursor-pointer">→</button>
+                                                </a>
+                                            {% endif %}
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                    <a href="{{ path('user_messages_send', {'receiver': null}) }}">
+                        <button type="button" class="btn btn-lg btn-success bodytext cursor-pointer send-a-message-button" active>Send a message</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

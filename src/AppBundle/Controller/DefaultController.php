@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\ArmyStatistics;
+use AppBundle\Entity\ArmyTrainTimers;
 use AppBundle\Entity\BuildingUpdateProperties;
 use AppBundle\Entity\Castle;
 use AppBundle\Entity\User;
@@ -12,6 +13,7 @@ use AppBundle\Service\ArmyStatisticsService;
 use AppBundle\Service\BuildingUpdatePropertiesService;
 use AppBundle\Service\CastleServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -96,62 +98,57 @@ class DefaultController extends Controller
      */
     public function baseTemplateAction(Request $request)
     {
-        $currentDateTime = new \DateTime("now + 60 minutes");
-        $user = $this->getUser();
-            $foodUser = 0;
-            $food = $user->getFood();
-            $metal = $user->getMetal();
-            $userUpdateResources = $this->em->getRepository(UserUpdateResources::class)->findOneBy(array('userId' => $user->getId()));
-            $castles = $this->em->getRepository(Castle::class)->findBy(array('userId' => $user->getId()));
-            foreach ($castles as  $castle)
-            {
-                $tempInterval = date_diff($userUpdateResources->getLastUpdateDate(), $currentDateTime);
-                $interval = $tempInterval->format("%y %m %d %h %i %s");
-                list($year, $month, $day, $hour, $minute, $second) = array_map('intval', explode(' ', $interval));
-                $minutes = (int)floor((($year * 365.25 + $month * 30 + $day) * 24 + $hour) * 60 + $minute + $second/60);
-                if ($minutes > 1)
-                {
-                    if ($castle->getMineFoodLvl() == 0)
-                    {
-                        $foodTemp = 0;
-                    }
-                    elseif ($castle->getMineFoodLvl() == 1)
-                    {
-                        $foodTemp = $minutes*1;
-                    }
-                    elseif ($castle->getMineFoodLvl() == 2)
-                    {
-                        $foodTemp = $minutes*2;
-                    }
-                    elseif ($castle->getMineFoodLvl() == 3)
-                    {
-                        $foodTemp = $minutes*5;
-                    }
+        $page = $request->get('page');
+        $countPerPage = 6;
 
-                    if ($castle->getMineMetalLvl() == 0)
-                    {
-                        $metalTemp = 0;
-                    }
-                    elseif ($castle->getMineMetalLvl() == 1)
-                    {
-                        $metalTemp = $minutes*1;
-                    }
-                    elseif ($castle->getMineMetalLvl() == 2)
-                    {
-                        $metalTemp = $minutes*2;
-                    }
-                    elseif ($castle->getMineMetalLvl() == 3)
-                    {
-                        $metalTemp = $minutes*3;
-                    }
-                }
-                $foodUser = $foodUser+$foodTemp;
-                dump($foodTemp);
+        $countQuery = $this->em->createQueryBuilder()
+            ->select('Count(DISTINCT u.id)')
+            ->from('AppBundle:ArmyTrainTimers', 'u');
+        $finalCountQuery = $countQuery->getQuery();
+        try {
+            $totalCount = $finalCountQuery->getSingleScalarResult();
+        } catch (NonUniqueResultException $e) {
+            $totalCount = 0;
+        }
+
+        if ($totalCount>0)
+        {
+            $totalPages=ceil($totalCount/$countPerPage);
+
+            if(!is_numeric($page)){
+                $page=1;
             }
-            dump($minutes);
-            dump($foodUser);
-            die();
+            else{
+                $page=floor($page);
+            }
+            if($totalCount<=$countPerPage){
+                $page=1;
+            }
+            if(($page*$countPerPage)>$totalCount){
+                $page=$totalPages;
+            }
+            $offset=0;
+            if($page>1){
+                $offset = $countPerPage * ($page-1);
+            }
+            $visualQuery = $this->em->createQueryBuilder()
+                ->select('u.id, COUNT(u.armyType), MAX(u.finishTime), u.trainAmount')
+                ->from('AppBundle:ArmyTrainTimers', 'u')
+                ->groupBy('u.trainAmount')
+                ->orderBy('u.finishTime', 'DESC')
+                ->setFirstResult($offset)
+                ->setMaxResults($countPerPage);
+            $visualFinalQuery = $visualQuery->getQuery();
+            $finalTableArrayResult = $visualFinalQuery->getArrayResult();
+        }
+        else
+        {
+            $finalTableArrayResult = [];
+            $totalPages = 0;
+        }
 
-        return $this->render('view/test.html.twig', array('users' => $users));
+        return $this->render('view/test.html.twig', array('finalTableArrayResult'=>$finalTableArrayResult,
+                                                      'totalPages'=>$totalPages,
+                                                      'currentPage'=> $page));
     }
 }

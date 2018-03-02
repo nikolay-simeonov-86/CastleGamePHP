@@ -43,6 +43,60 @@ class CastleService implements CastleServiceInterface
 
     /**
      * @param string $building
+     * @param Castle $castle
+     * @param BuildingUpdateProperties $buildingUpdate
+     * @return array
+     */
+    public function purchaseBuildingCost(string $building, Castle $castle, BuildingUpdateProperties $buildingUpdate)
+    {
+        if ($building === 'Castle')
+        {
+            $level = $castle->getCastleLvl();
+        }
+        elseif ($building === 'Farm')
+        {
+            $level = $castle->getMineFoodLvl();
+        }
+        elseif ($building === 'Metal Mine')
+        {
+            $level = $castle->getMineMetalLvl();
+        }
+        elseif ($building === 'Footmen')
+        {
+            $level = $castle->getArmyLvl1Building();
+        }
+        elseif ($building === 'Archers')
+        {
+            $level = $castle->getArmyLvl2Building();
+        }
+        elseif ($building === 'Cavalry')
+        {
+            $level = $castle->getArmyLvl3Building();
+        }
+
+        if ($level === 0)
+        {
+            $foodCost = $buildingUpdate->getLevel1Food();
+            $metalCost = $buildingUpdate->getLevel1Metal();
+            $upgradeTimer = $buildingUpdate->getLevel1Timer();
+        }
+        elseif ($level === 1)
+        {
+            $foodCost = $buildingUpdate->getLevel2Food();
+            $metalCost = $buildingUpdate->getLevel2Metal();
+            $upgradeTimer = $buildingUpdate->getLevel2Timer();
+        }
+        elseif ($level === 2)
+        {
+            $foodCost = $buildingUpdate->getLevel3Food();
+            $metalCost = $buildingUpdate->getLevel3Metal();
+            $upgradeTimer = $buildingUpdate->getLevel3Timer();
+        }
+        return array($foodCost, $metalCost, $upgradeTimer);
+    }
+
+    /**
+     * @param string $building
      * @param User $user
      * @param Castle $castle
      * @param BuildingUpdateProperties $buildingUpdate

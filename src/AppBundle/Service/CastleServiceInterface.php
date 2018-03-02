@@ -19,6 +19,8 @@ interface CastleServiceInterface
 
     public function buildNewCastle(User $user, string $name);
 
+    public function purchaseBuildingCost(string $building, Castle $castle, BuildingUpdateProperties $buildingUpdate);
+
     public function purchaseBuilding(string $building, User $user, Castle $castle, BuildingUpdateProperties $buildingUpdate);
 
     public function updateCastle(int $id);
