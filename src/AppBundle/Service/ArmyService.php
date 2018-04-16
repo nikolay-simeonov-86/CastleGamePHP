@@ -130,4 +130,102 @@ class ArmyService implements ArmyServiceInterface
             return $maxAmount = (int)floor(min($maxWithFood, $maxWithMetal));
         }
     }
+
+    /**
+     * @param int $castleId
+     * @return array|mixed
+     */
+    public function maximumArmyAmountForBattle(int $castleId)
+    {
+        if ($this->em->getRepository(Army::class)->findOneBy(array('castleId' => $castleId, 'name' => 'Footmen', 'level' => 1)))
+        {
+            $temp = $this->em->getRepository(Army::class)->findOneBy(array('castleId' => $castleId, 'name' => 'Footmen', 'level' => 1));
+            $maxAmountFootmenLvl1 = $temp->getAmount();
+        }
+        else
+        {
+            $maxAmountFootmenLvl1 = 0;
+        }
+        if ($this->em->getRepository(Army::class)->findOneBy(array('castleId' => $castleId, 'name' => 'Footmen', 'level' => 2)))
+        {
+            $temp = $this->em->getRepository(Army::class)->findOneBy(array('castleId' => $castleId, 'name' => 'Footmen', 'level' => 2));
+            $maxAmountFootmenLvl2 = $temp->getAmount();
+        }
+        else
+        {
+            $maxAmountFootmenLvl2 = 0;
+        }
+        if ($this->em->getRepository(Army::class)->findOneBy(array('castleId' => $castleId, 'name' => 'Footmen', 'level' => 3)))
+        {
+            $temp = $this->em->getRepository(Army::class)->findOneBy(array('castleId' => $castleId, 'name' => 'Footmen', 'level' => 3));
+            $maxAmountFootmenLvl3 = $temp->getAmount();
+        }
+        else
+        {
+            $maxAmountFootmenLvl3 = 0;
+        }
+        if ($this->em->getRepository(Army::class)->findOneBy(array('castleId' => $castleId, 'name' => 'Archers', 'level' => 1)))
+        {
+            $temp = $this->em->getRepository(Army::class)->findOneBy(array('castleId' => $castleId, 'name' => 'Archers', 'level' => 1));
+            $maxAmountArchersLvl1 = $temp->getAmount();
+        }
+        else
+        {
+            $maxAmountArchersLvl1 = 0;
+        }
+        if ($this->em->getRepository(Army::class)->findOneBy(array('castleId' => $castleId, 'name' => 'Archers', 'level' => 2)))
+        {
+            $temp = $this->em->getRepository(Army::class)->findOneBy(array('castleId' => $castleId, 'name' => 'Archers', 'level' => 2));
+            $maxAmountArchersLvl2 = $temp->getAmount();
+        }
+        else
+        {
+            $maxAmountArchersLvl2 = 0;
+        }
+        if ($this->em->getRepository(Army::class)->findOneBy(array('castleId' => $castleId, 'name' => 'Archers', 'level' => 3)))
+        {
+            $temp = $this->em->getRepository(Army::class)->findOneBy(array('castleId' => $castleId, 'name' => 'Archers', 'level' => 3));
+            $maxAmountArchersLvl3 = $temp->getAmount();
+        }
+        else
+        {
+            $maxAmountArchersLvl3 = 0;
+        }
+        if ($this->em->getRepository(Army::class)->findOneBy(array('castleId' => $castleId, 'name' => 'Cavalry', 'level' => 1)))
+        {
+            $temp = $this->em->getRepository(Army::class)->findOneBy(array('castleId' => $castleId, 'name' => 'Cavalry', 'level' => 1));
+            $maxAmountCavalryLvl1 = $temp->getAmount();
+        }
+        else
+        {
+            $maxAmountCavalryLvl1 = 0;
+        }
+        if ($this->em->getRepository(Army::class)->findOneBy(array('castleId' => $castleId, 'name' => 'Cavalry', 'level' => 2)))
+        {
+            $temp = $this->em->getRepository(Army::class)->findOneBy(array('castleId' => $castleId, 'name' => 'Cavalry', 'level' => 2));
+            $maxAmountCavalryLvl2 = $temp->getAmount();
+        }
+        else
+        {
+            $maxAmountCavalryLvl2 = 0;
+        }
+        if ($this->em->getRepository(Army::class)->findOneBy(array('castleId' => $castleId, 'name' => 'Cavalry', 'level' => 3)))
+        {
+            $temp = $this->em->getRepository(Army::class)->findOneBy(array('castleId' => $castleId, 'name' => 'Cavalry', 'level' => 3));
+            $maxAmountCavalryLvl3 = $temp->getAmount();
+        }
+        else
+        {
+            $maxAmountCavalryLvl3 = 0;
+        }
+        return array($maxAmountFootmenLvl1,
+                    $maxAmountFootmenLvl2,
+                    $maxAmountFootmenLvl3,
+                    $maxAmountArchersLvl1,
+                    $maxAmountArchersLvl2,
+                    $maxAmountArchersLvl3,
+                    $maxAmountCavalryLvl1,
+                    $maxAmountCavalryLvl2,
+                    $maxAmountCavalryLvl3);
+    }
 }

@@ -66,6 +66,7 @@ class ArmyTrainTimersService implements ArmyTrainTimersServiceInterface
                     $armyCreate->setName($armyStats->getName());
                     $armyCreate->setLevel($armyStats->getLevel());
                     $armyCreate->setBonusDamage($armyStats->getBonusDamage());
+                    $armyCreate->setBonusVersus($armyStats->getBonusVersus());
                     $armyCreate->setDamage($armyStats->getDamage());
                     $armyCreate->setHealth($armyStats->getHealth());
 
@@ -123,6 +124,7 @@ class ArmyTrainTimersService implements ArmyTrainTimersServiceInterface
                     $armyCreate->setName($armyStats->getName());
                     $armyCreate->setLevel($armyStats->getLevel());
                     $armyCreate->setBonusDamage($armyStats->getBonusDamage());
+                    $armyCreate->setBonusVersus($armyStats->getBonusVersus());
                     $armyCreate->setDamage($armyStats->getDamage());
                     $armyCreate->setHealth($armyStats->getHealth());
 
@@ -180,6 +182,7 @@ class ArmyTrainTimersService implements ArmyTrainTimersServiceInterface
                     $armyCreate->setName($armyStats->getName());
                     $armyCreate->setLevel($armyStats->getLevel());
                     $armyCreate->setBonusDamage($armyStats->getBonusDamage());
+                    $armyCreate->setBonusVersus($armyStats->getBonusVersus());
                     $armyCreate->setDamage($armyStats->getDamage());
                     $armyCreate->setHealth($armyStats->getHealth());
 
@@ -242,6 +245,7 @@ class ArmyTrainTimersService implements ArmyTrainTimersServiceInterface
                     $armyCreate->setName($armyStats->getName());
                     $armyCreate->setLevel($armyStats->getLevel());
                     $armyCreate->setBonusDamage($armyStats->getBonusDamage());
+                    $armyCreate->setBonusVersus($armyStats->getBonusVersus());
                     $armyCreate->setDamage($armyStats->getDamage());
                     $armyCreate->setHealth($armyStats->getHealth());
 
@@ -282,10 +286,6 @@ class ArmyTrainTimersService implements ArmyTrainTimersServiceInterface
                     $createTempArmy->setFinishTime($startDate->add(new \DateInterval('PT' . $minutes . 'M')));
                 } catch (\Exception $exception) {
                 }
-                dump($createTempArmy);
-                dump($armyCreate);
-                dump($armyStats);
-                die();
             }
             elseif ($castle->getArmyLvl2Building() == 2)
             {
@@ -303,6 +303,7 @@ class ArmyTrainTimersService implements ArmyTrainTimersServiceInterface
                     $armyCreate->setName($armyStats->getName());
                     $armyCreate->setLevel($armyStats->getLevel());
                     $armyCreate->setBonusDamage($armyStats->getBonusDamage());
+                    $armyCreate->setBonusVersus($armyStats->getBonusVersus());
                     $armyCreate->setDamage($armyStats->getDamage());
                     $armyCreate->setHealth($armyStats->getHealth());
 
@@ -360,6 +361,7 @@ class ArmyTrainTimersService implements ArmyTrainTimersServiceInterface
                     $armyCreate->setName($armyStats->getName());
                     $armyCreate->setLevel($armyStats->getLevel());
                     $armyCreate->setBonusDamage($armyStats->getBonusDamage());
+                    $armyCreate->setBonusVersus($armyStats->getBonusVersus());
                     $armyCreate->setDamage($armyStats->getDamage());
                     $armyCreate->setHealth($armyStats->getHealth());
 
@@ -420,6 +422,7 @@ class ArmyTrainTimersService implements ArmyTrainTimersServiceInterface
                     $armyCreate->setName($armyStats->getName());
                     $armyCreate->setLevel($armyStats->getLevel());
                     $armyCreate->setBonusDamage($armyStats->getBonusDamage());
+                    $armyCreate->setBonusVersus($armyStats->getBonusVersus());
                     $armyCreate->setDamage($armyStats->getDamage());
                     $armyCreate->setHealth($armyStats->getHealth());
 
@@ -477,6 +480,7 @@ class ArmyTrainTimersService implements ArmyTrainTimersServiceInterface
                     $armyCreate->setName($armyStats->getName());
                     $armyCreate->setLevel($armyStats->getLevel());
                     $armyCreate->setBonusDamage($armyStats->getBonusDamage());
+                    $armyCreate->setBonusVersus($armyStats->getBonusVersus());
                     $armyCreate->setDamage($armyStats->getDamage());
                     $armyCreate->setHealth($armyStats->getHealth());
 
@@ -534,6 +538,7 @@ class ArmyTrainTimersService implements ArmyTrainTimersServiceInterface
                     $armyCreate->setName($armyStats->getName());
                     $armyCreate->setLevel($armyStats->getLevel());
                     $armyCreate->setBonusDamage($armyStats->getBonusDamage());
+                    $armyCreate->setBonusVersus($armyStats->getBonusVersus());
                     $armyCreate->setDamage($armyStats->getDamage());
                     $armyCreate->setHealth($armyStats->getHealth());
 

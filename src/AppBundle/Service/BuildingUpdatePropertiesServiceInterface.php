@@ -11,5 +11,8 @@ namespace AppBundle\Service;
 
 interface BuildingUpdatePropertiesServiceInterface
 {
+    /**
+     * @return mixed
+     */
     public function createBuildingUpdateProperties();
 }

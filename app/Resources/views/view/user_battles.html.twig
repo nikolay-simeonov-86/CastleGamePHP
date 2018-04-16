@@ -1,0 +1,50 @@
+{% extends 'view/base.html.twig' %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ asset('assets/user_battles.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="row text-center">
+        <div class="col-12">
+            <h1>Battles</h1>
+        </div>
+    </div>
+    <br>
+    <div class="row text-center">
+        <div class="col-6">
+            <div class="row text-center">
+                <div class="col-12">
+                    <a href="{{ path('user_battles_incoming') }}">
+                        <img class="battle-images" src="{{ asset('pictures/Attack and Defence/ShieldOriginal.png') }}" alt="Shield">
+                    </a>
+                </div>
+            </div>
+            <br>
+            <div class="row text-center">
+                <h2 class="navbarcolor">Incoming<br>Attacks</h2>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="row text-center">
+                <div class="col-12">
+                    <a href="{{ path('user_battles_outgoing') }}">
+                        <img class="battle-images" src="{{ asset('pictures/Attack and Defence/CrossedSwordsOriginal.png') }}" alt="Swords">
+                    </a>
+                </div>
+            </div>
+            <br>
+            <div class="row text-center">
+                <h2 class="navbarcolor">Outgoing<br>Attacks</h2>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row text-center">
+        <div class="col-12">
+            <a href="{{ path('user_battles_send_attack_castle') }}" id="attack" class="btn btn-info btn-lg bg-danger active bodytext">ATTACK</a>
+            <small id="attack_help" class="form-text navbarcolor">Gather troops and send an Attack</small>
+        </div>
+    </div>
+{% endblock %}
+

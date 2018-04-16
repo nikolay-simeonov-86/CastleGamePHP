@@ -1,0 +1,122 @@
+{% extends 'view/base.html.twig' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+    <div class="row text-center">
+        <div class="col-12">
+            <h1>Outgoing Attacks</h1>
+        </div>
+    </div>
+    <br>
+    <div class="row text-center">
+        <div class="col-12">
+            <table class="background1 table table-inverse table-hover" align="center">
+                <thead align="center">
+                <tr>
+                    <th>
+                        <h2>Target</h2>
+                    </th>
+                    <th colspan="3">
+                        <h2>Footmen</h2>
+                    </th>
+                    <th colspan="3">
+                        <h2>Archers</h2>
+                    </th>
+                    <th colspan="3">
+                        <h2>Cavalry</h2>
+                    </th>
+                    <th>
+                        <h2>Timeleft</h2>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+
+                    </th>
+
+                    <th><h4>Level 1</h4></th>
+                    <th><h4>Level 2</h4></th>
+                    <th><h4>Level 3</h4></th>
+
+                    <th><h4>Level 1</h4></th>
+                    <th><h4>Level 2</h4></th>
+                    <th><h4>Level 3</h4></th>
+
+                    <th><h4>Level 1</h4></th>
+                    <th><h4>Level 2</h4></th>
+                    <th><h4>Level 3</h4></th>
+
+                    <th>
+
+                    </th>
+                </tr>
+                </thead>
+                <tbody align="center">
+                {% if outgoingAttacks is not empty %}
+                    {% for outgoingAttack in outgoingAttacks %}
+                        <tr>
+                            <td>
+                                <h2>{{ outgoingAttack.defender }}</h2>
+                            </td>
+                            <td>
+                                <h2>{{ outgoingAttack.footmenLvl1 }}</h2>
+                            </td>
+                            <td>
+                                <h2>{{ outgoingAttack.footmenLvl2 }}</h2>
+                            </td>
+                            <td>
+                                <h2>{{ outgoingAttack.footmenLvl3 }}</h2>
+                            </td>
+                            <td>
+                                <h2>{{ outgoingAttack.archersLvl1 }}</h2>
+                            </td>
+                            <td>
+                                <h2>{{ outgoingAttack.archersLvl2 }}</h2>
+                            </td>
+                            <td>
+                                <h2>{{ outgoingAttack.archersLvl3 }}</h2>
+                            </td>
+                            <td>
+                                <h2>{{ outgoingAttack.cavalryLvl1 }}</h2>
+                            </td>
+                            <td>
+                                <h2>{{ outgoingAttack.cavalryLvl2 }}</h2>
+                            </td>
+                            <td>
+                                <h2>{{ outgoingAttack.cavalryLvl3 }}</h2>
+                            </td>
+                            <td>
+                                <h2>{{ outgoingAttack.timeLeft }}</h2>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5">
+                            <h2>NO OUTGOING ATTACKS</h2>
+                        </td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="row text-center">
+        <div class="col-12">
+            <a href="{{ path('user_battles_send_attack_castle') }}" id="attack" class="btn btn-info btn-lg bg-danger active bodytext">ATTACK</a>
+            <small id="attack_help" class="form-text navbarcolor">Gather troops and send an Attack</small>
+        </div>
+    </div>
+    <br>
+    <div class="row text-center">
+        <div class="col-12">
+            <a class="btn btn-info btn-lg bg-secondary active bodytext cursor-pointer" href="{{ path('user_battles') }}">Back</a>
+        </div>
+    </div>
+    <br>
+{% endblock %}
+

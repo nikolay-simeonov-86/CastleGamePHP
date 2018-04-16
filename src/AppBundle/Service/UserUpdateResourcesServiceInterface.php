@@ -12,5 +12,8 @@ namespace AppBundle\Service;
 
 interface UserUpdateResourcesServiceInterface
 {
+    /**
+     * @return mixed
+     */
     public function updateUsersResources();
 }

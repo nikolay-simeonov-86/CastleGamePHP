@@ -3,8 +3,11 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Army;
+use AppBundle\Entity\ArmyBattles;
 use AppBundle\Entity\ArmyStatistics;
 use AppBundle\Entity\ArmyTrainTimers;
+use AppBundle\Entity\Battles;
+use AppBundle\Entity\BattlesTemp;
 use AppBundle\Entity\BuildingUpdateProperties;
 use AppBundle\Entity\BuildingUpdateTimers;
 use AppBundle\Entity\Castle;
@@ -14,6 +17,9 @@ use AppBundle\Entity\UserSpies;
 use AppBundle\Service\ArmyServiceInterface;
 use AppBundle\Service\ArmyStatisticsServiceInterface;
 use AppBundle\Service\ArmyTrainTimersServiceInterface;
+use AppBundle\Service\BattlesServiceInterface;
+use AppBundle\Service\BattlesTempService;
+use AppBundle\Service\BattlesTempServiceInterface;
 use AppBundle\Service\CastleServiceInterface;
 use AppBundle\Service\UserMessagesServiceInterface;
 use AppBundle\Service\UserServiceInterface;
@@ -22,9 +28,11 @@ use AppBundle\Service\UserUpdateResourcesServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -81,6 +89,16 @@ class PlayerController extends Controller
     private $userMessagesService;
 
     /**
+     * @var BattlesServiceInterface
+     */
+    private $battlesService;
+
+    /**
+     * @var BattlesTempServiceInterface
+     */
+    private $battlesTempService;
+
+    /**
      * CastleController constructor.
      * @param UserServiceInterface $userService
      * @param CastleServiceInterface $castleService
@@ -91,6 +109,8 @@ class PlayerController extends Controller
      * @param UserSpiesServiceInterface $userSpiesService
      * @param UserUpdateResourcesServiceInterface $userUpdateResourcesService
      * @param UserMessagesServiceInterface $userMessagesService
+     * @param BattlesServiceInterface $battlesService
+     * @param BattlesTempService $battlesTempService
      */
     public function __construct(UserServiceInterface $userService,
                                 CastleServiceInterface $castleService,
@@ -100,7 +120,9 @@ class PlayerController extends Controller
                                 ArmyStatisticsServiceInterface $armyStatisticsService,
                                 UserSpiesServiceInterface $userSpiesService,
                                 UserUpdateResourcesServiceInterface $userUpdateResourcesService,
-                                UserMessagesServiceInterface $userMessagesService)
+                                UserMessagesServiceInterface $userMessagesService,
+                                BattlesServiceInterface $battlesService,
+                                BattlesTempService $battlesTempService)
     {
         $this->em = $em;
         $this->userService = $userService;
@@ -111,6 +133,8 @@ class PlayerController extends Controller
         $this->userSpiesService = $userSpiesService;
         $this->userUpdateResourcesService = $userUpdateResourcesService;
         $this->userMessagesService = $userMessagesService;
+        $this->battlesService = $battlesService;
+        $this->battlesTempService = $battlesTempService;
     }
 
     /**
@@ -158,8 +182,15 @@ class PlayerController extends Controller
             return $this->redirectToRoute('user');
         }
 
-        $user = $this->em->getRepository(User::class)->find($id);
-        $userId = $user->getId();
+        if ($this->em->getRepository(User::class)->find($id))
+        {
+            $user = $this->em->getRepository(User::class)->find($id);
+            $userId = $user->getId();
+        }
+        else
+        {
+            return $this->redirectToRoute('map');
+        }
 
         $castles = $this->em->getRepository(Castle::class)->findBy(array('userId' => $userId));
         $count = 0;
@@ -198,7 +229,7 @@ class PlayerController extends Controller
             else
             {
                 $tempInterval = date_diff($userSpyCheck->getStartDate(), $currentDateTime);
-                $timeLeft = $tempInterval->format('%I minutes');
+                $timeLeft = $tempInterval->format('%H hours and %I minutes');
                 return $this->render( 'view/user_profile.html.twig', array('form' => $form->createView(),
                                                                         'castles' => $castles,
                                                                         'user' => $user,
@@ -388,10 +419,20 @@ class PlayerController extends Controller
                 foreach ($armyTemp as $army)
                 {
                     $this->armyService->updateArmy($army->getId());
+                    if ($army->getAmount() == 0)
+                    {
+                        $this->em->remove($army);
+                        $this->em->flush();
+                    }
                     $allArmy[] = $army;
                 }
             }
         }
+        uasort($allArmy, function($a,$b){
+            $c = strcmp($a->getName(), $b->getName());
+            $c .= $a->getLevel() - $b->getLevel();
+            return $c;
+        });
 
         return $this->render('view/army.html.twig', array('castles' => $castles, 'allArmy' => $allArmy));
     }
@@ -414,35 +455,33 @@ class PlayerController extends Controller
         $castle = $this->em->getRepository(Castle::class)->find($id);
         $currentDateTime = new \DateTime("now");
 
-        if ($army == 'Footmen')
-        {
-            $level = $castle->getArmyLvl1Building();
-        }
-        elseif ($army == 'Archers')
-        {
-            $level = $castle->getArmyLvl2Building();
-        }
-        elseif ($army == 'Cavalry')
-        {
-            $level = $castle->getArmyLvl3Building();
-        }
+        $prizes = $this->armyStatisticsService->armyCostForOneUnit($castle, $army);
+        list($foodCostForOne, $metalCostForOne, $level) = $prizes;
 
-        $armyTemp = $this->em->getRepository(Army::class)->findOneBy(array('name' => $army, 'level' => $level, 'castleId' => $castle));
-        $this->armyService->updateArmy($armyTemp->getId());
-
-        $armyVisualizeTemp = $this->em->getRepository(ArmyTrainTimers::class)->findBy(array('armyId' => $armyTemp, 'armyType' => $army));
-        $armyVisualize = [];
-        $counter = 0;
-        foreach ($armyVisualizeTemp as $armyVisualizeOne)
+        if ($this->em->getRepository(Army::class)->findOneBy(array('name' => $army, 'level' => $level, 'castleId' => $castle)))
         {
-            $tempInterval = date_diff($armyVisualizeOne->getFinishTime(), $currentDateTime);
-            $interval = $tempInterval->format('%D days %H hours and %I minutes');
-            $armyVisualizeTemp1[] = $armyVisualizeOne;
-            $temp['armyType'] = $armyVisualizeOne->getArmyType();
-            $temp['trainAmount'] = $armyVisualizeOne->getTrainAmount();
-            $temp['timeRemaining'] = $interval;
-            $armyVisualize[] = $temp;
-            $counter++;
+            $armyTemp = $this->em->getRepository(Army::class)->findOneBy(array('name' => $army, 'level' => $level, 'castleId' => $castle));
+            $this->armyService->updateArmy($armyTemp->getId());
+
+            $armyVisualizeTemp = $this->em->getRepository(ArmyTrainTimers::class)->findBy(array('armyId' => $armyTemp, 'armyType' => $army));
+            $armyVisualize = [];
+            $counter = 0;
+            foreach ($armyVisualizeTemp as $armyVisualizeOne)
+            {
+                $tempInterval = date_diff($armyVisualizeOne->getFinishTime(), $currentDateTime);
+                $interval = $tempInterval->format('%D days %H hours and %I minutes');
+                $armyVisualizeTemp1[] = $armyVisualizeOne;
+                $temp['armyType'] = $armyVisualizeOne->getArmyType();
+                $temp['trainAmount'] = $armyVisualizeOne->getTrainAmount();
+                $temp['timeRemaining'] = $interval;
+                $armyVisualize[] = $temp;
+                $counter++;
+            }
+        }
+        else
+        {
+            $armyVisualize = [];
+            $counter = 0;
         }
 
         $userFood = $this->getUser()->getFood();
@@ -471,6 +510,8 @@ class PlayerController extends Controller
                                                                 'army' => $army,
                                                                 'maxAmount' => $maxAmount,
                                                                 'armyVisualize' => $armyVisualize,
+                                                                'foodCostForOne' => $foodCostForOne,
+                                                                'metalCostForOne' => $metalCostForOne,
                                                                 'message' => $message));
         }
         if ($form->isSubmitted() && $form->isValid())
@@ -492,6 +533,8 @@ class PlayerController extends Controller
                 return $this->render('view/train_army.html.twig', array('form' => $form->createView(),
                                                                     'army' => $army,
                                                                     'maxAmount' => $maxAmount,
+                                                                    'foodCostForOne' => $foodCostForOne,
+                                                                    'metalCostForOne' => $metalCostForOne,
                                                                     'message' => $message));
             }
             return $this->redirectToRoute('confirm_train_army', array('army' => $army,
@@ -502,6 +545,8 @@ class PlayerController extends Controller
         return $this->render('view/train_army.html.twig', array('form' => $form->createView(),
                                                             'army' => $army,
                                                             'maxAmount' => $maxAmount,
+                                                            'foodCostForOne' => $foodCostForOne,
+                                                            'metalCostForOne' => $metalCostForOne,
                                                             'armyVisualize' => $armyVisualize));
     }
 
@@ -541,14 +586,21 @@ class PlayerController extends Controller
         $result = $this->armyStatisticsService->armyCostAndTimeToTrain($army, $level, $amount);
         list($prizeFood, $prizeMetal, $trainTime) = $result;
 
-        $armyTemp = $this->em->getRepository(Army::class)->findOneBy(array('name' => $army, 'level' => $level, 'castleId' => $castle));
-        $this->armyService->updateArmy($armyTemp->getId());
-
-        $armyVisualizeTemp = $this->em->getRepository(ArmyTrainTimers::class)->findBy(array('armyId' => $armyTemp, 'armyType' => $army));
-        $counter = 0;
-        foreach ($armyVisualizeTemp as $armyVisualizeOne)
+        if ($this->em->getRepository(Army::class)->findOneBy(array('name' => $army, 'level' => $level, 'castleId' => $castle)))
         {
-            $counter++;
+            $armyTemp = $this->em->getRepository(Army::class)->findOneBy(array('name' => $army, 'level' => $level, 'castleId' => $castle));
+            $this->armyService->updateArmy($armyTemp->getId());
+
+            $armyVisualizeTemp = $this->em->getRepository(ArmyTrainTimers::class)->findBy(array('armyId' => $armyTemp, 'armyType' => $army));
+            $counter = 0;
+            foreach ($armyVisualizeTemp as $armyVisualizeOne)
+            {
+                $counter++;
+            }
+        }
+        else
+        {
+            $counter = 0;
         }
 
         try
@@ -606,7 +658,7 @@ class PlayerController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_USER')")
      */
-    public function userMessagesInboxAction(int $page = 0, Request $request)
+    public function userMessagesInboxAction($page = 0, Request $request)
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
@@ -844,5 +896,277 @@ class PlayerController extends Controller
         }
         return $this->render('view/user_messages_send_to_receiver.html.twig', array('form' => $form->createView(),
                                                                                 'receiver' => $receiver));
+    }
+
+    /**
+     * @Route("/battles", name="user_battles")
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function userBattlesAction()
+    {
+        $user = $this->getUser();
+        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+
+        return $this->render('view/user_battles.html.twig');
+    }
+
+    /**
+     * @Route("/battles/incoming", name="user_battles_incoming")
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function userBattlesIncomingAction()
+    {
+        $user = $this->getUser();
+        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+
+        $incomingAttacksArray = $this->battlesService->createAllUserArmyIncomingAttacksArray($user);
+
+        return $this->render('view/user_battles_incoming.html.twig', array('incomingAttacks' => $incomingAttacksArray));
+    }
+
+    /**
+     * @Route("/battles/outgoing", name="user_battles_outgoing")
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function userBattlesOutgoingAction()
+    {
+        $user = $this->getUser();
+        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+
+        $outgoingAttacksArray = $this->battlesService->createAllUserArmyOutgoingAttacksArray($user);
+
+        return $this->render('view/user_battles_outgoing.html.twig', array('outgoingAttacks' => $outgoingAttacksArray));
+    }
+
+    /**
+     * @Route("/battles/send_attack_castle", name="user_battles_send_attack_castle")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function userBattlesSendAttackCastleAction(Request $request)
+    {
+        $user = $this->getUser();
+        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+
+        $castles = $this->em->getRepository(Castle::class)->findBy(array('userId' => $user));
+        $allArmy = [];
+        foreach ($castles as $castle)
+        {
+            $this->castleService->updateCastle($castle->getId());
+            $armyTemp = $this->em->getRepository(Army::class)->findBy(array('castleId' => $castle->getId()));
+
+            if ($armyTemp)
+            {
+                foreach ($armyTemp as $army)
+                {
+                    $this->armyService->updateArmy($army->getId());
+                    $allArmy[] = $army;
+                }
+            }
+        }
+        uasort($allArmy, function($a,$b){
+            $c = strcmp($a->getName(), $b->getName());
+            $c .= $a->getLevel() - $b->getLevel();
+            return $c;
+        });
+
+        return $this->render('view/user_battle_send_attack_castle.html.twig', array('castles' => $castles,
+                                                                                'allArmy' => $allArmy));
+    }
+
+    /**
+     * @Route("/battles/send_attack_army/{castleId}", name="user_battles_send_attack_army")
+     * @param Request $request
+     * @param int $castleId
+     * @return Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function userBattlesSendAttackArmyAction(Request $request, int $castleId)
+    {
+        $user = $this->getUser();
+        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+
+        $maxAmountArray = $this->armyService->maximumArmyAmountForBattle($castleId);
+        list($maxAmountFootmenLvl1,
+             $maxAmountFootmenLvl2,
+             $maxAmountFootmenLvl3,
+             $maxAmountArchersLvl1,
+             $maxAmountArchersLvl2,
+             $maxAmountArchersLvl3,
+             $maxAmountCavalryLvl1,
+             $maxAmountCavalryLvl2,
+             $maxAmountCavalryLvl3) = $maxAmountArray;
+
+        $form = $this->createFormBuilder()
+            ->add('username', TextType::class, array('attr' =>
+                array('class' => 'form-control text-center')))
+            ->add('footmenLvl1', IntegerType::class, array('attr' =>
+                array('value' => 0,
+                    'min' => 0,
+                    'max' => $maxAmountFootmenLvl1)))
+            ->add('footmenLvl2', IntegerType::class, array('attr' =>
+                array('value' => 0,
+                    'min' => 0,
+                    'max' => $maxAmountFootmenLvl2)))
+            ->add('footmenLvl3', IntegerType::class, array('attr' =>
+                array('value' => 0,
+                    'min' => 0,
+                    'max' => $maxAmountFootmenLvl3)))
+            ->add('archersLvl1', IntegerType::class, array('attr' =>
+                array('value' => 0,
+                    'min' => 0,
+                    'max' => $maxAmountArchersLvl1)))
+            ->add('archersLvl2', IntegerType::class, array('attr' =>
+                array('value' => 0,
+                    'min' => 0,
+                    'max' => $maxAmountArchersLvl2)))
+            ->add('archersLvl3', IntegerType::class, array('attr' =>
+                array('value' => 0,
+                    'min' => 0,
+                    'max' => $maxAmountArchersLvl3)))
+            ->add('cavalryLvl1', IntegerType::class, array('attr' =>
+                array('value' => 0,
+                    'min' => 0,
+                    'max' => $maxAmountCavalryLvl1)))
+            ->add('cavalryLvl2', IntegerType::class, array('attr' =>
+                array('value' => 0,
+                    'min' => 0,
+                    'max' => $maxAmountCavalryLvl2)))
+            ->add('cavalryLvl3', IntegerType::class, array('attr' =>
+                array('value' => 0,
+                    'min' => 0,
+                    'max' => $maxAmountCavalryLvl3)))
+            ->add('Ready', SubmitType::class, array('attr' =>
+                array('type' => 'button',
+                    'class' => 'btn btn-lg btn-success bodytext cursor-pointer send-a-message-button')))
+            ->getForm();
+        $form->handleRequest($request);
+
+        if (null == $this->em->getRepository(Castle::class)->findOneBy(array('id' => $castleId)))
+        {
+            return $this->redirectToRoute('user_battles_send_attack_castle');
+        }
+        $castle = $this->em->getRepository(Castle::class)->findOneBy(array('id' => $castleId));
+        if ($castle->getUserId() != $user)
+        {
+            return $this->redirectToRoute('user_battles_send_attack_castle');
+        }
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            if (null == $this->em->getRepository(Castle::class)->findOneBy(array('id' => $castleId)))
+            {
+                return $this->redirectToRoute('user_battles_send_attack_castle');
+            }
+            $castle = $this->em->getRepository(Castle::class)->findOneBy(array('id' => $castleId));
+            if ($castle->getUserId() != $user)
+            {
+                return $this->redirectToRoute('user_battles_send_attack_castle');
+            }
+
+            $message = $this->battlesTempService->createNewBattlesTemp($user, $form,
+                                                                        $maxAmountFootmenLvl1,
+                                                                        $maxAmountFootmenLvl2,
+                                                                        $maxAmountFootmenLvl3,
+                                                                        $maxAmountArchersLvl1,
+                                                                        $maxAmountArchersLvl2,
+                                                                        $maxAmountArchersLvl3,
+                                                                        $maxAmountCavalryLvl1,
+                                                                        $maxAmountCavalryLvl2,
+                                                                        $maxAmountCavalryLvl3);
+
+            if (is_string($message))
+            {
+                return $this->render('view/user_battle_send_attack_army.html.twig', array('form' => $form->createView(),
+                                                                                    'maxAmountFootmenLvl1' => $maxAmountFootmenLvl1,
+                                                                                    'maxAmountFootmenLvl2' => $maxAmountFootmenLvl2,
+                                                                                    'maxAmountFootmenLvl3' => $maxAmountFootmenLvl3,
+                                                                                    'maxAmountArchersLvl1' => $maxAmountArchersLvl1,
+                                                                                    'maxAmountArchersLvl2' => $maxAmountArchersLvl2,
+                                                                                    'maxAmountArchersLvl3' => $maxAmountArchersLvl3,
+                                                                                    'maxAmountCavalryLvl1' => $maxAmountCavalryLvl1,
+                                                                                    'maxAmountCavalryLvl2' => $maxAmountCavalryLvl2,
+                                                                                    'maxAmountCavalryLvl3' => $maxAmountCavalryLvl3,
+                                                                                    'message' => $message));
+            }
+            else
+            {
+                return $this->redirectToRoute('user_battles_send_attack_confirm', array('castleId' => $castleId, 'battleTempId' => $message));
+            }
+        }
+
+        return $this->render('view/user_battle_send_attack_army.html.twig', array('form' => $form->createView(),
+                                                                            'maxAmountFootmenLvl1' => $maxAmountFootmenLvl1,
+                                                                            'maxAmountFootmenLvl2' => $maxAmountFootmenLvl2,
+                                                                            'maxAmountFootmenLvl3' => $maxAmountFootmenLvl3,
+                                                                            'maxAmountArchersLvl1' => $maxAmountArchersLvl1,
+                                                                            'maxAmountArchersLvl2' => $maxAmountArchersLvl2,
+                                                                            'maxAmountArchersLvl3' => $maxAmountArchersLvl3,
+                                                                            'maxAmountCavalryLvl1' => $maxAmountCavalryLvl1,
+                                                                            'maxAmountCavalryLvl2' => $maxAmountCavalryLvl2,
+                                                                            'maxAmountCavalryLvl3' => $maxAmountCavalryLvl3));
+    }
+
+    /**
+     * @Route("/battles/send_attack_confirm/{castleId}/{battleTempId}", name="user_battles_send_attack_confirm")
+     * @param Request $request
+     * @param int $castleId
+     * @param int $battleTempId
+     * @return Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function userBattlesSendAttackConfirmAction(Request $request,int $castleId, int $battleTempId)
+    {
+        $user = $this->getUser();
+        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+
+        $form = $form = $this->createFormBuilder()
+            ->add('Confirm', SubmitType::class)
+            ->getForm();
+        $form->handleRequest($request);
+
+        $battlesTemp = $this->em->getRepository(BattlesTemp::class)->find($battleTempId);
+
+        if (null == $this->em->getRepository(Castle::class)->findOneBy(array('id' => $castleId)))
+        {
+            return $this->redirectToRoute('user_battles_send_attack_castle');
+        }
+
+        $castle = $this->em->getRepository(Castle::class)->findOneBy(array('id' => $castleId));
+
+        if ($castle->getUserId() != $user)
+        {
+            return $this->redirectToRoute('user_battles_send_attack_castle');
+        }
+
+        if (null == $battlesTemp)
+        {
+            return $this->redirectToRoute('user_battles_send_attack_army', array('castleId' => $castleId));
+        }
+        if ($battlesTemp->getAttacker() != $user)
+        {
+            return $this->redirectToRoute('user_battles_send_attack_army', array('castleId' => $castleId));
+        }
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $this->battlesService->createNewBattle($castle, $battlesTemp);
+
+            return $this->redirectToRoute('user_battles');
+        }
+
+        return $this->render('view/user_battle_send_attack_confirm.html.twig', array('form' => $form->createView(),
+                                                                                'battlesTemp' => $battlesTemp,
+                                                                                'castleId' => $castleId));
     }
 }

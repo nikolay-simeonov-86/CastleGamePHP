@@ -14,7 +14,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 interface UserServiceInterface
 {
+    /**
+     * @param UserInterface $user
+     * @return mixed
+     */
     public function getUserInformation(UserInterface $user);
 
+    /**
+     * @return mixed
+     */
     public function setCoordinates();
 }

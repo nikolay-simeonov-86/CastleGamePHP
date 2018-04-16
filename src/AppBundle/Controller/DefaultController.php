@@ -10,8 +10,10 @@ use AppBundle\Entity\User;
 use AppBundle\Entity\UserUpdateResources;
 use AppBundle\Repository\UserRepository;
 use AppBundle\Service\ArmyStatisticsService;
+use AppBundle\Service\BattlesServiceInterface;
 use AppBundle\Service\BuildingUpdatePropertiesService;
 use AppBundle\Service\CastleServiceInterface;
+use AppBundle\Service\UserMessagesService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query\ResultSetMapping;
@@ -49,24 +51,40 @@ class DefaultController extends Controller
     private $buildingUpdatePropertiesService;
 
     /**
+     * @var UserMessagesService
+     */
+    private $userMessagesService;
+
+    /**
+     * @var BattlesServiceInterface
+     */
+    private $battlesService;
+
+    /**
      * UserService constructor.
      * @param EntityManagerInterface $em
      * @param UserRepository $userRepository
      * @param ArmyStatisticsService $armyStatisticsService
      * @param CastleServiceInterface $castleService
      * @param BuildingUpdatePropertiesService $buildingUpdatePropertiesService
+     * @param UserMessagesService $userMessagesService
+     * @param BattlesServiceInterface $battlesService
      */
     public function __construct(EntityManagerInterface $em,
                                 UserRepository $userRepository,
                                 ArmyStatisticsService $armyStatisticsService,
                                 CastleServiceInterface $castleService,
-                                BuildingUpdatePropertiesService $buildingUpdatePropertiesService)
+                                BuildingUpdatePropertiesService $buildingUpdatePropertiesService,
+                                UserMessagesService $userMessagesService,
+                                BattlesServiceInterface $battlesService)
     {
         $this->em = $em;
         $this->userRepository = $userRepository;
         $this->armyStatisticsService = $armyStatisticsService;
         $this->castleService = $castleService;
         $this->buildingUpdatePropertiesService = $buildingUpdatePropertiesService;
+        $this->userMessagesService = $userMessagesService;
+        $this->battlesService = $battlesService;
     }
 
     /**
@@ -98,6 +116,12 @@ class DefaultController extends Controller
      */
     public function baseTemplateAction(Request $request)
     {
+        $user = $this->getUser();
+        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+
+        $this->battlesService->battleCalculationAndArmyReturn();
+
         $page = $request->get('page');
         $countPerPage = 6;
 

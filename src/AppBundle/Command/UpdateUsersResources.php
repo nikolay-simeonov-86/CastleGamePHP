@@ -29,7 +29,7 @@ class UpdateUsersResources extends Command
 
     protected function configure()
     {
-        $this->setName('game:users:update:resources');
+        $this->setName('game:users:resources:update');
         $this->setDescription('This function updates all users resources');
         $this->setHelp('The function calculates how many resources each user has made from the last time the same function was called until now.');
     }

@@ -327,6 +327,11 @@ class CastleService implements CastleServiceInterface
         return null;
     }
 
+    /**
+     * @param User $user
+     * @param string $name
+     * @return mixed|void
+     */
     public function buildNewCastle(User $user, string $name)
     {
         $castle = new Castle();

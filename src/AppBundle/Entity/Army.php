@@ -68,6 +68,13 @@ class Army
     /**
      * @var string
      *
+     * @ORM\Column(name="bonus_versus", type="string", length=255)
+     */
+    private $bonusVersus;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="army_picture", type="string")
      */
     private $armyPicture;
@@ -237,6 +244,30 @@ class Army
     public function getBonusDamage()
     {
         return $this->bonusDamage;
+    }
+
+    /**
+     * Set bonusVersus.
+     *
+     * @param string $bonusVersus
+     *
+     * @return Army
+     */
+    public function setBonusVersus($bonusVersus)
+    {
+        $this->bonusVersus = $bonusVersus;
+
+        return $this;
+    }
+
+    /**
+     * Get bonusVersus.
+     *
+     * @return string
+     */
+    public function getBonusVersus()
+    {
+        return $this->bonusVersus;
     }
 
     /**

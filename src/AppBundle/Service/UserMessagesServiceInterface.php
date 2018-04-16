@@ -14,11 +14,30 @@ use AppBundle\Repository\UserMessagesRepository;
 
 interface UserMessagesServiceInterface
 {
+    /**
+     * @param User $user
+     * @param string $receiver
+     * @param string $formMessage
+     * @return mixed
+     */
     public function createNewMessage(User $user, string $receiver, string $formMessage);
 
+    /**
+     * @param User $user
+     * @return mixed
+     */
     public function getUserMessagesAll(User $user);
 
+    /**
+     * @param User $user
+     * @return mixed
+     */
     public function getUserMessagesAllUnread(User $user);
 
+    /**
+     * @param User $user
+     * @param string $username
+     * @return mixed
+     */
     public function getUserMessagesByUsername(User $user, string $username);
 }

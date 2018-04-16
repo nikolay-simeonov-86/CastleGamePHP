@@ -73,6 +73,10 @@ services:
             factory: 'doctrine.orm.entity_manager:getRepository'
             arguments: ['AppBundle\Entity\ArmyTrainTimers']
 
+    AppBundle\Repository\BattlesRepository:
+                factory: 'doctrine.orm.entity_manager:getRepository'
+                arguments: ['AppBundle\Entity\Battles']
+
     AppBundle\Service\UserServiceInterface:
             alias: 'AppBundle\Service\UserService'
             public: false
@@ -108,3 +112,7 @@ services:
     AppBundle\Service\ArmyTrainTimersServiceInterface:
             alias: 'AppBundle\Service\ArmyTrainTimersService'
             public: false
+
+    AppBundle\Service\BattlesServiceInterface:
+                alias: 'AppBundle\Service\BattlesService'
+                public: false

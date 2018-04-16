@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
@@ -81,7 +80,7 @@ class User implements UserInterface
 
     /**
      * @var UserUpdateResources[]
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\UserSpies", mappedBy="userId")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\UserUpdateResources", mappedBy="userId")
      */
     private $userUpdateResources;
 
@@ -91,12 +90,19 @@ class User implements UserInterface
      */
     private $userMessages;
 
+    /**
+     * @var ArmyBattles[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ArmyBattles", mappedBy="userId")
+     */
+    private $armyBattles;
+
     public function __construct()
     {
         $this->userMessages = new ArrayCollection();
         $this->userUpdateResources = new ArrayCollection();
         $this->userSpies = new ArrayCollection();
         $this->castles = new ArrayCollection();
+        $this->armyBattles = new ArrayCollection();
         $this->food = 200;
         $this->metal = 0;
     }
@@ -325,6 +331,26 @@ class User implements UserInterface
     public function getUserMessages()
     {
         return $this->userMessages;
+    }
+
+    /**
+     * Set armyBattles
+     *
+     * @param ArmyBattles[] $armyBattles
+     */
+    public function setArmyBattles(array $armyBattles)
+    {
+        $this->armyBattles = $armyBattles;
+    }
+
+    /**
+     * Get armyBattles
+     *
+     * @return Collection|ArmyBattles[]
+     */
+    public function getArmyBattles()
+    {
+        return $this->armyBattles;
     }
 
     /**

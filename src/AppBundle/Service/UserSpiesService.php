@@ -50,8 +50,23 @@ class UserSpiesService implements UserSpiesServiceInterface
         $userSpy = new UserSpies();
         $userSpy->setUserId($loggedUser);
         $userSpy->setTargetUserId($id);
-        $startDate = new DateTime("now + 60 minutes");
-        $expirationDate = new DateTime("now + 120 minutes");
+
+        $defender = $this->em->getRepository(User::class)->findOneBy(array('id' => $id));
+        $defenderCoordinates = $defender->getCoordinates();
+        $defenderCoordinatesX = (int)($defenderCoordinates/10);
+        $defenderCoordinatesY = $defenderCoordinates%10;
+        $attackerCoordinates = $loggedUser->getCoordinates();
+        $attackerCoordinatesX = (int)($attackerCoordinates/10);
+        $attackerCoordinatesY = (int)($attackerCoordinates%10);
+
+        $x = abs($defenderCoordinatesX-$attackerCoordinatesX);
+        $y = abs($defenderCoordinatesY-$attackerCoordinatesY);
+        $reachTime = (max($x, $y)*60)/2;
+        $expirationTime = $reachTime+60;
+
+        $startDate = new DateTime("now + $reachTime minutes");
+        $expirationDate = new DateTime("now + $expirationTime minutes");
+
         $userSpy->setStartDate($startDate);
         $userSpy->setExpirationDate($expirationDate);
         $this->em->persist($userSpy);

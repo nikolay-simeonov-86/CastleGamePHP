@@ -71,6 +71,13 @@ class ArmyStatistics
     private $bonusDamage;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="bonus_versus", type="string", length=255)
+     */
+    private $bonusVersus;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="train_time", type="integer")
@@ -254,6 +261,30 @@ class ArmyStatistics
     public function getBonusDamage()
     {
         return $this->bonusDamage;
+    }
+
+    /**
+     * Set bonusVersus.
+     *
+     * @param string $bonusVersus
+     *
+     * @return ArmyStatistics
+     */
+    public function setBonusVersus($bonusVersus)
+    {
+        $this->bonusVersus = $bonusVersus;
+
+        return $this;
+    }
+
+    /**
+     * Get bonusVersus.
+     *
+     * @return string
+     */
+    public function getBonusVersus()
+    {
+        return $this->bonusVersus;
     }
 
     /**

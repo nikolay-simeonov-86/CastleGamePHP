@@ -82,6 +82,21 @@
                                     <a class="nav-link disabled" href="#"><h2>Army</h2></a>
                                 </li>
                             {% endif %}
+                            {% if app.user %}
+                                {% if app.request.get('_route') == 'user_battles' %}
+                                    <li class="nav-item active">
+                                        <a class="nav-link selected-menu" href="{{ path('user_battles') }}"><h2>Battles</h2></a>
+                                    </li>
+                                {% else %}
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="{{ path('user_battles') }}"><h2>Battles</h2></a>
+                                    </li>
+                                {% endif %}
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link disabled" href="#"><h2>Battles</h2></a>
+                                </li>
+                            {% endif %}
                         </ul>
                         <form class="form-inline my-2 my-lg-0">
                             <span>
@@ -97,14 +112,14 @@
                                             <h3>{{ app.user.username }}</h3>
                                             <div class="message-icon-wrapper">
                                                 <a href="{{ path( 'user_messages_inbox', {'page': 1} ) }}">
-                                                    <i class="fas fa-envelope"></i><span class="unread-messages-count">99+</span>
+                                                    <img src="{{ asset('pictures/Icons/OldPapyrus.png') }}" alt="BattleReport"><span class="unread-messages-count">99+</span>
                                                 </a>
                                             </div>
                                         {% else %}
                                             <h3>{{ app.user.username }}</h3>
                                             <div class="message-icon-wrapper">
                                                 <a href="{{ path( 'user_messages_inbox', {'page': 1} ) }}">
-                                                    <i class="fas fa-envelope"></i><span class="unread-messages-count">{{ user_messages_count }}</span>
+                                                    <img src="{{ asset('pictures/Icons/OldPapyrus.png') }}" alt="BattleReport"><span class="unread-messages-count">{{ user_messages_count }}</span>
                                                 </a>
                                             </div>
                                         {% endif %}
@@ -112,7 +127,7 @@
                                         <h3>{{ app.user.username }}</h3>
                                         <div class="message-icon-wrapper">
                                             <a href="{{ path( 'user_messages_inbox', {'page': 1} ) }}">
-                                                <i class="fas fa-envelope"></i>
+                                                <img src="{{ asset('pictures/Icons/OldPapyrus.png') }}" alt="BattleReport">
                                             </a>
                                         </div>
                                     {% endif %}

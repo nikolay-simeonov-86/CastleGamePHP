@@ -1,0 +1,138 @@
+{% extends 'view/base.html.twig' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1>Choose how much army you want to send</h1>
+        </div>
+    </div>
+    <br>
+    {% if message is defined %}
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-danger">{{ message }}</h2>
+            </div>
+        </div>
+        <br>
+    {% endif %}
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-4 text-center">
+
+        </div>
+        <div class="col-4 text-center">
+            <h2 class="text-primary">Choose user by username</h2>
+            <br>
+            {{ form_widget(form.username) }}
+        </div>
+        <div class="col-4 text-center">
+
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-12 text-center">
+            <h2 class="text-primary">Choose army amount</h2>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-12 col-lg-4 text-center">
+            <h3 class="text-danger">Footmen</h3>
+            <br>
+            {% if maxAmountFootmenLvl1 != 0 %}
+                <h4 class="text-warning">Level 1</h4>
+                {{ form_widget(form.footmenLvl1) }}
+                <h4 class="text-warning">Maximum is {{ maxAmountFootmenLvl1 }}</h4>
+                <br>
+            {% else %}
+                {{ form_widget(form.footmenLvl1, { 'attr': {'class': 'd-none'} }) }}
+            {% endif %}
+            {% if maxAmountFootmenLvl2 != 0 %}
+                <h4 class="text-warning">Level 2</h4>
+                {{ form_widget(form.footmenLvl2) }}
+                <h4 class="text-warning">Maximum is {{ maxAmountFootmenLvl2 }}</h4>
+                <br>
+            {% else %}
+                {{ form_widget(form.footmenLvl2, { 'attr': {'class': 'd-none'} }) }}
+            {% endif %}
+            {% if maxAmountFootmenLvl3 != 0 %}
+                <h4 class="text-warning">Level 3</h4>
+                {{ form_widget(form.footmenLvl3) }}
+                <h4 class="text-warning">Maximum is {{ maxAmountFootmenLvl3 }}</h4>
+            {% else %}
+                {{ form_widget(form.footmenLvl3, { 'attr': {'class': 'd-none'} }) }}
+            {% endif %}
+        </div>
+        <div class="col-sm-12 col-lg-4 text-center">
+            <h3 class="text-danger">Archers</h3>
+            <br>
+            {% if maxAmountArchersLvl1 != 0 %}
+                <h4 class="text-warning">Level 1</h4>
+                {{ form_widget(form.archersLvl1) }}
+                <h4 class="text-warning">Maximum is {{ maxAmountArchersLvl1 }}</h4>
+                <br>
+            {% else %}
+                {{ form_widget(form.archersLvl1, { 'attr': {'class': 'd-none'} }) }}
+            {% endif %}
+            {% if maxAmountArchersLvl2 != 0 %}
+                <h4 class="text-warning">Level 2</h4>
+                {{ form_widget(form.archersLvl2) }}
+                <h4 class="text-warning">Maximum is {{ maxAmountArchersLvl2 }}</h4>
+                <br>
+            {% else %}
+                {{ form_widget(form.archersLvl2, { 'attr': {'class': 'd-none'} }) }}
+            {% endif %}
+            {% if maxAmountArchersLvl3 != 0 %}
+                <h4 class="text-warning">Level 3</h4>
+                {{ form_widget(form.archersLvl3) }}
+                <h4 class="text-warning">Maximum is {{ maxAmountArchersLvl3 }}</h4>
+            {% else %}
+                {{ form_widget(form.archersLvl3, { 'attr': {'class': 'd-none'} }) }}
+            {% endif %}
+        </div>
+        <div class="col-sm-12 col-lg-4 text-center">
+            <h3 class="text-danger">Cavalry</h3>
+            <br>
+            {% if maxAmountCavalryLvl1 != 0 %}
+                <h4 class="text-warning">Level 1</h4>
+                {{ form_widget(form.cavalryLvl1) }}
+                <h4 class="text-warning">Maximum is {{ maxAmountCavalryLvl1 }}</h4>
+                <br>
+            {% else %}
+                {{ form_widget(form.cavalryLvl1, { 'attr': {'class': 'd-none'} }) }}
+            {% endif %}
+            {% if maxAmountCavalryLvl2 != 0 %}
+                <h4 class="text-warning">Level 2</h4>
+                {{ form_widget(form.cavalryLvl2) }}
+                <h4 class="text-warning">Maximum is {{ maxAmountCavalryLvl2 }}</h4>
+                <br>
+            {% else %}
+                {{ form_widget(form.cavalryLvl2, { 'attr': {'class': 'd-none'} }) }}
+            {% endif %}
+            {% if maxAmountCavalryLvl3 != 0 %}
+                <h4 class="text-warning">Level 3</h4>
+                {{ form_widget(form.cavalryLvl3) }}
+                <h4 class="text-warning">Maximum is {{ maxAmountCavalryLvl3 }}</h4>
+            {% else %}
+                {{ form_widget(form.cavalryLvl3, { 'attr': {'class': 'd-none'} }) }}
+            {% endif %}
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-6 text-center">
+            {{ form_widget(form.Ready) }}
+        </div>
+        <div class="col-6 text-center">
+            <a class="btn btn-info btn-lg bg-danger active bodytext cursor-pointer send-a-message-button" href="{{ path('user_battles_send_attack_castle') }}">Back</a>
+        </div>
+    </div>
+    <br>
+    {{ form_end(form) }}
+{% endblock %}
+

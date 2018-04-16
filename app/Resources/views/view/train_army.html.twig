@@ -25,6 +25,8 @@
             {{ form_widget(form.Amount) }}<br>
             <small id="usernameHelp" class="form-text text-muted navbarcolor">Enter amount here</small>
             <br>
+            <h4>Cost for one unit is {{ foodCostForOne }} food and {{ metalCostForOne }} metal</h4>
+            <br>
             <h4>You can train maximum {{ maxAmount }} units with your resources</h4>
             <br>
             {{ form_widget(form.Train, {'attr': {'type': 'button', 'class': 'btn btn-lg btn-success bodytext cursor-pointer'}}) }}
