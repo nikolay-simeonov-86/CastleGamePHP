@@ -6,6 +6,7 @@ use AppBundle\Entity\Army;
 use AppBundle\Entity\ArmyBattles;
 use AppBundle\Entity\ArmyStatistics;
 use AppBundle\Entity\ArmyTrainTimers;
+use AppBundle\Entity\BattleReports;
 use AppBundle\Entity\Battles;
 use AppBundle\Entity\BattlesTemp;
 use AppBundle\Entity\BuildingUpdateProperties;
@@ -17,6 +18,7 @@ use AppBundle\Entity\UserSpies;
 use AppBundle\Service\ArmyServiceInterface;
 use AppBundle\Service\ArmyStatisticsServiceInterface;
 use AppBundle\Service\ArmyTrainTimersServiceInterface;
+use AppBundle\Service\BattleReportsServiceInterface;
 use AppBundle\Service\BattlesServiceInterface;
 use AppBundle\Service\BattlesTempService;
 use AppBundle\Service\BattlesTempServiceInterface;
@@ -99,6 +101,11 @@ class PlayerController extends Controller
     private $battlesTempService;
 
     /**
+     * @var BattleReportsServiceInterface
+     */
+    private $battleReportsService;
+
+    /**
      * CastleController constructor.
      * @param UserServiceInterface $userService
      * @param CastleServiceInterface $castleService
@@ -111,6 +118,7 @@ class PlayerController extends Controller
      * @param UserMessagesServiceInterface $userMessagesService
      * @param BattlesServiceInterface $battlesService
      * @param BattlesTempService $battlesTempService
+     * @param BattleReportsServiceInterface $battleReportsService
      */
     public function __construct(UserServiceInterface $userService,
                                 CastleServiceInterface $castleService,
@@ -122,7 +130,8 @@ class PlayerController extends Controller
                                 UserUpdateResourcesServiceInterface $userUpdateResourcesService,
                                 UserMessagesServiceInterface $userMessagesService,
                                 BattlesServiceInterface $battlesService,
-                                BattlesTempService $battlesTempService)
+                                BattlesTempService $battlesTempService,
+                                BattleReportsServiceInterface $battleReportsService)
     {
         $this->em = $em;
         $this->userService = $userService;
@@ -135,6 +144,7 @@ class PlayerController extends Controller
         $this->userMessagesService = $userMessagesService;
         $this->battlesService = $battlesService;
         $this->battlesTempService = $battlesTempService;
+        $this->battleReportsService = $battleReportsService;
     }
 
     /**
@@ -147,6 +157,8 @@ class PlayerController extends Controller
         $user = $this->getUser();
 
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
         $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
 
         $userId = $user->getId();
@@ -173,6 +185,8 @@ class PlayerController extends Controller
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
         $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
 
 //        $this->userUpdateResourcesService->updateUsersResources();
@@ -268,6 +282,8 @@ class PlayerController extends Controller
         {
             $user = $this->getUser();
             $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+            $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+            $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
             $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
         }
 
@@ -288,6 +304,8 @@ class PlayerController extends Controller
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
         $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
 
         $userId = $this->getUser()->getId();
@@ -329,12 +347,14 @@ class PlayerController extends Controller
      */
     public function userUpgradeAction(int $id,string $building, Request $request)
     {
-        $form = $this->createFormBuilder()->add('upgrade', SubmitType::class)->getForm();
-        $form->handleRequest($request);
-
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
         $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+
+        $form = $this->createFormBuilder()->add('upgrade', SubmitType::class)->getForm();
+        $form->handleRequest($request);
 
         $castle = $this->em->getRepository(Castle::class)->find($id);
         $this->castleService->updateCastle($castle->getId());
@@ -403,6 +423,8 @@ class PlayerController extends Controller
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
         $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
 
         $userId = $this->getUser()->getId();
@@ -450,6 +472,8 @@ class PlayerController extends Controller
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
         $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
 
         $castle = $this->em->getRepository(Castle::class)->find($id);
@@ -563,6 +587,8 @@ class PlayerController extends Controller
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
         $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
 
         $form = $this->createFormBuilder()->add('Confirm', SubmitType::class)->getForm();
@@ -662,6 +688,8 @@ class PlayerController extends Controller
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
         $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
 
         $countPerPage = 8;
@@ -733,9 +761,11 @@ class PlayerController extends Controller
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
         $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
 
-        $countPerPage = 3;
+        $countPerPage = 2;
 
         $countQuery = $this->em->createQueryBuilder()
             ->select('COUNT(u.message)')
@@ -813,7 +843,20 @@ class PlayerController extends Controller
      */
     public function userMessagesInboxSenderDeleteAction(string $sender, int $page, int $id, Request $request)
     {
+        $user = $this->getUser();
+
+        if (null == $this->em->getRepository(UserMessages::class)->findOneBy(array('id' => $id)))
+        {
+            return $this->redirectToRoute('user_messages_inbox_sender', array('sender' => $sender, 'page' => $page));
+        }
+
         $message = $this->em->getRepository(UserMessages::class)->findOneBy(array('id' => $id));
+
+        if ($message->getUserId() != $user)
+        {
+            return $this->redirectToRoute('user_messages_inbox_sender', array('sender' => $sender, 'page' => $page));
+        }
+
         $this->em->remove($message);
         $this->em->flush();
 
@@ -830,6 +873,8 @@ class PlayerController extends Controller
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
         $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
 
         $form = $this->createFormBuilder()
@@ -869,6 +914,8 @@ class PlayerController extends Controller
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
         $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
 
         $form = $this->createFormBuilder()
@@ -907,6 +954,8 @@ class PlayerController extends Controller
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
         $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
 
         return $this->render('view/user_battles.html.twig');
@@ -921,6 +970,8 @@ class PlayerController extends Controller
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
         $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
 
         $incomingAttacksArray = $this->battlesService->createAllUserArmyIncomingAttacksArray($user);
@@ -937,6 +988,8 @@ class PlayerController extends Controller
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
         $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
 
         $outgoingAttacksArray = $this->battlesService->createAllUserArmyOutgoingAttacksArray($user);
@@ -954,6 +1007,8 @@ class PlayerController extends Controller
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
         $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
 
         $castles = $this->em->getRepository(Castle::class)->findBy(array('userId' => $user));
@@ -993,6 +1048,8 @@ class PlayerController extends Controller
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
         $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
 
         $maxAmountArray = $this->armyService->maximumArmyAmountForBattle($castleId);
@@ -1128,6 +1185,8 @@ class PlayerController extends Controller
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
         $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
 
         $form = $form = $this->createFormBuilder()
@@ -1168,5 +1227,91 @@ class PlayerController extends Controller
         return $this->render('view/user_battle_send_attack_confirm.html.twig', array('form' => $form->createView(),
                                                                                 'battlesTemp' => $battlesTemp,
                                                                                 'castleId' => $castleId));
+    }
+
+    /**
+     * @Route("/battles/reports", name="user_battle_reports")
+     * @return Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function battleReportsAction()
+    {
+        $user = $this->getUser();
+        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
+        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+
+        $allAttackReports = $this->em->getRepository(BattleReports::class)
+            ->findBy(array('attacker' => $user->getUsername(), 'owner' => $user), array('battleDate' => 'DESC'));
+        $allDefenceReports = $this->em->getRepository(BattleReports::class)
+            ->findBy(array('defender' => $user->getUsername(), 'owner' => $user), array('battleDate' => 'DESC'));
+
+        return $this->render('view/user_battle_reports.html.twig', array('allAttackReports' => $allAttackReports,
+                                                                    'allDefenceReports' => $allDefenceReports));
+    }
+
+    /**
+     * @Route("/battles/reports/{id}", name="user_battle_report_details")
+     * @param int $id
+     * @return Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function battleReportDetailsAction(int $id)
+    {
+        $user = $this->getUser();
+        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
+        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+
+        $username = $user->getUsername();
+
+        if (null == $this->em->getRepository(BattleReports::class)->findOneBy(array('id' => $id)))
+        {
+            return $this->redirectToRoute('user_battle_reports');
+        }
+
+        $report = $this->em->getRepository(BattleReports::class)->findOneBy(array('id' => $id));
+
+        if ($report->getOwner() != $user)
+        {
+            return $this->redirectToRoute('user_battle_reports');
+        }
+
+        $report->setVisited(true);
+        $this->em->persist($report);
+        $this->em->flush();
+
+        return $this->render('view/user_battle_report_details.html.twig', array('report' => $report,
+                                                                                     'user' => $username));
+    }
+
+    /**
+     * @Route("/battles/reports/delete/{id}", name="user_battle_report_delete")
+     * @param int $id
+     * @return Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function battleReportsDeleteAction(int $id)
+    {
+        $user = $this->getUser();
+
+        if (null == $this->em->getRepository(BattleReports::class)->findOneBy(array('id' => $id)))
+        {
+            return $this->redirectToRoute('user_battle_reports');
+        }
+
+        $report = $this->em->getRepository(BattleReports::class)->findOneBy(array('id' => $id));
+
+        if ($report->getOwner() != $user)
+        {
+            return $this->redirectToRoute('user_battle_reports');
+        }
+
+        $this->em->remove($report);
+        $this->em->flush();
+
+        return $this->redirectToRoute('user_battle_reports');
     }
 }

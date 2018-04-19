@@ -1,0 +1,781 @@
+{% extends 'view/base.html.twig' %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ asset('assets/user_battle_report_details.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    {% if report.winner == user %}
+        {% if report.attacker == user %}
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="text-success">Successful Attack</h1>
+                </div>
+            </div>
+            <div class="row row-background-attack-victory">
+                <div class="col-1"></div>
+                <div class="col-11">
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <h2 class="heading">Your Army</h2>
+                        </div>
+                        <div class="col-6 text-center">
+                            <h2 class="heading">His Army</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <table class="background1 table table-inverse table-hover table-position" align="center">
+                                <thead align="center">
+                                <tr>
+                                    <th colspan="9">
+                                        <h3>Remaining Army</h3>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3"><h4>Footmen</h4></th>
+                                    <th colspan="3"><h4>Archers</h4></th>
+                                    <th colspan="3"><h4>Cavalry</h4></th>
+                                </tr>
+                                <tr>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ report.attackerRemainingFootmenLvl1 }}</td>
+                                    <td>{{ report.attackerRemainingFootmenLvl2 }}</td>
+                                    <td>{{ report.attackerRemainingFootmenLvl3 }}</td>
+                                    <td>{{ report.attackerRemainingArchersLvl1 }}</td>
+                                    <td>{{ report.attackerRemainingArchersLvl2 }}</td>
+                                    <td>{{ report.attackerRemainingArchersLvl3 }}</td>
+                                    <td>{{ report.attackerRemainingCavalryLvl1 }}</td>
+                                    <td>{{ report.attackerRemainingCavalryLvl2 }}</td>
+                                    <td>{{ report.attackerRemainingCavalryLvl3 }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-6">
+                            <table class="background1 table table-inverse table-hover table-position" align="center">
+                                <thead align="center">
+                                <tr>
+                                    <th colspan="9">
+                                        <h3>Dead Army</h3>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3"><h4>Footmen</h4></th>
+                                    <th colspan="3"><h4>Archers</h4></th>
+                                    <th colspan="3"><h4>Cavalry</h4></th>
+                                </tr>
+                                <tr>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ report.defenderDeadFootmenLvl1 }}</td>
+                                    <td>{{ report.defenderDeadFootmenLvl2 }}</td>
+                                    <td>{{ report.defenderDeadFootmenLvl3 }}</td>
+                                    <td>{{ report.defenderDeadArchersLvl1 }}</td>
+                                    <td>{{ report.defenderDeadArchersLvl2 }}</td>
+                                    <td>{{ report.defenderDeadArchersLvl3 }}</td>
+                                    <td>{{ report.defenderDeadCavalryLvl1 }}</td>
+                                    <td>{{ report.defenderDeadCavalryLvl2 }}</td>
+                                    <td>{{ report.defenderDeadCavalryLvl3 }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <table class="background1 table table-inverse table-hover table-position" align="center">
+                                <thead align="center">
+                                <tr>
+                                    <th colspan="9">
+                                        <h3>Dead Army</h3>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3"><h4>Footmen</h4></th>
+                                    <th colspan="3"><h4>Archers</h4></th>
+                                    <th colspan="3"><h4>Cavalry</h4></th>
+                                </tr>
+                                <tr>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ report.attackerDeadFootmenLvl1 }}</td>
+                                    <td>{{ report.attackerDeadFootmenLvl2 }}</td>
+                                    <td>{{ report.attackerDeadFootmenLvl3 }}</td>
+                                    <td>{{ report.attackerDeadArchersLvl1 }}</td>
+                                    <td>{{ report.attackerDeadArchersLvl2 }}</td>
+                                    <td>{{ report.attackerDeadArchersLvl3 }}</td>
+                                    <td>{{ report.attackerDeadCavalryLvl1 }}</td>
+                                    <td>{{ report.attackerDeadCavalryLvl2 }}</td>
+                                    <td>{{ report.attackerDeadCavalryLvl3 }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-6">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <h2 class="heading">Loot</h2>
+                        </div>
+                        <div class="col-6 text-center">
+                            <h2 class="heading">Dates</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-4">
+                            <table class="background1 table table-inverse table-hover table-position" align="center">
+                                <thead align="center">
+                                <tr>
+                                    <th><h4>Gained Food</h4></th>
+                                    <th><h4>Gained Metal</h4></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ report.gainedFood }}</td>
+                                    <td>{{ report.gainedMetal }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-2 text-center"><img class="victory-image" src="{{ asset('pictures/Attack and Defence/Victory.png') }}" alt="victory"></div>
+                        <div class="col-4">
+                            <table class="background1 table table-inverse table-hover table-position" align="center">
+                                <thead align="center">
+                                <tr>
+                                    <th><h4>Battle Date</h4></th>
+                                    <th><h4>Return Date</h4></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ report.battleDate|date('Y-m-d H:i:s') }}</td>
+                                    <td>{{ report.returnDate|date('Y-m-d H:i:s') }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-1"></div>
+                    </div>
+                </div>
+            </div>
+        {% elseif report.defender == user %}
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="text-success">Successful Defence</h1>
+                </div>
+            </div>
+            <div class="row row-background-defence-victory">
+                <div class="col-1"></div>
+                <div class="col-11">
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <h2 class="heading">Your Army</h2>
+                        </div>
+                        <div class="col-6 text-center">
+                            <h2 class="heading">His Army</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <table class="background1 table table-inverse table-hover table-position" align="center">
+                                <thead align="center">
+                                <tr>
+                                    <th colspan="9">
+                                        <h3>Remaining Army</h3>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3"><h4>Footmen</h4></th>
+                                    <th colspan="3"><h4>Archers</h4></th>
+                                    <th colspan="3"><h4>Cavalry</h4></th>
+                                </tr>
+                                <tr>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ report.defenderRemainingFootmenLvl1 }}</td>
+                                    <td>{{ report.defenderRemainingFootmenLvl2 }}</td>
+                                    <td>{{ report.defenderRemainingFootmenLvl3 }}</td>
+                                    <td>{{ report.defenderRemainingArchersLvl1 }}</td>
+                                    <td>{{ report.defenderRemainingArchersLvl2 }}</td>
+                                    <td>{{ report.defenderRemainingArchersLvl3 }}</td>
+                                    <td>{{ report.defenderRemainingCavalryLvl1 }}</td>
+                                    <td>{{ report.defenderRemainingCavalryLvl2 }}</td>
+                                    <td>{{ report.defenderRemainingCavalryLvl3 }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-6">
+                            <table class="background1 table table-inverse table-hover table-position" align="center">
+                                <thead align="center">
+                                <tr>
+                                    <th colspan="9">
+                                        <h3>Dead Army</h3>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3"><h4>Footmen</h4></th>
+                                    <th colspan="3"><h4>Archers</h4></th>
+                                    <th colspan="3"><h4>Cavalry</h4></th>
+                                </tr>
+                                <tr>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ report.attackerDeadFootmenLvl1 }}</td>
+                                    <td>{{ report.attackerDeadFootmenLvl2 }}</td>
+                                    <td>{{ report.attackerDeadFootmenLvl3 }}</td>
+                                    <td>{{ report.attackerDeadArchersLvl1 }}</td>
+                                    <td>{{ report.attackerDeadArchersLvl2 }}</td>
+                                    <td>{{ report.attackerDeadArchersLvl3 }}</td>
+                                    <td>{{ report.attackerDeadCavalryLvl1 }}</td>
+                                    <td>{{ report.attackerDeadCavalryLvl2 }}</td>
+                                    <td>{{ report.attackerDeadCavalryLvl3 }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <table class="background1 table table-inverse table-hover table-position" align="center">
+                                <thead align="center">
+                                <tr>
+                                    <th colspan="9">
+                                        <h3>Dead Army</h3>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3"><h4>Footmen</h4></th>
+                                    <th colspan="3"><h4>Archers</h4></th>
+                                    <th colspan="3"><h4>Cavalry</h4></th>
+                                </tr>
+                                <tr>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ report.defenderDeadFootmenLvl1 }}</td>
+                                    <td>{{ report.defenderDeadFootmenLvl2 }}</td>
+                                    <td>{{ report.defenderDeadFootmenLvl3 }}</td>
+                                    <td>{{ report.defenderDeadArchersLvl1 }}</td>
+                                    <td>{{ report.defenderDeadArchersLvl2 }}</td>
+                                    <td>{{ report.defenderDeadArchersLvl3 }}</td>
+                                    <td>{{ report.defenderDeadCavalryLvl1 }}</td>
+                                    <td>{{ report.defenderDeadCavalryLvl2 }}</td>
+                                    <td>{{ report.defenderDeadCavalryLvl3 }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-6">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <h2 class="heading">Loot</h2>
+                        </div>
+                        <div class="col-6 text-center">
+                            <h2 class="heading">Dates</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-4">
+                            <table class="background1 table table-inverse table-hover table-position" align="center">
+                                <thead align="center">
+                                <tr>
+                                    <th><h4>Lost Food</h4></th>
+                                    <th><h4>Lost Metal</h4></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td colspan="2">No loot when attack failed</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-2 text-center"><img class="victory-image" src="{{ asset('pictures/Attack and Defence/Victory.png') }}" alt="victory"></div>
+                        <div class="col-4">
+                            <table class="background1 table table-inverse table-hover table-position" align="center">
+                                <thead align="center">
+                                <tr>
+                                    <th><h4>Battle Date</h4></th>
+                                    <th><h4>Return Date</h4></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ report.battleDate|date('Y-m-d H:i:s') }}</td>
+                                    <td>All attackers army is dead</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-1"></div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% elseif report.winner != user %}
+        {% if report.attacker == user %}
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="text-danger">Failed Attack</h1>
+                </div>
+            </div>
+            <div class="row row-background-attack-defeat">
+                <div class="col-11">
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <h2 class="heading">Your Army</h2>
+                        </div>
+                        <div class="col-6 text-center">
+                            <h2 class="heading">His Army</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <table class="background1 table table-inverse table-hover table-position" align="center">
+                                <thead align="center">
+                                <tr>
+                                    <th colspan="9">
+                                        <h3>Dead Army</h3>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3"><h4>Footmen</h4></th>
+                                    <th colspan="3"><h4>Archers</h4></th>
+                                    <th colspan="3"><h4>Cavalry</h4></th>
+                                </tr>
+                                <tr>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ report.attackerDeadFootmenLvl1 }}</td>
+                                    <td>{{ report.attackerDeadFootmenLvl2 }}</td>
+                                    <td>{{ report.attackerDeadFootmenLvl3 }}</td>
+                                    <td>{{ report.attackerDeadArchersLvl1 }}</td>
+                                    <td>{{ report.attackerDeadArchersLvl2 }}</td>
+                                    <td>{{ report.attackerDeadArchersLvl3 }}</td>
+                                    <td>{{ report.attackerDeadCavalryLvl1 }}</td>
+                                    <td>{{ report.attackerDeadCavalryLvl2 }}</td>
+                                    <td>{{ report.attackerDeadCavalryLvl3 }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-6">
+                            <table class="background1 table table-inverse table-hover table-position" align="center">
+                                <thead align="center">
+                                <tr>
+                                    <th colspan="9">
+                                        <h3>Remaining Army</h3>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3"><h4>Footmen</h4></th>
+                                    <th colspan="3"><h4>Archers</h4></th>
+                                    <th colspan="3"><h4>Cavalry</h4></th>
+                                </tr>
+                                <tr>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ report.defenderRemainingFootmenLvl1 }}</td>
+                                    <td>{{ report.defenderRemainingFootmenLvl2 }}</td>
+                                    <td>{{ report.defenderRemainingFootmenLvl3 }}</td>
+                                    <td>{{ report.defenderRemainingArchersLvl1 }}</td>
+                                    <td>{{ report.defenderRemainingArchersLvl2 }}</td>
+                                    <td>{{ report.defenderRemainingArchersLvl3 }}</td>
+                                    <td>{{ report.defenderRemainingCavalryLvl1 }}</td>
+                                    <td>{{ report.defenderRemainingCavalryLvl2 }}</td>
+                                    <td>{{ report.defenderRemainingCavalryLvl3 }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+
+                        </div>
+                        <div class="col-6">
+                            <table class="background1 table table-inverse table-hover table-position" align="center">
+                                <thead align="center">
+                                <tr>
+                                    <th colspan="9">
+                                        <h3>Dead Army</h3>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3"><h4>Footmen</h4></th>
+                                    <th colspan="3"><h4>Archers</h4></th>
+                                    <th colspan="3"><h4>Cavalry</h4></th>
+                                </tr>
+                                <tr>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ report.defenderDeadFootmenLvl1 }}</td>
+                                    <td>{{ report.defenderDeadFootmenLvl2 }}</td>
+                                    <td>{{ report.defenderDeadFootmenLvl3 }}</td>
+                                    <td>{{ report.defenderDeadArchersLvl1 }}</td>
+                                    <td>{{ report.defenderDeadArchersLvl2 }}</td>
+                                    <td>{{ report.defenderDeadArchersLvl3 }}</td>
+                                    <td>{{ report.defenderDeadCavalryLvl1 }}</td>
+                                    <td>{{ report.defenderDeadCavalryLvl2 }}</td>
+                                    <td>{{ report.defenderDeadCavalryLvl3 }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <h2 class="heading">Loot</h2>
+                        </div>
+                        <div class="col-6 text-center">
+                            <h2 class="heading">Dates</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-4">
+                            <table class="background1 table table-inverse table-hover table-position" align="center">
+                                <thead align="center">
+                                <tr>
+                                    <th><h4>Gained Food</h4></th>
+                                    <th><h4>Gained Metal</h4></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td colspan="2">No loot when attack failed</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-2 text-center"><img class="defeat-image" src="{{ asset('pictures/Attack and Defence/Defeat.png') }}" alt="victory"></div>
+                        <div class="col-4">
+                            <table class="background1 table table-inverse table-hover table-position" align="center">
+                                <thead align="center">
+                                <tr>
+                                    <th><h4>Battle Date</h4></th>
+                                    <th><h4>Return Date</h4></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ report.battleDate|date('Y-m-d H:i:s') }}</td>
+                                    <td>All attackers army is dead</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-1"></div>
+                    </div>
+                </div>
+                <div class="col-1"></div>
+            </div>
+        {% elseif report.defender == user %}
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="text-danger">Failed Defence</h1>
+                </div>
+            </div>
+            <div class="row row-background-defence-defeat">
+                <div class="col-11">
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <h2 class="heading">Your Army</h2>
+                        </div>
+                        <div class="col-6 text-center">
+                            <h2 class="heading">His Army</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <table class="background1 table table-inverse table-hover table-position" align="center">
+                                <thead align="center">
+                                <tr>
+                                    <th colspan="9">
+                                        <h3>Dead Army</h3>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3"><h4>Footmen</h4></th>
+                                    <th colspan="3"><h4>Archers</h4></th>
+                                    <th colspan="3"><h4>Cavalry</h4></th>
+                                </tr>
+                                <tr>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ report.defenderDeadFootmenLvl1 }}</td>
+                                    <td>{{ report.defenderDeadFootmenLvl2 }}</td>
+                                    <td>{{ report.defenderDeadFootmenLvl3 }}</td>
+                                    <td>{{ report.defenderDeadArchersLvl1 }}</td>
+                                    <td>{{ report.defenderDeadArchersLvl2 }}</td>
+                                    <td>{{ report.defenderDeadArchersLvl3 }}</td>
+                                    <td>{{ report.defenderDeadCavalryLvl1 }}</td>
+                                    <td>{{ report.defenderDeadCavalryLvl2 }}</td>
+                                    <td>{{ report.defenderDeadCavalryLvl3 }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-6">
+                            <table class="background1 table table-inverse table-hover table-position" align="center">
+                                <thead align="center">
+                                <tr>
+                                    <th colspan="9">
+                                        <h3>Remaining Army</h3>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3"><h4>Footmen</h4></th>
+                                    <th colspan="3"><h4>Archers</h4></th>
+                                    <th colspan="3"><h4>Cavalry</h4></th>
+                                </tr>
+                                <tr>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ report.attackerRemainingFootmenLvl1 }}</td>
+                                    <td>{{ report.attackerRemainingFootmenLvl2 }}</td>
+                                    <td>{{ report.attackerRemainingFootmenLvl3 }}</td>
+                                    <td>{{ report.attackerRemainingArchersLvl1 }}</td>
+                                    <td>{{ report.attackerRemainingArchersLvl2 }}</td>
+                                    <td>{{ report.attackerRemainingArchersLvl3 }}</td>
+                                    <td>{{ report.attackerRemainingCavalryLvl1 }}</td>
+                                    <td>{{ report.attackerRemainingCavalryLvl2 }}</td>
+                                    <td>{{ report.attackerRemainingCavalryLvl3 }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+
+                        </div>
+                        <div class="col-6">
+                            <table class="background1 table table-inverse table-hover table-position" align="center">
+                                <thead align="center">
+                                <tr>
+                                    <th colspan="9">
+                                        <h3>Dead Army</h3>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3"><h4>Footmen</h4></th>
+                                    <th colspan="3"><h4>Archers</h4></th>
+                                    <th colspan="3"><h4>Cavalry</h4></th>
+                                </tr>
+                                <tr>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                    <th>Level 1</th>
+                                    <th>Level 2</th>
+                                    <th>Level 3</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ report.attackerDeadFootmenLvl1 }}</td>
+                                    <td>{{ report.attackerDeadFootmenLvl2 }}</td>
+                                    <td>{{ report.attackerDeadFootmenLvl3 }}</td>
+                                    <td>{{ report.attackerDeadArchersLvl1 }}</td>
+                                    <td>{{ report.attackerDeadArchersLvl2 }}</td>
+                                    <td>{{ report.attackerDeadArchersLvl3 }}</td>
+                                    <td>{{ report.attackerDeadCavalryLvl1 }}</td>
+                                    <td>{{ report.attackerDeadCavalryLvl2 }}</td>
+                                    <td>{{ report.attackerDeadCavalryLvl3 }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <h2 class="heading">Loot</h2>
+                        </div>
+                        <div class="col-6 text-center">
+                            <h2 class="heading">Dates</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-4">
+                            <table class="background1 table table-inverse table-hover table-position" align="center">
+                                <thead align="center">
+                                <tr>
+                                    <th><h4>Lost Food</h4></th>
+                                    <th><h4>Lost Metal</h4></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ report.gainedFood - 100 }}</td>
+                                    <td>{{ report.gainedMetal - 100 }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-2 text-center"><img class="defeat-image" src="{{ asset('pictures/Attack and Defence/Defeat.png') }}" alt="defeat"></div>
+                        <div class="col-4">
+                            <table class="background1 table table-inverse table-hover table-position" align="center">
+                                <thead align="center">
+                                <tr>
+                                    <th><h4>Battle Date</h4></th>
+                                    <th><h4>Return Date</h4></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ report.battleDate|date('Y-m-d H:i:s') }}</td>
+                                    <td>{{ report.returnDate|date('Y-m-d H:i:s') }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-1"></div>
+                    </div>
+                </div>
+                <div class="col-1"></div>
+            </div>
+        {% endif %}
+    {% endif %}
+    <br>
+    <div class="row">
+        <div class="col-12 text-center">
+            <a class="btn btn-info btn-lg bg-danger active bodytext cursor-pointer send-a-message-button" href="{{ path('user_battle_reports') }}">Back</a>
+        </div>
+    </div>
+    <br>
+{% endblock %}
+

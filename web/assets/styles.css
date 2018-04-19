@@ -186,6 +186,21 @@ input[type=number] {
 .message-icon-wrapper {
     position:relative;
     text-align: center;
+    display: flex;
+    justify-content: space-around;
+}
+.unread-battle-reports-messages-count {
+    background: red;
+    color: white;
+    font-size: 12px;
+    width: auto;
+    height: auto;
+    margin: 0;
+    border-radius: 50%;
+    position:absolute;
+    top: -8px;
+    right: 22px;
+    padding:3px;
 }
 .unread-messages-count {
     background: red;
@@ -197,7 +212,7 @@ input[type=number] {
     border-radius: 50%;
     position:absolute;
     top: -8px;
-    right: -20px;
+    right: -31px;
     padding:3px;
 }
 .form-inline span {

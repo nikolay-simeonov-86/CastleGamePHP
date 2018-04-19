@@ -611,6 +611,7 @@ class BattlesService implements BattlesServiceInterface
                 if ($currentDateTime > $battleToInitiate->getReachDate())
                 {
                     $defender = $this->em->getRepository(User::class)->findOneBy(array('username' => $battleToInitiate->getDefender()));
+                    $defenderUsername = $battleToInitiate->getDefender();
                     $defenderMainCastle = $this->em->getRepository(Castle::class)->findOneBy(array('userId' => $defender));
 
                     $count = 1;
@@ -652,6 +653,7 @@ class BattlesService implements BattlesServiceInterface
                         }
 
                     }
+                    $attackerUsername = $battleToInitiate->getAttacker();
                     $attackerArmy = [];
                     array_push($attackerArmy,
                         $battleToInitiate->getFootmenLvl1(),
@@ -714,7 +716,6 @@ class BattlesService implements BattlesServiceInterface
                         }
                     }
 
-
                     if ($defenderMainCastle->getCastleLvl() == 0) {
                         $additionalHealthFromCastle = 0;
                     } elseif ($defenderMainCastle->getCastleLvl() == 1) {
@@ -773,7 +774,6 @@ class BattlesService implements BattlesServiceInterface
                             $defenderArmyDamage = 0;
                             $attackerArmyDamage = $attackerArmyFirst->getAmount() * $attackerArmyFirst->getDamage();
                         }
-
 
                         $count++;
 
@@ -950,9 +950,21 @@ class BattlesService implements BattlesServiceInterface
                                 }
                             }
 
-                            $this->em->persist($battleReport);
-
+                            $battleReportOriginal = $battleReport;
+                            $ownerOriginal = $attackerUsername;
+                            $battleReportOriginal->setOwner($ownerOriginal);
+                            $this->em->persist($battleReportOriginal);
                             $this->em->flush();
+                            $this->em->detach($battleReportOriginal);
+
+                            $battleReport->setDuplicate(true);
+                            $ownerDuplicate = $this->em->getRepository(User::class)->findOneBy(array('username' => $defenderUsername));
+                            $battleReport->setOwner($ownerDuplicate);
+
+                            $this->em->persist($battleReport);
+                            $this->em->remove($battleToInitiate);
+                            $this->em->flush();
+
                             break;
                         }
                         elseif (empty($attackerArmy))
@@ -1112,8 +1124,21 @@ class BattlesService implements BattlesServiceInterface
                                 }
                             }
 
-                            $this->em->persist($battleReport);
+                            $battleReportOriginal = $battleReport;
+                            $ownerOriginal = $attackerUsername;
+                            $battleReportOriginal->setOwner($ownerOriginal);
+                            $this->em->persist($battleReportOriginal);
                             $this->em->flush();
+                            $this->em->detach($battleReportOriginal);
+
+                            $battleReport->setDuplicate(true);
+                            $ownerDuplicate = $this->em->getRepository(User::class)->findOneBy(array('username' => $defenderUsername));
+                            $battleReport->setOwner($ownerDuplicate);
+
+                            $this->em->persist($battleReport);
+                            $this->em->remove($battleToInitiate);
+                            $this->em->flush();
+
                             break;
                         }
                         elseif (empty($defenderArmy))
@@ -1288,9 +1313,21 @@ class BattlesService implements BattlesServiceInterface
                                 }
                             }
 
+                            $battleReportOriginal = $battleReport;
+                            $ownerOriginal = $attackerUsername;
+                            $battleReportOriginal->setOwner($ownerOriginal);
+                            $this->em->persist($battleReportOriginal);
+                            $this->em->flush();
+                            $this->em->detach($battleReportOriginal);
+
+                            $battleReport->setDuplicate(true);
+                            $ownerDuplicate = $this->em->getRepository(User::class)->findOneBy(array('username' => $defenderUsername));
+                            $battleReport->setOwner($ownerDuplicate);
+
                             $this->em->persist($battleReport);
                             $this->em->remove($battleToInitiate);
                             $this->em->flush();
+
                             break;
                         }
                     }
@@ -1298,9 +1335,9 @@ class BattlesService implements BattlesServiceInterface
             }
         }
 
-        if ($this->em->getRepository(BattleReports::class)->findBy(array('armyReturnedToCastle' => false)))
+        if ($this->em->getRepository(BattleReports::class)->findBy(array('armyReturnedToCastle' => false, 'duplicate' => false)))
         {
-            $battleReports = $this->em->getRepository(BattleReports::class)->findBy(array('armyReturnedToCastle' => false));
+            $battleReports = $this->em->getRepository(BattleReports::class)->findBy(array('armyReturnedToCastle' => false, 'duplicate' => false));
 
             foreach ($battleReports as $battleReport)
             {

@@ -10,6 +10,7 @@ use AppBundle\Entity\User;
 use AppBundle\Entity\UserUpdateResources;
 use AppBundle\Repository\UserRepository;
 use AppBundle\Service\ArmyStatisticsService;
+use AppBundle\Service\BattleReportsServiceInterface;
 use AppBundle\Service\BattlesServiceInterface;
 use AppBundle\Service\BuildingUpdatePropertiesService;
 use AppBundle\Service\CastleServiceInterface;
@@ -61,6 +62,11 @@ class DefaultController extends Controller
     private $battlesService;
 
     /**
+     * @var BattleReportsServiceInterface
+     */
+    private $battleReportsService;
+
+    /**
      * UserService constructor.
      * @param EntityManagerInterface $em
      * @param UserRepository $userRepository
@@ -69,6 +75,7 @@ class DefaultController extends Controller
      * @param BuildingUpdatePropertiesService $buildingUpdatePropertiesService
      * @param UserMessagesService $userMessagesService
      * @param BattlesServiceInterface $battlesService
+     * @param BattleReportsServiceInterface $battleReportsService
      */
     public function __construct(EntityManagerInterface $em,
                                 UserRepository $userRepository,
@@ -76,7 +83,8 @@ class DefaultController extends Controller
                                 CastleServiceInterface $castleService,
                                 BuildingUpdatePropertiesService $buildingUpdatePropertiesService,
                                 UserMessagesService $userMessagesService,
-                                BattlesServiceInterface $battlesService)
+                                BattlesServiceInterface $battlesService,
+                                BattleReportsServiceInterface $battleReportsService)
     {
         $this->em = $em;
         $this->userRepository = $userRepository;
@@ -85,6 +93,7 @@ class DefaultController extends Controller
         $this->buildingUpdatePropertiesService = $buildingUpdatePropertiesService;
         $this->userMessagesService = $userMessagesService;
         $this->battlesService = $battlesService;
+        $this->battleReportsService = $battleReportsService;
     }
 
     /**
@@ -118,6 +127,8 @@ class DefaultController extends Controller
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
         $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
 
         $this->battlesService->battleCalculationAndArmyReturn();

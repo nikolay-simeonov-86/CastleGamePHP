@@ -1,0 +1,36 @@
+.row-background-attack-victory {
+    background: url("/pictures/Attack and Defence/ArmyAttackVictoryV1.jpg") no-repeat;
+    background-size: contain;
+    height: 1000px;
+}
+.row-background-attack-defeat {
+    background: url("/pictures/Attack and Defence/ArmyAttackDefeatV1.jpg") no-repeat right;
+    background-size: contain;
+    height: 1000px;
+}
+.row-background-defence-victory {
+    background: url("/pictures/Attack and Defence/CastleAttackVictoryV2.jpg") no-repeat;
+    background-size: contain;
+    height: 1000px;
+}
+.row-background-defence-defeat {
+    background: url("/pictures/Attack and Defence/CastleAttackDefeatV2.jpg") no-repeat right;
+    background-size: contain;
+    height: 1000px;
+}
+.victory-image {
+    width: 100%;
+}
+.defeat-image {
+    width: 50%;
+}
+.heading {
+    margin-top: 30px;
+}
+.table-position {
+    margin-top: 50px;
+    text-shadow: none;
+}
+.table-position tbody tr td {
+    text-align: center;
+}

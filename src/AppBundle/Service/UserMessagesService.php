@@ -109,13 +109,9 @@ class UserMessagesService implements UserMessagesServiceInterface
      */
     public function getUserMessagesAllUnread(User $user)
     {
-        $allUnvisitedMessages = $this->userMessagesRepository->findBy(array('userId' => $user, 'visited' => false));
-        $count = 0;
-        foreach ($allUnvisitedMessages as $unvisitedMessage)
-        {
-            $count++;
-        }
-        return $count;
+        $allUnvisitedMessages = count($this->userMessagesRepository->findBy(array('userId' => $user, 'visited' => false)));
+
+        return $allUnvisitedMessages;
     }
 
     public function getUserMessagesByUsername(User $user, string $username)

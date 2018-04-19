@@ -33,6 +33,7 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+
     AppBundle\Repository\UserRepository:
             factory: 'doctrine.orm.entity_manager:getRepository'
             arguments: ['AppBundle\Entity\User']
@@ -74,8 +75,12 @@ services:
             arguments: ['AppBundle\Entity\ArmyTrainTimers']
 
     AppBundle\Repository\BattlesRepository:
-                factory: 'doctrine.orm.entity_manager:getRepository'
-                arguments: ['AppBundle\Entity\Battles']
+            factory: 'doctrine.orm.entity_manager:getRepository'
+            arguments: ['AppBundle\Entity\Battles']
+
+    AppBundle\Repository\BattleReportsRepository:
+            factory: 'doctrine.orm.entity_manager:getRepository'
+            arguments: ['AppBundle\Entity\BattleReports']
 
     AppBundle\Service\UserServiceInterface:
             alias: 'AppBundle\Service\UserService'
@@ -114,5 +119,9 @@ services:
             public: false
 
     AppBundle\Service\BattlesServiceInterface:
-                alias: 'AppBundle\Service\BattlesService'
-                public: false
+            alias: 'AppBundle\Service\BattlesService'
+            public: false
+
+    AppBundle\Service\BattleReportsServiceInterface:
+            alias: 'AppBundle\Service\BattleReportsService'
+            public: false

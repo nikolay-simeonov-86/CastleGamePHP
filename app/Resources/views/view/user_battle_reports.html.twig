@@ -1,0 +1,194 @@
+{% extends 'view/base.html.twig' %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ asset('assets/user_battle_reports.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="row row-first">
+        <div class="col-5">
+            <h2>Attacks</h2>
+        </div>
+        <div class="col-7">
+            <table class="background1 table table-inverse table-hover head-table" align="center">
+                <thead align="center">
+                <tr>
+                    <th>
+                        Result
+                    </th>
+                    <th>
+                        Defender
+                    </th>
+                    <th>
+                        Battle Date
+                    </th>
+                    <th>
+                        Information
+                    </th>
+                    <th>
+                        Detailed Information
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Delete
+                    </th>
+                </tr>
+                </thead>
+            </table>
+            <table class="background1 table table-inverse table-hover" align="center">
+                <tbody align="center">
+                {% if allAttackReports is not empty %}
+                    {% for allAttackReport in allAttackReports %}
+                        <tr>
+                            {% if allAttackReport.winner == allAttackReport.defender %}
+                                <td>
+                                    <img class="table-pictures" src="{{ asset('pictures/Attack and Defence/DefeatSmall.png') }}" alt="defeat">
+                                </td>
+                            {% else %}
+                                <td>
+                                    <img class="table-pictures" src="{{ asset('pictures/Attack and Defence/VictorySmall.png') }}" alt="victory">
+                                </td>
+                            {% endif %}
+                            <td>
+                                {{ allAttackReport.defender }}
+                            </td>
+                            <td>
+                                {{ allAttackReport.battleDate|date('Y-m-d H:i:s') }}
+                            </td>
+                            <td>
+                                {% if allAttackReport.armyReturnedToCastle == 1 %}
+                                    {% if allAttackReport.winner == allAttackReport.defender %}
+                                        Your attack failed and your army is dead
+                                    {% else %}
+                                        Your army has returned with {{ allAttackReport.gainedFood }} food and {{ allAttackReport.gainedMetal }} metal
+                                    {% endif %}
+                                {% else %}
+                                    {% if allAttackReport.winner == allAttackReport.defender %}
+                                        Your attack failed and your army is dead
+                                    {% else %}
+                                        Your army has not returned with the loot
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ path('user_battle_report_details',{'id': allAttackReport.id}) }}">Details</a>
+                            </td>
+                            {% if allAttackReport.visited == 0 %}
+                                <td class="text-danger">
+                                    NEW
+                                </td>
+                            {% else %}
+                                <td>
+                                    SEEN
+                                </td>
+                            {% endif %}
+                            <td>
+                                <a class="btn btn-info btn-lg bg-danger active bodytext cursor-pointer send-a-message-button" href="{{ path('user_battle_report_delete', {'id': allAttackReport.id}) }}">DELETE</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5">
+                            <h2>You have no attack reports</h2>
+                        </td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="row row-second">
+        <div class="col-7">
+            <table class="background1 table table-inverse table-hover head-table" align="center">
+                <thead align="center">
+                <tr>
+                    <th>
+                        Result
+                    </th>
+                    <th>
+                        Attacker
+                    </th>
+                    <th>
+                        Battle Date
+                    </th>
+                    <th>
+                        Information
+                    </th>
+                    <th>
+                        Detailed Information
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Delete
+                    </th>
+                </tr>
+                </thead>
+            </table>
+            <table class="background1 table table-inverse table-hover" align="center">
+                <tbody align="center">
+                {% if allDefenceReports is not empty %}
+                    {% for allDefenceReport in allDefenceReports %}
+                        <tr>
+                            {% if allDefenceReport.winner == allDefenceReport.attacker %}
+                                <td>
+                                    <img class="table-pictures" src="{{ asset('pictures/Attack and Defence/DefeatSmall.png') }}" alt="defeat">
+                                </td>
+                            {% else %}
+                                <td>
+                                    <img class="table-pictures" src="{{ asset('pictures/Attack and Defence/VictorySmall.png') }}" alt="victory">
+                                </td>
+                            {% endif %}
+                            <td>
+                                {{ allDefenceReport.attacker }}
+                            </td>
+                            <td>
+                                {{ allDefenceReport.battleDate|date('Y-m-d H:i:s') }}
+                            </td>
+                            <td>
+                                {% if allDefenceReport.winner == allDefenceReport.defender %}
+                                    You have successfully defended your castle
+                                {% else %}
+                                    You lost your army and {{ allDefenceReport.gainedFood - 100 }} food and {{ allDefenceReport.gainedMetal - 100 }} metal
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ path('user_battle_report_details',{'id': allDefenceReport.id}) }}">Details</a>
+                            </td>
+                            {% if allDefenceReport.visited == 0 %}
+                                <td class="text-danger">
+                                    NEW
+                                </td>
+                            {% else %}
+                                <td>
+                                    SEEN
+                                </td>
+                            {% endif %}
+                            <td>
+                                <a class="btn btn-info btn-lg bg-danger active bodytext cursor-pointer send-a-message-button" href="{{ path('user_battle_report_delete', {'id': allDefenceReport.id}) }}">DELETE</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5">
+                            <h2>You have no attack reports</h2>
+                        </td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-5 text-right">
+            <h2>Defences</h2>
+        </div>
+    </div>
+
+{% endblock %}
+

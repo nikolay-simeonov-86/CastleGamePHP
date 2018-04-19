@@ -22,6 +22,13 @@ class BattleReports
     private $id;
 
     /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="userReports")
+     * @ORM\JoinColumn(name="owner")
+     */
+    private $owner;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="attacker", type="string", length=255)
@@ -344,6 +351,13 @@ class BattleReports
     private $visited;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="duplicate", type="boolean")
+     */
+    private $duplicate;
+
+    /**
      * BattleReports constructor.
      */
     public function __construct()
@@ -388,6 +402,7 @@ class BattleReports
         $this->gainedMetal = 0;
         $this->armyReturnedToCastle = false;
         $this->visited = false;
+        $this->duplicate = false;
     }
 
     /**
@@ -1182,5 +1197,41 @@ class BattleReports
     public function setVisited(bool $visited): void
     {
         $this->visited = $visited;
+    }
+
+    /**
+     * Set owner
+     *
+     * @param User $owner
+     */
+    public function setOwner(User $owner)
+    {
+        $this->owner = $owner;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return User
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDuplicate(): bool
+    {
+        return $this->duplicate;
+    }
+
+    /**
+     * @param bool $duplicate
+     */
+    public function setDuplicate(bool $duplicate): void
+    {
+        $this->duplicate = $duplicate;
     }
 }

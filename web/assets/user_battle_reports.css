@@ -1,0 +1,47 @@
+.table-pictures {
+    width: 100%;
+}
+tr {
+    width: 100%;
+    display: inline-table;
+    table-layout: fixed;
+}
+.table{
+    height:80%;
+    width: 100%;
+    display: -moz-groupbox;
+    margin-bottom: 0;
+}
+.table tbody{
+    overflow-y: scroll;
+    height: 80%;
+    width: 97%;
+    position: absolute;
+}
+.table th, .table td {
+    text-shadow: none;
+    font-size: 20px;
+    vertical-align: middle;
+}
+.head-table {
+    margin-top: 20px;
+    margin-left: 0;
+    height: 8%;
+    width: 98%;
+}
+h2 {
+    margin: 2% 0;
+}
+.row-first {
+    background: url("/pictures/Attack and Defence/ArmyAttackV2.jpg") no-repeat;
+    background-size: contain;
+    height: 800px;
+}
+.row-second {
+    background: url("/pictures/Attack and Defence/CastleAttackV2.jpg") no-repeat right;
+    background-size: contain;
+    height: 800px;
+}
+a:hover {
+    text-decoration: none;
+}

@@ -96,6 +96,12 @@ class User implements UserInterface
      */
     private $armyBattles;
 
+    /**
+     * @var BattleReports[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\BattleReports", mappedBy="owner")
+     */
+    private $userReports;
+
     public function __construct()
     {
         $this->userMessages = new ArrayCollection();
@@ -351,6 +357,26 @@ class User implements UserInterface
     public function getArmyBattles()
     {
         return $this->armyBattles;
+    }
+
+    /**
+     * Set userReports
+     *
+     * @param BattleReports[] $userReports
+     */
+    public function setUserReports(array $userReports)
+    {
+        $this->userReports = $userReports;
+    }
+
+    /**
+     * Get userReports
+     *
+     * @return Collection|BattleReports[]
+     */
+    public function getUserReports()
+    {
+        return $this->userReports;
     }
 
     /**

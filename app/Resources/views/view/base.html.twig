@@ -107,30 +107,42 @@
                             </span>
                             <span class="navbar-text">
                                 {% if app.user %}
-                                    {% if user_messages_count > 0 %}
-                                        {% if user_messages_count > 99 %}
-                                            <h3>{{ app.user.username }}</h3>
-                                            <div class="message-icon-wrapper">
-                                                <a href="{{ path( 'user_messages_inbox', {'page': 1} ) }}">
-                                                    <img src="{{ asset('pictures/Icons/OldPapyrus.png') }}" alt="BattleReport"><span class="unread-messages-count">99+</span>
-                                                </a>
-                                            </div>
+                                    <h3>{{ app.user.username }}</h3>
+                                    <div class="message-icon-wrapper">
+
+                                    {% if user_battle_reports_messages_count > 0 %}
+                                        {% if user_battle_reports_messages_count > 99 %}
+                                            <a href="{{ path( 'user_battle_reports' ) }}">
+                                                <img src="{{ asset('pictures/Icons/BattleReport.png') }}" alt="BattleReports"><span class="unread-battle-reports-messages-count">99+</span>
+                                            </a>
                                         {% else %}
-                                            <h3>{{ app.user.username }}</h3>
-                                            <div class="message-icon-wrapper">
-                                                <a href="{{ path( 'user_messages_inbox', {'page': 1} ) }}">
-                                                    <img src="{{ asset('pictures/Icons/OldPapyrus.png') }}" alt="BattleReport"><span class="unread-messages-count">{{ user_messages_count }}</span>
-                                                </a>
-                                            </div>
+                                            <a href="{{ path( 'user_battle_reports' ) }}">
+                                                <img src="{{ asset('pictures/Icons/BattleReport.png') }}" alt="BattleReports"><span class="unread-battle-reports-messages-count">{{ user_battle_reports_messages_count }}</span>
+                                            </a>
                                         {% endif %}
                                     {% else %}
-                                        <h3>{{ app.user.username }}</h3>
-                                        <div class="message-icon-wrapper">
-                                            <a href="{{ path( 'user_messages_inbox', {'page': 1} ) }}">
-                                                <img src="{{ asset('pictures/Icons/OldPapyrus.png') }}" alt="BattleReport">
-                                            </a>
-                                        </div>
+                                        <a href="{{ path( 'user_battle_reports' ) }}">
+                                            <img src="{{ asset('pictures/Icons/BattleReport.png') }}" alt="BattleReports">
+                                        </a>
                                     {% endif %}
+
+                                    {% if user_messages_count > 0 %}
+                                        {% if user_messages_count > 99 %}
+                                            <a href="{{ path( 'user_messages_inbox', {'page': 1} ) }}">
+                                                <img src="{{ asset('pictures/Icons/OldPapyrus.png') }}" alt="Messages"><span class="unread-messages-count">99+</span>
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ path( 'user_messages_inbox', {'page': 1} ) }}">
+                                                <img src="{{ asset('pictures/Icons/OldPapyrus.png') }}" alt="Messages"><span class="unread-messages-count">{{ user_messages_count }}</span>
+                                            </a>
+                                        {% endif %}
+                                    {% else %}
+                                        <a href="{{ path( 'user_messages_inbox', {'page': 1} ) }}">
+                                            <img src="{{ asset('pictures/Icons/OldPapyrus.png') }}" alt="Messages">
+                                        </a>
+                                    {% endif %}
+
+                                    </div>
                                 {% else %}
                                     <h3>Username</h3>
                                 {% endif %}
