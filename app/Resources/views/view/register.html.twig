@@ -77,7 +77,7 @@
             <form name="register" action="{{ path('register') }}" method="post">
                 <div class="form-group">
                     <label  class="navbarcolor" for="app_bundle_user_register_Username">Username</label><br/>
-                    {{ form_widget(form.username) }}<br>
+                    {{ form_widget(form.username, {'attr': {'class': 'big-input'}}) }}<br>
                     <small id="usernameHelp" class="form-text navbarcolor">Choose a unique username.</small>
 
                     {% if message is defined %}
@@ -87,17 +87,17 @@
                     {% endif %}
 
                     <label class="navbarcolor" for="app_bundle_user_register_Password_first">Password</label><br>
-                    {{ form_widget(form.password.first) }}<br><br>
+                    {{ form_widget(form.password.first, {'attr': {'class': 'big-input'}}) }}<br><br>
                     <label class="navbarcolor" for="app_bundle_user_register_Password_second">Confirm password</label><br>
-                    {{ form_widget(form.password.second) }}<br>
+                    {{ form_widget(form.password.second, {'attr': {'class': 'big-input'}}) }}<br>
                     <small id="passwordHelp" class="form-text navbarcolor">Choose a password.</small><br>
 
                     <label class="navbarcolor" for="app_bundle_user_register_castle1">Main Castle</label><br>
-                    {{ form_widget(form.castle1) }}<br>
+                    {{ form_widget(form.castle1, {'attr': {'class': 'big-input'}}) }}<br>
                     <small id="castleChooseHelp" class="form-text navbarcolor">Choose main castle.</small><br>
 
                     <label class="navbarcolor" for="app_bundle_user_register_castle2">Secondary Castle</label><br>
-                    {{ form_widget(form.castle2) }}<br>
+                    {{ form_widget(form.castle2, {'attr': {'class': 'big-input'}}) }}<br>
                     <small id="castleChooseHelp" class="form-text navbarcolor">Choose secondary castle.</small><br>
 
                     {{ form_row(form._token) }}

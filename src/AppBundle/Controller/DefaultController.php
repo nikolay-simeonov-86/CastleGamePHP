@@ -6,6 +6,7 @@ use AppBundle\Entity\ArmyStatistics;
 use AppBundle\Entity\ArmyTrainTimers;
 use AppBundle\Entity\BuildingUpdateProperties;
 use AppBundle\Entity\Castle;
+use AppBundle\Entity\NewCastleCost;
 use AppBundle\Entity\User;
 use AppBundle\Entity\UserUpdateResources;
 use AppBundle\Repository\UserRepository;
@@ -14,6 +15,7 @@ use AppBundle\Service\BattleReportsServiceInterface;
 use AppBundle\Service\BattlesServiceInterface;
 use AppBundle\Service\BuildingUpdatePropertiesService;
 use AppBundle\Service\CastleServiceInterface;
+use AppBundle\Service\NewCastleCostServiceInterface;
 use AppBundle\Service\UserMessagesService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -67,6 +69,11 @@ class DefaultController extends Controller
     private $battleReportsService;
 
     /**
+     * @var NewCastleCostServiceInterface
+     */
+    private $newCastleCostService;
+
+    /**
      * UserService constructor.
      * @param EntityManagerInterface $em
      * @param UserRepository $userRepository
@@ -76,6 +83,7 @@ class DefaultController extends Controller
      * @param UserMessagesService $userMessagesService
      * @param BattlesServiceInterface $battlesService
      * @param BattleReportsServiceInterface $battleReportsService
+     * @param NewCastleCostServiceInterface $newCastleCostService
      */
     public function __construct(EntityManagerInterface $em,
                                 UserRepository $userRepository,
@@ -84,7 +92,8 @@ class DefaultController extends Controller
                                 BuildingUpdatePropertiesService $buildingUpdatePropertiesService,
                                 UserMessagesService $userMessagesService,
                                 BattlesServiceInterface $battlesService,
-                                BattleReportsServiceInterface $battleReportsService)
+                                BattleReportsServiceInterface $battleReportsService,
+                                NewCastleCostServiceInterface $newCastleCostService)
     {
         $this->em = $em;
         $this->userRepository = $userRepository;
@@ -94,6 +103,7 @@ class DefaultController extends Controller
         $this->userMessagesService = $userMessagesService;
         $this->battlesService = $battlesService;
         $this->battleReportsService = $battleReportsService;
+        $this->newCastleCostService = $newCastleCostService;
     }
 
     /**
@@ -115,6 +125,11 @@ class DefaultController extends Controller
         {
             $this->buildingUpdatePropertiesService->createBuildingUpdateProperties();
         }
+        if (null == $this->em->getRepository(NewCastleCost::class)->findAll())
+        {
+            $this->newCastleCostService->createNewCastleCost();
+        }
+
         return $this->render('view/home.html.twig');
     }
 

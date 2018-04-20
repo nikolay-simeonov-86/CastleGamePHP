@@ -73,7 +73,7 @@ class UserUpdateResourcesService implements UserUpdateResourcesServiceInterface
                     }
                     elseif ($castle->getMineFoodLvl() == 2)
                     {
-                        $foodTemp = $minutes*2;
+                        $foodTemp = $minutes*3;
                     }
                     elseif ($castle->getMineFoodLvl() == 3)
                     {

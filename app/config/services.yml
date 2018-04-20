@@ -82,6 +82,10 @@ services:
             factory: 'doctrine.orm.entity_manager:getRepository'
             arguments: ['AppBundle\Entity\BattleReports']
 
+    AppBundle\Repository\NewCastleCostRepository:
+            factory: 'doctrine.orm.entity_manager:getRepository'
+            arguments: ['AppBundle\Entity\NewCastleCost']
+
     AppBundle\Service\UserServiceInterface:
             alias: 'AppBundle\Service\UserService'
             public: false
@@ -124,4 +128,8 @@ services:
 
     AppBundle\Service\BattleReportsServiceInterface:
             alias: 'AppBundle\Service\BattleReportsService'
+            public: false
+
+    AppBundle\Service\NewCastleCostServiceInterface:
+            alias: 'AppBundle\Service\NewCastleCostService'
             public: false

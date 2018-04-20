@@ -22,13 +22,6 @@ interface CastleServiceInterface
     public function castleInformation(int $id);
 
     /**
-     * @param User $user
-     * @param string $name
-     * @return mixed
-     */
-    public function buildNewCastle(User $user, string $name);
-
-    /**
      * @param string $building
      * @param Castle $castle
      * @param BuildingUpdateProperties $buildingUpdate

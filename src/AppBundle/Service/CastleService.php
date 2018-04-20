@@ -328,44 +328,6 @@ class CastleService implements CastleServiceInterface
     }
 
     /**
-     * @param User $user
-     * @param string $name
-     * @return mixed|void
-     */
-    public function buildNewCastle(User $user, string $name)
-    {
-        $castle = new Castle();
-        $castle->setName($name);
-        $castle->setUserId($user);
-        if ($name == 'Dwarf')
-        {
-            $castle->setCastlePicture('/pictures/Castles/DarkCastleDwarf.jpg');
-        }
-        elseif ($name == 'Ninja')
-        {
-            $castle->setCastlePicture('/pictures/Castles/DarkCastleNinja.jpg');
-        }
-        elseif ($name == 'Vampire')
-        {
-            $castle->setCastlePicture('/pictures/Castles/DarkCastleVampire.jpg');
-        }
-        elseif ($name == 'Elfs')
-        {
-            $castle->setCastlePicture('/pictures/Castles/LightCastleElfs.jpg');
-        }
-        elseif ($name == 'Mages')
-        {
-            $castle->setCastlePicture('/pictures/Castles/LightCastleMages.jpg');
-        }
-        elseif ($name == 'Olymp')
-        {
-            $castle->setCastlePicture('/pictures/Castles/LightCastleOlymp.jpg');
-        }
-        $this->em->persist($castle);
-        $this->em->flush();
-    }
-
-    /**
      * @param int $id
      * @return Castle|null|object
      */

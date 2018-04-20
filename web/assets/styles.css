@@ -37,6 +37,9 @@ table.background {
     background: url("/pictures/Map.jpg") no-repeat;
     table-layout: fixed;
 }
+table.background tr, table.background td {
+    border: none;
+}
 table.background1 {
     background: url("/pictures/TableStatsBackground.jpg");
     table-layout: auto;
@@ -199,7 +202,7 @@ input[type=number] {
     border-radius: 50%;
     position:absolute;
     top: -8px;
-    right: 22px;
+    right: 17px;
     padding:3px;
 }
 .unread-messages-count {
@@ -212,7 +215,7 @@ input[type=number] {
     border-radius: 50%;
     position:absolute;
     top: -8px;
-    right: -31px;
+    right: -35px;
     padding:3px;
 }
 .form-inline span {
@@ -220,4 +223,14 @@ input[type=number] {
 }
 .cursor-pointer {
     cursor: pointer;
+}
+.big-input {
+    width: 250px;
+    height: 50px;
+    font-size: 30px;
+    text-align-last: center;
+    color: #c4ac7c;
+    text-shadow: 2px 2px 4px #000000;
+    border: 2px solid #c4ac7c;
+    border-radius: 10px;
 }

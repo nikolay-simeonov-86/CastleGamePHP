@@ -12,6 +12,7 @@ use AppBundle\Entity\BattlesTemp;
 use AppBundle\Entity\BuildingUpdateProperties;
 use AppBundle\Entity\BuildingUpdateTimers;
 use AppBundle\Entity\Castle;
+use AppBundle\Entity\NewCastleCost;
 use AppBundle\Entity\User;
 use AppBundle\Entity\UserMessages;
 use AppBundle\Entity\UserSpies;
@@ -23,6 +24,7 @@ use AppBundle\Service\BattlesServiceInterface;
 use AppBundle\Service\BattlesTempService;
 use AppBundle\Service\BattlesTempServiceInterface;
 use AppBundle\Service\CastleServiceInterface;
+use AppBundle\Service\NewCastleCostServiceInterface;
 use AppBundle\Service\UserMessagesServiceInterface;
 use AppBundle\Service\UserServiceInterface;
 use AppBundle\Service\UserSpiesServiceInterface;
@@ -33,6 +35,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -106,6 +109,11 @@ class PlayerController extends Controller
     private $battleReportsService;
 
     /**
+     * @var NewCastleCostServiceInterface
+     */
+    private $newCastleCostService;
+
+    /**
      * CastleController constructor.
      * @param UserServiceInterface $userService
      * @param CastleServiceInterface $castleService
@@ -119,6 +127,7 @@ class PlayerController extends Controller
      * @param BattlesServiceInterface $battlesService
      * @param BattlesTempService $battlesTempService
      * @param BattleReportsServiceInterface $battleReportsService
+     * @param NewCastleCostServiceInterface $newCastleCostService
      */
     public function __construct(UserServiceInterface $userService,
                                 CastleServiceInterface $castleService,
@@ -131,7 +140,8 @@ class PlayerController extends Controller
                                 UserMessagesServiceInterface $userMessagesService,
                                 BattlesServiceInterface $battlesService,
                                 BattlesTempService $battlesTempService,
-                                BattleReportsServiceInterface $battleReportsService)
+                                BattleReportsServiceInterface $battleReportsService,
+                                NewCastleCostServiceInterface $newCastleCostService)
     {
         $this->em = $em;
         $this->userService = $userService;
@@ -145,6 +155,7 @@ class PlayerController extends Controller
         $this->battlesService = $battlesService;
         $this->battlesTempService = $battlesTempService;
         $this->battleReportsService = $battleReportsService;
+        $this->newCastleCostService = $newCastleCostService;
     }
 
     /**
@@ -155,7 +166,6 @@ class PlayerController extends Controller
     public function userHomepageAction()
     {
         $user = $this->getUser();
-
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
         $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
         $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
@@ -165,13 +175,80 @@ class PlayerController extends Controller
 
 //        $this->userUpdateResourcesService->updateUsersResources();
 
+        $newCastleCostsArray = $this->em->getRepository(NewCastleCost::class)->findAll();
+        list($newCastleCosts) = $newCastleCostsArray;
+
         $castles = $this->em->getRepository(Castle::class)->findBy(array('userId' => $userId));
         foreach ($castles as $castle)
         {
             $this->castleService->updateCastle($castle->getId());
         }
 
-        return $this->render( 'view/user.html.twig', array('castles' => $castles, 'user' => $user));
+        return $this->render( 'view/user.html.twig', array('castles' => $castles, 'user' => $user, 'newCastleCosts' => $newCastleCosts));
+    }
+
+    /**
+     * @Route("/user/buy/Castle", name="user_buy_castle")
+     * @param Request $request
+     * @return Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function userBuyNewCastle(Request $request)
+    {
+        $user = $this->getUser();
+        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
+        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+
+        $userId = $user->getId();
+        $castles = $this->em->getRepository(Castle::class)->findBy(array('userId' => $userId));
+
+        $form = $this->createFormBuilder()
+            ->add('Select', ChoiceType::class,
+                array(
+                    'mapped' => false,
+                    'choices'  =>
+                        array(
+                            'Dark' =>
+                                array(
+                                    'Dwarf' => 'Dwarf',
+                                    'Ninja' => 'Ninja',
+                                    'Vampire' => 'Vampire'
+                                ),
+                            'Light' =>
+                                array(
+                                    'Elfs' => 'Elfs',
+                                    'Mages' => 'Mages',
+                                    'Olymp' => 'Olymp'
+                                ),
+                        ),
+                )
+            )
+            ->add('Confirm', SubmitType::class,
+                array('attr' => array('type' => 'button', 'class' => 'btn btn-lg btn-success bodytext cursor-pointer send-a-message-button')))
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $message = $this->newCastleCostService->calculateCostForNewCastle($user);
+
+            if ($message)
+            {
+                return $this->render('view/user_buy_castle.html.twig', array('form' => $form->createView(),
+                                                                                    'castles' => $castles,
+                                                                                    'message' => $message));
+            }
+            else
+            {
+                $this->newCastleCostService->buildNewCastle($user, $form->get('Select')->getData());
+                return $this->redirectToRoute('user_castles');
+            }
+        }
+
+        return $this->render('view/user_buy_castle.html.twig', array('form' => $form->createView(),
+                                                                            'castles' => $castles));
     }
 
     /**

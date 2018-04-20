@@ -129,16 +129,16 @@
                                     {% if user_messages_count > 0 %}
                                         {% if user_messages_count > 99 %}
                                             <a href="{{ path( 'user_messages_inbox', {'page': 1} ) }}">
-                                                <img src="{{ asset('pictures/Icons/OldPapyrus.png') }}" alt="Messages"><span class="unread-messages-count">99+</span>
+                                                <img src="{{ asset('pictures/Icons/OldScroll.png') }}" alt="Messages"><span class="unread-messages-count">99+</span>
                                             </a>
                                         {% else %}
                                             <a href="{{ path( 'user_messages_inbox', {'page': 1} ) }}">
-                                                <img src="{{ asset('pictures/Icons/OldPapyrus.png') }}" alt="Messages"><span class="unread-messages-count">{{ user_messages_count }}</span>
+                                                <img src="{{ asset('pictures/Icons/OldScroll.png') }}" alt="Messages"><span class="unread-messages-count">{{ user_messages_count }}</span>
                                             </a>
                                         {% endif %}
                                     {% else %}
                                         <a href="{{ path( 'user_messages_inbox', {'page': 1} ) }}">
-                                            <img src="{{ asset('pictures/Icons/OldPapyrus.png') }}" alt="Messages">
+                                            <img src="{{ asset('pictures/Icons/OldScroll.png') }}" alt="Messages">
                                         </a>
                                     {% endif %}
 

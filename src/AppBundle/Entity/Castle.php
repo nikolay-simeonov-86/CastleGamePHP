@@ -33,27 +33,6 @@ class Castle
     /**
      * @var int
      *
-     * @ORM\Column(name="army_lvl1_count", type="integer")
-     */
-    private $armyLvl1Count;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="army_lvl2_count", type="integer")
-     */
-    private $armyLvl2Count;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="army_lvl3_count", type="integer")
-     */
-    private $armyLvl3Count;
-
-    /**
-     * @var int
-     *
      * @ORM\Column(name="army_lvl1_building", type="smallint")
      */
     private $armyLvl1Building;
@@ -140,9 +119,6 @@ class Castle
     {
         $this->army = new ArrayCollection();
         $this->buildingUpdateTimers = new ArrayCollection();
-        $this->armyLvl1Count = 0;
-        $this->armyLvl2Count = 0;
-        $this->armyLvl3Count = 0;
         $this->armyLvl1Building = 0;
         $this->armyLvl2Building = 0;
         $this->armyLvl3Building = 0;
@@ -185,78 +161,6 @@ class Castle
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set armyLvl1Count
-     *
-     * @param integer $armyLvl1Count
-     *
-     * @return Castle
-     */
-    public function setArmyLvl1Count($armyLvl1Count)
-    {
-        $this->armyLvl1Count = $armyLvl1Count;
-
-        return $this;
-    }
-
-    /**
-     * Get armyLvl1Count
-     *
-     * @return int
-     */
-    public function getArmyLvl1Count()
-    {
-        return $this->armyLvl1Count;
-    }
-
-    /**
-     * Set armyLvl2Count
-     *
-     * @param integer $armyLvl2Count
-     *
-     * @return Castle
-     */
-    public function setArmyLvl2Count($armyLvl2Count)
-    {
-        $this->armyLvl2Count = $armyLvl2Count;
-
-        return $this;
-    }
-
-    /**
-     * Get armyLvl2Count
-     *
-     * @return int
-     */
-    public function getArmyLvl2Count()
-    {
-        return $this->armyLvl2Count;
-    }
-
-    /**
-     * Set armyLvl3Count
-     *
-     * @param integer $armyLvl3Count
-     *
-     * @return Castle
-     */
-    public function setArmyLvl3Count($armyLvl3Count)
-    {
-        $this->armyLvl3Count = $armyLvl3Count;
-
-        return $this;
-    }
-
-    /**
-     * Get armyLvl3Count
-     *
-     * @return int
-     */
-    public function getArmyLvl3Count()
-    {
-        return $this->armyLvl3Count;
     }
 
     /**

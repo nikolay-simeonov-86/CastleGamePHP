@@ -91,8 +91,8 @@ class ArmyService implements ArmyServiceInterface
             }
             else
             {
-                $userFoodAfter = $userFood-$prizeFood;
-                $userMetalAfter = $userMetal-$prizeMetal;
+                $userFoodAfter = $userFood - $prizeFood;
+                $userMetalAfter = $userMetal - $prizeMetal;
                 $user->setFood($userFoodAfter);
                 $user->setMetal($userMetalAfter);
             }
