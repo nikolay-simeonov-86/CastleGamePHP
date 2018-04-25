@@ -5,6 +5,12 @@
 {% endblock %}
 
 {% block body %}
+    {% if success == true %}
+        <div class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong>Successful message sent!</strong>
+        </div>
+    {% endif %}
     <div class="background2">
         <img class="background-papyrus" src="/pictures/Messages/BattleReportBackground.png" alt="papyrus">
         <img class="crow-flying" src="{{ asset('pictures/Messages/FlyingCrow.png') }}" alt="crow-flying">

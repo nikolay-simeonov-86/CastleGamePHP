@@ -1,0 +1,259 @@
+{% extends 'view/base.html.twig' %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ asset('assets/introduction.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <div class="introduction-page-one">
+                <div class="row">
+                    <div class="col-12">
+                        <img class="float-left w-75" src="{{ asset('pictures/Introduction/MenuLeft.png') }}" alt="menu1">
+                        <p class="h3 text-justify">This is the left side main menu. It has all the pages where you can see all your
+                        Castles, Army and Battles. Under Home you can see the basic information about your account. Map option
+                        shows you the entire map on which you and all other players are placed on.</p>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-12">
+                        <img class="float-right w-75" src="{{ asset('pictures/Introduction/MenuRight.png') }}" alt="menu2">
+                        <p class="h3 text-justify">The right side menu is where you will find information about your current resources,
+                        battle reports and messages. This is also where you will get all your real time information and the
+                        <span class="text-danger">LOGOUT</span> button. The numbers above the icons indicate how many new reports or messages
+                        you have.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6"></div>
+                    <div class="col-6 text-center">
+                        <button id="introduction-next-button-one">Next</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="introduction-page-two d-none">
+                <div class="row">
+                    <div class="col-12">
+                        <img class="float-left w-75" src="{{ asset('pictures/Introduction/UserHomepage.png') }}" alt="homepage">
+                        <p class="h3 text-justify">This is your personal homepage. It contains basic information about your account with pictures
+                        of your Castles. On this page you can buy a new Castle (if you can afford it). The button <span class="text-success">SELECT CASTLE</span>
+                        redirects you to choose what type of Castle you want to buy.</p>
+                    </div>
+                </div>
+                <div class="row d-flex space-around">
+                    <div class="col-6 text-center">
+                        <button id="introduction-back-button-two">Back</button>
+                    </div>
+                    <div class="col-6 text-center">
+                        <button id="introduction-next-button-two">Next</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="introduction-page-three d-none">
+                <div class="row">
+                    <div class="col-12">
+                        <img class="float-right w-75" src="{{ asset('pictures/Introduction/Map.png') }}" alt="map">
+                        <p class="h3 text-justify">This page is where you can see the whole map with all existing players. Every player has an icon
+                        on the map that represents his main Castle type. When you hover over it you can see the player's username. By clicking it
+                        you are redirected to a page with information about that player with options to send a <span class="text-success">SPY</span>
+                        who gives you even more information about that player and an <span class="text-danger">ATTACK</span> button from where you
+                        can send an attack against him.</p>
+                    </div>
+                </div>
+                <div class="row d-flex space-around">
+                    <div class="col-6 text-center">
+                        <button id="introduction-back-button-three">Back</button>
+                    </div>
+                    <div class="col-6 text-center">
+                        <button id="introduction-next-button-three">Next</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="introduction-page-four d-none">
+                <div class="row">
+                    <div class="col-12">
+                        <img class="float-right w-75" src="{{ asset('pictures/Introduction/Castles.png') }}" alt="castles">
+                        <p class="h3 text-justify">On this page are displayed all your Castles with a slider. Here you can see the Castle picture, number
+                        (the first one is your main Castle), and a table with your buildings and their levels. Under every building you have
+                        <span class="text-success">UPGRADE</span> button which allows you to upgrade your building so that you get better rewards
+                        from them. The button takes you to a confirm page with cost and time to build. You have three levels of every building.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 text-center">
+                        <button id="introduction-back-button-four">Back</button>
+                    </div>
+                    <div class="col-6 text-center">
+                        <button id="introduction-next-button-four">Next</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="introduction-page-five d-none">
+                <div class="row">
+                    <div class="col-12">
+                        <img class="float-left w-75" src="{{ asset('pictures/Introduction/Army.png') }}" alt="army">
+                        <p class="h3 text-justify">Your Army is right here. It is divided by Castles and you can see the Castle name,
+                        number and if it is your main Castle on top. Below are the pictures of each of the three types of army every
+                        Castle has. You can <span class="text-success">Train</span> more troops for a given amount of resources. On
+                        the bottom is a table where you can see the army in this Castle with detailed information about each type.</p>
+                    </div>
+                </div>
+                <div class="row d-flex space-around">
+                    <div class="col-6 text-center">
+                        <button id="introduction-back-button-five">Back</button>
+                    </div>
+                    <div class="col-6 text-center">
+                        <button id="introduction-next-button-five">Next</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="introduction-page-six d-none">
+                <div class="row">
+                    <div class="col-12">
+                        <img class="float-left w-75" src="{{ asset('pictures/Introduction/Battles.png') }}" alt="battles">
+                        <p class="h3 text-justify">This is the place where you can check your ongoing battles (incoming and outgoing).
+                        It is also the place where you can assemble an attack against another player. When you press the
+                        <span class="text-danger">ATTACK</span> button you are asked to choose a Castle you want to get the army from and
+                        then to choose how many troops you want to send.</p>
+                    </div>
+                </div>
+                <div class="row d-flex space-around">
+                    <div class="col-6 text-center">
+                        <button id="introduction-back-button-six">Back</button>
+                    </div>
+                    <div class="col-6 text-center">
+                        <button id="introduction-next-button-six">Next</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="introduction-page-seven d-none">
+                <div class="row">
+                    <div class="col-12">
+                        <img class="float-left w-75" src="{{ asset('pictures/Introduction/BattleReportsPart1.png') }}" alt="reports1">
+                        <p class="h3 text-justify">If you want to know what are the results of your attack this is the place you can
+                        see it. The table you can see here is filled with the results of all your attacks with result of either
+                        <span class="text-success">VICTORY</span> or <span class="text-danger">DEFEAT</span> and basic information
+                        about it. You can <span class="text-danger">DELETE</span> any report by clicking the button.</p>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-12">
+                        <img class="float-right w-75" src="{{ asset('pictures/Introduction/BattleReportsPart2.png') }}" alt="reports2">
+                        <p class="h3 text-justify">The table below has information about the result of attacks that were sent against your
+                        Castle. They can also be either <span class="text-success">VICTORY</span> or <span class="text-danger">DEFEAT</span>.
+                        You can click and view a detailed information about the given attack.</p>
+                    </div>
+                </div>
+                <div class="row d-flex space-around">
+                    <div class="col-6 text-center">
+                        <button id="introduction-back-button-seven">Back</button>
+                    </div>
+                    <div class="col-6 text-center">
+                        <button id="introduction-next-button-seven">Next</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="introduction-page-eight d-none">
+                <div class="row">
+                    <div class="col-12">
+                        <img class="float-right w-75" src="{{ asset('pictures/Introduction/Messages.png') }}" alt="messages">
+                        <p class="h3 text-justify">Finally this is the place where you can see the messages you have received from other
+                        players. You can also send messages to any other player within the given number of symbols restriction. You can see
+                        all messages one player sent you by clicking on his username in the table. Messages can be deleted with only one
+                        click of the <span class="text-danger">DELETE</span> button.</p>
+                        <p class="h2 text-justify">This is the end. Now show them who's BOSS.</p>
+                    </div>
+                </div>
+                <div class="row d-flex space-around">
+                    <div class="col-6 text-center">
+                        <button id="introduction-back-button-eight">Back</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-5"></div>
+        <div class="col-2">
+            <a id="introduction-page-skip" href="{{ path('user') }}">End<br>Introduction</a>
+        </div>
+        <div class="col-5"></div>
+    </div>
+    <br>
+
+    <script>
+        $('#introduction-next-button-one').click(function() {
+            $('.introduction-page-one').addClass('d-none');
+            $('.introduction-page-two').removeClass('d-none');
+        });
+        $('#introduction-next-button-two').click(function() {
+            $('.introduction-page-two').addClass('d-none');
+            $('.introduction-page-three').removeClass('d-none');
+        });
+        $('#introduction-next-button-three').click(function() {
+            $('.introduction-page-three').addClass('d-none');
+            $('.introduction-page-four').removeClass('d-none');
+        });
+        $('#introduction-next-button-four').click(function() {
+            $('.introduction-page-four').addClass('d-none');
+            $('.introduction-page-five').removeClass('d-none');
+        });
+        $('#introduction-next-button-five').click(function() {
+            $('.introduction-page-five').addClass('d-none');
+            $('.introduction-page-six').removeClass('d-none');
+        });
+        $('#introduction-next-button-six').click(function() {
+            $('.introduction-page-six').addClass('d-none');
+            $('.introduction-page-seven').removeClass('d-none');
+        });
+        $('#introduction-next-button-seven').click(function() {
+            $('.introduction-page-seven').addClass('d-none');
+            $('.introduction-page-eight').removeClass('d-none');
+        });
+
+        $('#introduction-back-button-two').click(function() {
+            $('.introduction-page-two').addClass('d-none');
+            $('.introduction-page-one').removeClass('d-none');
+        });
+        $('#introduction-back-button-three').click(function() {
+            $('.introduction-page-three').addClass('d-none');
+            $('.introduction-page-two').removeClass('d-none');
+        });
+        $('#introduction-back-button-four').click(function() {
+            $('.introduction-page-four').addClass('d-none');
+            $('.introduction-page-three').removeClass('d-none');
+        });
+        $('#introduction-back-button-five').click(function() {
+            $('.introduction-page-five').addClass('d-none');
+            $('.introduction-page-four').removeClass('d-none');
+        });
+        $('#introduction-back-button-six').click(function() {
+            $('.introduction-page-six').addClass('d-none');
+            $('.introduction-page-five').removeClass('d-none');
+        });
+        $('#introduction-back-button-seven').click(function() {
+            $('.introduction-page-seven').addClass('d-none');
+            $('.introduction-page-six').removeClass('d-none');
+        });
+        $('#introduction-back-button-eight').click(function() {
+            $('.introduction-page-eight').addClass('d-none');
+            $('.introduction-page-seven').removeClass('d-none');
+        });
+    </script>
+
+{% endblock %}
+

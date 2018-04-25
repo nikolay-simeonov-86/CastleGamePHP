@@ -43,7 +43,7 @@ class UserUpdateResourcesService implements UserUpdateResourcesServiceInterface
      */
     public function updateUsersResources()
     {
-        $currentDateTime = new \DateTime("now + 60 minutes");
+        $currentDateTime = new \DateTime("now");
         $users = $this->em->getRepository(User::class)->findAll();
         foreach ($users as $user)
         {
@@ -96,7 +96,7 @@ class UserUpdateResourcesService implements UserUpdateResourcesServiceInterface
                     {
                         $metalTemp = $minutes*3;
                     }
-                    $userUpdateResources->setLastUpdateDate(new \DateTime("now + 60 minutes"));
+                    $userUpdateResources->setLastUpdateDate(new \DateTime("now"));
                     $this->em->persist($userUpdateResources);
                 }
                 $foodUser = $foodUser+$foodTemp;

@@ -5,6 +5,18 @@
 {% endblock head %}
 
 {% block body %}
+    {% if success == true %}
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <div class="alert">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    <strong>Successful building purchase!</strong>
+                </div>
+            </div>
+            <div class="col-4"></div>
+        </div>
+    {% endif %}
     <div class="icon-wrapper"><i class="fas fa-envelope"></i><span class="badge">100</span></div>
 <div class="background2">
     <img class="background-papyrus" src="/pictures/Messages/BattleReportBackground.png" alt="">

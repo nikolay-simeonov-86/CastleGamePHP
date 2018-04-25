@@ -44,36 +44,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="PlayerController.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="PlayerController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/PlayerController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="535">
-              <caret line="1392" column="5" selection-start-line="1392" selection-start-column="5" selection-end-line="1392" selection-end-column="5" />
+            <state relative-caret-position="389">
+              <caret line="367" selection-start-line="367" selection-end-line="367" />
               <folding>
-                <element signature="e#7997#8029#0#PHP" expanded="true" />
-                <element signature="e#8124#8156#0#PHP" expanded="true" />
-                <marker date="1524224687763" expanded="true" signature="15278:15406" ph="SELECT u.id,... AppBundle" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserUpdateResourcesService.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/UserUpdateResourcesService.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1320">
-              <caret line="75" column="46" selection-start-line="75" selection-start-column="46" selection-end-line="75" selection-end-column="46" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NewCastleCostService.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/NewCastleCostService.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="395">
-              <caret line="133" column="44" lean-forward="true" selection-start-line="133" selection-start-column="44" selection-end-line="133" selection-end-column="44" />
-              <folding>
-                <element signature="e#126#154#0#PHP" expanded="true" />
+                <marker date="1524570316094" expanded="true" signature="15415:15543" ph="SELECT u.id,... AppBundle" />
               </folding>
             </state>
           </provider>
@@ -114,18 +91,7 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/AppBundle/Service/UserSpiesServiceInterface.php" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Service/UserUpdateResourcesServiceInterface.php" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Service/UserSpiesService.php" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Service/BattlesTempService.php" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Service/BattlesServiceInterface.php" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Command/UpdateUsersResources.php" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Service/ArmyTrainTimersService.php" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Command/BattleCalculationAndArmyReturnCommand.php" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Entity/ArmyBattles.php" />
-        <option value="$PROJECT_DIR$/app/Resources/views/view/user_battles.html.twig" />
         <option value="$PROJECT_DIR$/web/assets/user_battles.css" />
-        <option value="$PROJECT_DIR$/app/Resources/views/view/test.html.twig" />
         <option value="$PROJECT_DIR$/src/AppBundle/Entity/Battles.php" />
         <option value="$PROJECT_DIR$/app/Resources/views/view/train_army.html.twig" />
         <option value="$PROJECT_DIR$/src/AppBundle/Service/ArmyStatisticsServiceInterface.php" />
@@ -138,16 +104,13 @@
         <option value="$PROJECT_DIR$/app/Resources/views/view/user_battles_reports.html.twig" />
         <option value="$PROJECT_DIR$/src/AppBundle/Entity/User.php" />
         <option value="$PROJECT_DIR$/src/AppBundle/Entity/BattleReports.php" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Service/BattlesService.php" />
         <option value="$PROJECT_DIR$/src/AppBundle/Service/BattleReportsService.php" />
         <option value="$PROJECT_DIR$/web/assets/user_battle_report_details.css" />
         <option value="$PROJECT_DIR$/app/Resources/views/view/user_battle_report_details.html.twig" />
         <option value="$PROJECT_DIR$/app/Resources/views/view/user_battle_reports.html.twig" />
-        <option value="$PROJECT_DIR$/app/Resources/views/view/user_messages_inbox_sender.html.twig" />
         <option value="$PROJECT_DIR$/src/AppBundle/Entity/NewCastleCost.php" />
         <option value="$PROJECT_DIR$/app/config/services.yml" />
         <option value="$PROJECT_DIR$/src/AppBundle/Service/NewCastleCostServiceInterface.php" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Controller/DefaultController.php" />
         <option value="$PROJECT_DIR$/src/AppBundle/Service/CastleServiceInterface.php" />
         <option value="$PROJECT_DIR$/src/AppBundle/Service/CastleService.php" />
         <option value="$PROJECT_DIR$/src/AppBundle/Service/ArmyService.php" />
@@ -155,16 +118,30 @@
         <option value="$PROJECT_DIR$/app/Resources/views/user_buy_castle.html.twig" />
         <option value="$PROJECT_DIR$/src/AppBundle/Entity/Castle.php" />
         <option value="$PROJECT_DIR$/app/Resources/views/view/confirm_train_army.html.twig" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Controller/PlayerController.php" />
-        <option value="$PROJECT_DIR$/app/Resources/views/view/register.html.twig" />
         <option value="$PROJECT_DIR$/app/Resources/views/security/login.html.twig" />
         <option value="$PROJECT_DIR$/app/Resources/views/view/user_buy_castle.html.twig" />
         <option value="$PROJECT_DIR$/app/Resources/views/view/map.html.twig" />
-        <option value="$PROJECT_DIR$/web/assets/styles.css" />
-        <option value="$PROJECT_DIR$/app/Resources/views/view/base.html.twig" />
-        <option value="$PROJECT_DIR$/app/Resources/views/view/user.html.twig" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Service/UserUpdateResourcesService.php" />
         <option value="$PROJECT_DIR$/src/AppBundle/Service/NewCastleCostService.php" />
+        <option value="$PROJECT_DIR$/app/AppKernel.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Service/BattlesService.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Service/UserSpiesService.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Service/UserUpdateResourcesService.php" />
+        <option value="$PROJECT_DIR$/app/Resources/views/view/test.html.twig" />
+        <option value="$PROJECT_DIR$/web/assets/test.css" />
+        <option value="$PROJECT_DIR$/web/assets/styles.css" />
+        <option value="$PROJECT_DIR$/app/Resources/views/view/army.html.twig" />
+        <option value="$PROJECT_DIR$/app/Resources/views/view/user.html.twig" />
+        <option value="$PROJECT_DIR$/app/Resources/views/view/user_messages_inbox.html.twig" />
+        <option value="$PROJECT_DIR$/app/Resources/views/view/user_messages_inbox_sender.html.twig" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Controller/PlayerController.php" />
+        <option value="$PROJECT_DIR$/app/Resources/views/view/user_battles.html.twig" />
+        <option value="$PROJECT_DIR$/app/Resources/views/view/register.html.twig" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Controller/RegistryController.php" />
+        <option value="$PROJECT_DIR$/app/Resources/views/view/base.html.twig" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Controller/DefaultController.php" />
+        <option value="$PROJECT_DIR$/web/assets/introduction.css" />
+        <option value="$PROJECT_DIR$/app/Resources/views/view/castles.html.twig" />
+        <option value="$PROJECT_DIR$/app/Resources/views/view/introduction.html.twig" />
       </list>
     </option>
   </component>
@@ -397,6 +374,20 @@
               <item name="CastleGamePHPV1.0" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="web" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="pictures" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Icons" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="CastleGamePHPV1.0" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CastleGamePHPV1.0" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="web" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="pictures" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Introduction" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="CastleGamePHPV1.0" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CastleGamePHPV1.0" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="web" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="pictures" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="Messages" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
@@ -600,11 +591,15 @@
       <workItem from="1524126734078" duration="26125000" />
       <workItem from="1524168312463" duration="869000" />
       <workItem from="1524215793003" duration="15106000" />
+      <workItem from="1524385476974" duration="5456000" />
+      <workItem from="1524483570956" duration="1266000" />
+      <workItem from="1524562392879" duration="20828000" />
+      <workItem from="1524650150782" duration="19197000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="761998000" />
+    <option name="totallyTimeSpent" value="808745000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -618,7 +613,7 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4935484" visible="true" weight="0.20202559" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4935484" visible="true" weight="0.21055438" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32972974" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50373137" side_tool="true" weight="0.21513514" />
@@ -641,27 +636,27 @@
       <window_info anchor="bottom" id="Find" order="1" weight="0.32972974" />
     </layout>
     <layout-to-restore>
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32972974" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4935484" visible="true" weight="0.2217484" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4935484" visible="true" weight="0.20842217" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32972974" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Thumbnails" order="10" weight="0.32972974" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32972974" />
-      <window_info anchor="bottom" id="Database Changes" order="13" show_stripe_button="false" weight="0.32972974" />
+      <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection Results" order="11" show_stripe_button="false" weight="0.32972974" />
+      <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" id="Database" order="3" weight="0.10127932" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49626866" visible="true" weight="0.21513514" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50373137" side_tool="true" weight="0.21513514" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Database Changes" order="13" show_stripe_button="false" weight="0.32972974" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.5064516" side_tool="true" weight="0.18283582" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32972974" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -676,138 +671,10 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/UserUpdateResources.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="32" column="80" selection-start-line="32" selection-start-column="80" selection-end-line="32" selection-end-column="80" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/ArmyBattles.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5760">
-          <caret line="288" column="5" selection-start-line="288" selection-start-column="5" selection-end-line="288" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/ArmyTrainTimersService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2880">
-          <caret line="154" column="52" selection-start-line="120" selection-start-column="20" selection-end-line="154" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/ArmyStatisticsServiceInterface.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
-          <caret line="31" column="20" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/ArmyStatisticsService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="177" column="20" selection-start-line="177" selection-start-column="20" selection-end-line="177" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/UserMessages.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="635">
-          <caret line="154" column="5" selection-start-line="154" selection-start-column="5" selection-end-line="154" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/user_battles.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="18" column="36" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/user_battles_incoming.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2060">
-          <caret line="103" column="20" selection-start-line="15" selection-start-column="12" selection-end-line="103" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/user_battles_outgoing.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="97" column="39" selection-start-line="97" selection-start-column="39" selection-end-line="97" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/UserMessagesService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="415">
-          <caret line="113" column="37" lean-forward="true" selection-start-line="113" selection-start-column="37" selection-end-line="113" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/BattleReportsServiceInterface.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="17" column="20" selection-start-line="17" selection-start-column="20" selection-end-line="17" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/user_messages_inbox.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1560">
-          <caret line="103" column="24" lean-forward="true" selection-start-line="103" selection-start-column="24" selection-end-line="103" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/User.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="372" column="22" selection-start-line="372" selection-start-column="22" selection-end-line="372" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/BattleReports.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="1219" column="5" selection-start-line="1219" selection-start-column="5" selection-end-line="1219" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/BattlesService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-41">
-          <caret line="1320" column="69" selection-start-line="1320" selection-start-column="69" selection-end-line="1320" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/BattleReportsService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="478">
-          <caret line="45" column="152" selection-start-line="45" selection-start-column="152" selection-end-line="45" selection-end-column="152" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/user_battle_send_attack_army.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1740">
-          <folding>
-            <element signature="e#12#31#0#Twig" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/assets/user_battle_reports.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
           <caret line="43" column="1" selection-start-line="43" selection-start-column="1" selection-end-line="43" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/user_messages_inbox_sender.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="8" column="106" selection-start-line="8" selection-start-column="106" selection-end-line="8" selection-end-column="106" />
         </state>
       </provider>
     </entry>
@@ -830,11 +697,6 @@
         <state relative-caret-position="295">
           <caret line="768" column="41" selection-start-line="768" selection-start-column="41" selection-end-line="768" selection-end-column="41" />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/UserService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-505" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/config/services.yml">
@@ -872,39 +734,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/ArmyService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="518">
-          <caret line="94" column="59" lean-forward="true" selection-start-line="94" selection-start-column="59" selection-end-line="94" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/user_buy_castle.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#12#31#0#Twig" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/user_buy_castle.html.twig" />
     <entry file="file://$PROJECT_DIR$/src/AppBundle/Form/UserRegister.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="580">
           <caret line="48" column="17" lean-forward="true" selection-start-line="29" selection-start-column="12" selection-end-line="48" selection-end-column="17" />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/DefaultController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="70" column="4" lean-forward="true" selection-start-line="70" selection-start-column="4" selection-end-line="73" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/RegistryController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-780" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/Castle.php">
@@ -914,29 +749,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/castles.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="518">
-          <caret line="89" column="64" selection-start-line="88" selection-start-column="56" selection-end-line="90" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Resources/views/view/confirm_train_army.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="335">
           <caret line="29" column="129" selection-start-line="29" selection-start-column="129" selection-end-line="29" selection-end-column="129" />
-          <folding>
-            <element signature="e#12#31#0#Twig" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/army.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1800">
-          <folding>
-            <element signature="e#12#31#0#Twig" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -944,9 +760,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
           <caret line="27" column="52" lean-forward="true" selection-start-line="27" selection-start-column="52" selection-end-line="27" selection-end-column="52" />
-          <folding>
-            <element signature="e#12#31#0#Twig" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -957,28 +770,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/register.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="79" column="79" selection-start-line="79" selection-start-column="79" selection-end-line="79" selection-end-column="79" />
-          <caret line="89" column="85" selection-start-line="89" selection-start-column="85" selection-end-line="89" selection-end-column="85" />
-          <caret line="91" column="86" selection-start-line="91" selection-start-column="86" selection-end-line="91" selection-end-column="86" />
-          <caret line="95" column="78" selection-start-line="95" selection-start-column="78" selection-end-line="95" selection-end-column="78" />
-          <caret line="99" column="78" selection-start-line="99" selection-start-column="78" selection-end-line="99" selection-end-column="78" />
-          <folding>
-            <element signature="e#12#31#0#Twig" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Resources/views/security/login.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="440">
           <caret line="18" column="61" selection-start-line="18" selection-start-column="61" selection-end-line="18" selection-end-column="61" />
           <caret line="22" column="65" selection-start-line="22" selection-start-column="65" selection-end-line="22" selection-end-column="65" />
-          <folding>
-            <element signature="e#12#31#0#Twig" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -986,9 +782,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1460">
           <caret line="73" column="18" lean-forward="true" selection-start-line="73" selection-start-column="18" selection-end-line="73" selection-end-column="18" />
-          <folding>
-            <element signature="e#12#31#0#Twig" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -996,72 +789,249 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="320">
           <caret line="16" column="23" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
-          <folding>
-            <element signature="e#12#31#0#Twig" expanded="true" />
-            <element signature="e#323#360#0#HTML" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/BuildingUpdatePropertiesService.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/user.html.twig">
+    <entry file="file://$PROJECT_DIR$/app/config/config.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="70" column="114" selection-start-line="70" selection-start-column="114" selection-end-line="70" selection-end-column="114" />
-          <folding>
-            <element signature="e#12#31#0#Twig" expanded="true" />
-          </folding>
+        <state relative-caret-position="235">
+          <caret line="21" column="30" lean-forward="true" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/base.html.twig">
+    <entry file="file://$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Component/HttpKernel/Kernel.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="535">
-          <caret line="135" column="52" selection-start-line="135" selection-start-column="52" selection-end-line="135" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/assets/styles.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1104">
-          <caret line="40" column="17" selection-start-line="40" selection-start-column="17" selection-end-line="40" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/PlayerController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="535">
-          <caret line="1392" column="5" selection-start-line="1392" selection-start-column="5" selection-end-line="1392" selection-end-column="5" />
-          <folding>
-            <element signature="e#7997#8029#0#PHP" expanded="true" />
-            <element signature="e#8124#8156#0#PHP" expanded="true" />
-            <marker date="1524224687763" expanded="true" signature="15278:15406" ph="SELECT u.id,... AppBundle" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/CastleService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5638">
-          <caret line="327" column="5" selection-start-line="327" selection-start-column="5" selection-end-line="327" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/UserUpdateResourcesService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1320">
-          <caret line="75" column="46" selection-start-line="75" selection-start-column="46" selection-end-line="75" selection-end-column="46" />
+        <state relative-caret-position="-323">
+          <caret line="54" column="25" selection-start-line="54" selection-start-column="25" selection-end-line="54" selection-end-column="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/NewCastleCostService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="133" column="44" lean-forward="true" selection-start-line="133" selection-start-column="44" selection-end-line="133" selection-end-column="44" />
+        <state relative-caret-position="405">
+          <caret line="132" column="45" selection-start-line="132" selection-start-column="45" selection-end-line="132" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/ArmyService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2165">
+          <caret line="94" column="59" lean-forward="true" selection-start-line="94" selection-start-column="59" selection-end-line="94" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/ArmyStatisticsService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="712">
+          <caret line="177" column="20" selection-start-line="177" selection-start-column="20" selection-end-line="177" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/ArmyTrainTimersService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-8305">
+          <caret line="144" column="100" lean-forward="true" selection-start-line="144" selection-start-column="100" selection-end-line="144" selection-end-column="100" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/BattleReportsService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="478">
+          <caret line="45" column="152" selection-start-line="45" selection-start-column="152" selection-end-line="45" selection-end-column="152" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/BuildingUpdatePropertiesService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1805" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/CastleService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6300">
+          <caret line="327" column="5" selection-start-line="327" selection-start-column="5" selection-end-line="327" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/UserMessagesService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2058">
+          <caret line="113" column="37" lean-forward="true" selection-start-line="113" selection-start-column="37" selection-end-line="113" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/UserService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-505" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/UserSpiesService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1180">
+          <caret line="46" column="5" selection-start-line="46" selection-start-column="5" selection-end-line="46" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/AppKernel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20">
+          <caret line="10" column="48" selection-start-line="10" selection-start-column="48" selection-end-line="10" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/assets/test.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="58" selection-start-line="58" selection-end-line="77" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/user_profile.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3240" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/user.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="10" column="37" selection-start-line="10" selection-start-column="37" selection-end-line="10" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/test.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="18" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/army.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/user_messages_inbox_sender.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="102" column="132" selection-start-line="102" selection-start-column="132" selection-end-line="102" selection-end-column="132" />
+          <caret line="106" column="132" selection-start-line="106" selection-start-column="132" selection-end-line="106" selection-end-column="132" />
+          <caret line="94" column="125" selection-start-line="94" selection-start-column="125" selection-end-line="94" selection-end-column="125" />
+          <caret line="90" column="125" selection-start-line="90" selection-start-column="125" selection-end-line="90" selection-end-column="125" />
+          <caret line="82" column="132" selection-start-line="82" selection-start-column="132" selection-end-line="82" selection-end-column="132" />
+          <caret line="78" column="134" selection-start-line="78" selection-start-column="134" selection-end-line="78" selection-end-column="134" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/user_messages_inbox.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="920">
+          <caret line="97" column="87" selection-start-line="97" selection-start-column="87" selection-end-line="97" selection-end-column="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/register.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/base.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="461">
+          <caret line="168" column="22" lean-forward="true" selection-start-line="168" selection-start-column="22" selection-end-line="168" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/RegistryController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="151" column="59" selection-start-line="151" selection-start-column="59" selection-end-line="151" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/user_battles.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="3" column="4" lean-forward="true" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="73" />
           <folding>
-            <element signature="e#126#154#0#PHP" expanded="true" />
+            <element signature="e#12#31#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/assets/styles.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/upgrade.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-60">
+          <folding>
+            <element signature="e#12#31#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/castles.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="570" column="49" lean-forward="true" selection-start-line="570" selection-start-column="49" selection-end-line="570" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/assets/introduction.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="127" column="1" selection-start-line="127" selection-start-column="1" selection-end-line="127" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/BattlesService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-8993">
+          <caret line="260" column="32" selection-start-line="260" selection-start-column="32" selection-end-line="260" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Service/UserUpdateResourcesService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="678">
+          <caret line="98" column="78" selection-start-line="98" selection-start-column="78" selection-end-line="98" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/view/introduction.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4460">
+          <caret line="223" column="61" lean-forward="true" selection-start-line="223" selection-start-column="61" selection-end-line="223" selection-end-column="61" />
+          <folding>
+            <element signature="e#12#31#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/DefaultController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2440">
+          <caret line="145" column="54" selection-start-line="145" selection-start-column="54" selection-end-line="145" selection-end-column="54" />
+          <folding>
+            <element signature="e#4909#4938#1#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/PlayerController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="389">
+          <caret line="367" selection-start-line="367" selection-end-line="367" />
+          <folding>
+            <marker date="1524570316094" expanded="true" signature="15415:15543" ph="SELECT u.id,... AppBundle" />
           </folding>
         </state>
       </provider>

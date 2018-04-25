@@ -256,7 +256,7 @@ class BattlesService implements BattlesServiceInterface
         $reachInterval = $battlesTemp->getReachTime()*60;
         $reachDate = new \DateTime("now + $reachInterval minutes");
         $returnInterval = $reachInterval*2;
-        $returnDate = new \DateTime("now + {$returnInterval} minutes");
+        $returnDate = new \DateTime("now + $returnInterval minutes");
 
         $battle = new Battles();
         $battle->setDefender($battlesTemp->getDefender());

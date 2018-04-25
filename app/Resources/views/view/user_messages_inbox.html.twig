@@ -5,6 +5,12 @@
 {% endblock %}
 
 {% block body %}
+    {% if success == true %}
+        <div class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong>Successful message sent!</strong>
+        </div>
+    {% endif %}
     <div class="background2">
         <img class="background-papyrus" src="/pictures/Messages/BattleReportBackground.png" alt="">
         <img class="crow-flying" src="{{ asset('pictures/Messages/FlyingCrow.png') }}" alt="">
@@ -28,7 +34,7 @@
                             {% for finalTableArrayResultOne in finalTableArrayResult %}
                                 <tr>
                                     {% if finalTableArrayResultOne is iterable %}
-                                        <td><a href="{{ path('user_messages_inbox_sender',{'sender': finalTableArrayResultOne.1, 'page': 1}) }}">{{ finalTableArrayResultOne.1 }}</a></td>
+                                        <td><a href="{{ path('user_messages_inbox_sender',{'sender': finalTableArrayResultOne.1, 'page': 1, 'success': 0}) }}">{{ finalTableArrayResultOne.1 }}</a></td>
                                         <td>{{ finalTableArrayResultOne.2 }}<br>{% if finalTableArrayResultOne.2 <= 1 %}message{% else %}messages{% endif %}</td>
                                         <td>{{ finalTableArrayResultOne.3 }}</td>
                                     {% endif %}
@@ -61,11 +67,11 @@
                                     {% if loop.first %}
                                         <li class="prev">
                                             {% if currentPage==1 %}
-                                                <a href="{{ path('user_messages_inbox', {'id': app.user.id, 'page':currentPage-1}) }}">
+                                                <a href="{{ path('user_messages_inbox', {'page':currentPage-1}) }}">
                                                     <button type="button" class="btn" disabled>←</button>
                                                 </a>
                                             {% else %}
-                                                <a href="{{path('user_messages_inbox',{'id': app.user.id, 'page':currentPage-1})}}">
+                                                <a href="{{path('user_messages_inbox',{'page':currentPage-1})}}">
                                                     <button type="button" class="btn cursor-pointer">←</button>
                                                 </a>
                                             {% endif %}
@@ -73,11 +79,11 @@
                                     {% endif %}
                                     <li class="next">
                                         {% if currentPage == loop.index %}
-                                            <a href="{{path('user_messages_inbox',{'id': app.user.id, 'page':loop.index})}}">
+                                            <a href="{{path('user_messages_inbox',{'page':loop.index})}}">
                                                 <button type="button" class="btn" disabled>{{ loop.index }}</button>
                                             </a>
                                         {% else %}
-                                            <a href="{{path('user_messages_inbox',{'id': app.user.id, 'page':loop.index})}}">
+                                            <a href="{{path('user_messages_inbox',{'page':loop.index})}}">
                                                 <button type="button" class="btn cursor-pointer">{{ loop.index }}</button>
                                             </a>
                                         {% endif %}
@@ -85,11 +91,11 @@
                                     {% if loop.last %}
                                         <li class="next">
                                             {% if currentPage==totalPages %}
-                                                <a href="{{path('user_messages_inbox',{'id': app.user.id, 'page':currentPage+1})}}">
+                                                <a href="{{path('user_messages_inbox',{'page':currentPage+1})}}">
                                                     <button type="button" class="btn" disabled >→</button>
                                                 </a>
                                             {% else %}
-                                                <a href="{{path('user_messages_inbox',{'id': app.user.id, 'page':currentPage+1})}}">
+                                                <a href="{{path('user_messages_inbox',{'page':currentPage+1})}}">
                                                     <button type="button" class="btn cursor-pointer">→</button>
                                                 </a>
                                             {% endif %}

@@ -159,11 +159,12 @@ class PlayerController extends Controller
     }
 
     /**
-     * @Route("/user", name="user")
+     * @Route("/user/{success}", name="user")
+     * @param bool $success
      * @return \Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_USER')")
      */
-    public function userHomepageAction()
+    public function userHomepageAction(bool $success = false)
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
@@ -184,11 +185,11 @@ class PlayerController extends Controller
             $this->castleService->updateCastle($castle->getId());
         }
 
-        return $this->render( 'view/user.html.twig', array('castles' => $castles, 'user' => $user, 'newCastleCosts' => $newCastleCosts));
+        return $this->render( 'view/user.html.twig', array('castles' => $castles, 'user' => $user, 'newCastleCosts' => $newCastleCosts, 'success' => $success));
     }
 
     /**
-     * @Route("/user/buy/Castle", name="user_buy_castle")
+     * @Route("/user/buy/castle", name="user_buy_castle")
      * @param Request $request
      * @return Response
      * @Security("has_role('ROLE_USER')")
@@ -243,7 +244,8 @@ class PlayerController extends Controller
             else
             {
                 $this->newCastleCostService->buildNewCastle($user, $form->get('Select')->getData());
-                return $this->redirectToRoute('user_castles');
+                $success = true;
+                return $this->redirectToRoute('user', array('success' => $success));
             }
         }
 
@@ -372,12 +374,13 @@ class PlayerController extends Controller
     }
 
     /**
-     * @Route("/castles", name="user_castles")
+     * @Route("/castles/{success}", name="user_castles")
      * @param Request $request
+     * @param bool $success
      * @return \Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_USER')")
      */
-    public function userCastlesAction(Request $request)
+    public function userCastlesAction(Request $request, bool $success = false)
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
@@ -410,7 +413,7 @@ class PlayerController extends Controller
                 }
             }
         }
-        return $this->render('view/castles.html.twig', array('castles' => $castles, 'allUpdates' => $allUpdates, 'timeRemaining' => $timeRemaining));
+        return $this->render('view/castles.html.twig', array('castles' => $castles, 'allUpdates' => $allUpdates, 'timeRemaining' => $timeRemaining, 'success' => $success));
     }
 
     /**
@@ -481,7 +484,8 @@ class PlayerController extends Controller
                                                                             'updateTimer' => $updateTimer,
                                                                             'message' => $message));
             }
-            return $this->redirectToRoute('user_castles');
+            $success = true;
+            return $this->redirectToRoute('user_castles', array('success' => $success));
         }
         return $this->render('view/upgrade.html.twig', array('form' => $form->createView(),
                                                                     'building' => $building,
@@ -491,12 +495,13 @@ class PlayerController extends Controller
     }
 
     /**
-     * @Route("/army", name="user_army")
+     * @Route("/army/{success}", name="user_army")
      * @param Request $request
+     * @param bool $success
      * @return \Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_USER')")
      */
-    public function userArmyAction(Request $request)
+    public function userArmyAction(Request $request, bool $success = false)
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
@@ -533,7 +538,7 @@ class PlayerController extends Controller
             return $c;
         });
 
-        return $this->render('view/army.html.twig', array('castles' => $castles, 'allArmy' => $allArmy));
+        return $this->render('view/army.html.twig', array('castles' => $castles, 'allArmy' => $allArmy, 'success' => $success));
     }
 
     /**
@@ -694,12 +699,7 @@ class PlayerController extends Controller
             $armyTemp = $this->em->getRepository(Army::class)->findOneBy(array('name' => $army, 'level' => $level, 'castleId' => $castle));
             $this->armyService->updateArmy($armyTemp->getId());
 
-            $armyVisualizeTemp = $this->em->getRepository(ArmyTrainTimers::class)->findBy(array('armyId' => $armyTemp, 'armyType' => $army));
-            $counter = 0;
-            foreach ($armyVisualizeTemp as $armyVisualizeOne)
-            {
-                $counter++;
-            }
+            $counter = count($this->em->getRepository(ArmyTrainTimers::class)->findBy(array('armyId' => $armyTemp, 'armyType' => $army)));
         }
         else
         {
@@ -743,7 +743,8 @@ class PlayerController extends Controller
                                                                             'id' => $id,
                                                                             'message' => $message));
             }
-            return $this->redirectToRoute('user_army');
+            $success = true;
+            return $this->redirectToRoute('user_army', array('success' => $success));
         }
         return $this->render('view/confirm_train_army.html.twig', array('form' => $form->createView(),
                                                                     'amount' => $amount,
@@ -755,13 +756,14 @@ class PlayerController extends Controller
     }
 
     /**
-     * @Route("/messages/inbox/{page}", name="user_messages_inbox")
+     * @Route("/messages/inbox/{page}/{success}", name="user_messages_inbox")
      * @param int $page
      * @param Request $request
+     * @param bool $success
      * @return \Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_USER')")
      */
-    public function userMessagesInboxAction($page = 0, Request $request)
+    public function userMessagesInboxAction($page = 0, Request $request, bool $success = false)
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
@@ -823,18 +825,20 @@ class PlayerController extends Controller
 
         return $this->render('view/user_messages_inbox.html.twig', array('finalTableArrayResult'=>$finalTableArrayResult,
                                                                      'totalPages'=>$totalPages,
-                                                                     'currentPage'=> $page));
+                                                                     'currentPage'=> $page,
+                                                                     'success' => $success));
     }
 
     /**
-     * @Route("/messages/inbox/{sender}/{page}", name="user_messages_inbox_sender")
+     * @Route("/messages/inbox/sender/{sender}/{page}/{success}", name="user_messages_inbox_sender")
      * @param string $sender
      * @param int $page
      * @param Request $request
+     * @param bool $success
      * @return \Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_USER')")
      */
-    public function userMessagesInboxSenderAction(string $sender, $page = 0, Request $request)
+    public function userMessagesInboxSenderAction(string $sender, $page = 0, Request $request, bool $success = false)
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
@@ -906,11 +910,12 @@ class PlayerController extends Controller
         return $this->render('view/user_messages_inbox_sender.html.twig', array('finalTableArrayResult'=>$finalTableArrayResult,
                                                                                     'totalPages'=>$totalPages,
                                                                                     'currentPage'=> $page,
-                                                                                    'sender' => $sender));
+                                                                                    'sender' => $sender,
+                                                                                    'success' => $success));
     }
 
     /**
-     * @Route("/messages/inbox/{sender}/{page}/{id}", name="user_messages_inbox_sender_delete")
+     * @Route("/messages/inbox/delete/{sender}/{page}/{id}", name="user_messages_inbox_sender_delete")
      * @param string $sender
      * @param int $page
      * @param int $id
@@ -921,6 +926,7 @@ class PlayerController extends Controller
     public function userMessagesInboxSenderDeleteAction(string $sender, int $page, int $id, Request $request)
     {
         $user = $this->getUser();
+        $success = false;
 
         if (null == $this->em->getRepository(UserMessages::class)->findOneBy(array('id' => $id)))
         {
@@ -974,7 +980,8 @@ class PlayerController extends Controller
             }
             else
             {
-                return $this->redirectToRoute('user_messages_inbox');
+                $success = true;
+                return $this->redirectToRoute('user_messages_inbox', array('success' => $success));
             }
         }
         return $this->render('view/user_messages_send.html.twig', array('form' => $form->createView()));
@@ -1014,8 +1021,10 @@ class PlayerController extends Controller
             }
             else
             {
+                $success = true;
                 return $this->redirectToRoute('user_messages_inbox_sender', array('sender' => $receiver,
-                                                                                        'page' => 1));
+                                                                                        'page' => 1,
+                                                                                        'success' => $success));
             }
         }
         return $this->render('view/user_messages_send_to_receiver.html.twig', array('form' => $form->createView(),
@@ -1023,11 +1032,12 @@ class PlayerController extends Controller
     }
 
     /**
-     * @Route("/battles", name="user_battles")
+     * @Route("/battles{success}", name="user_battles")
+     * @param bool $success
      * @return \Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_USER')")
      */
-    public function userBattlesAction()
+    public function userBattlesAction(bool $success = false)
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
@@ -1035,7 +1045,7 @@ class PlayerController extends Controller
         $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
         $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
 
-        return $this->render('view/user_battles.html.twig');
+        return $this->render('view/user_battles.html.twig', array('success' => $success));
     }
 
     /**
@@ -1298,7 +1308,8 @@ class PlayerController extends Controller
         {
             $this->battlesService->createNewBattle($castle, $battlesTemp);
 
-            return $this->redirectToRoute('user_battles');
+            $success = true;
+            return $this->redirectToRoute('user_battles', array('success' => $success));
         }
 
         return $this->render('view/user_battle_send_attack_confirm.html.twig', array('form' => $form->createView(),

@@ -1,0 +1,128 @@
+/* Animations */
+@-webkit-keyframes div-transformation {
+    from {
+        opacity: 0;
+        -ms-transform: scale(0.7,0.7); /* IE 9 */
+        -webkit-transform: scale(0.7,0.7); /* Safari */
+        transform: scale(0.7,0.7); /* Standard syntax */
+    }
+    to {
+        opacity: 1;
+        -ms-transform: scale(1,1); /* IE 9 */
+        -webkit-transform: scale(1,1); /* Safari */
+        transform: scale(1,1); /* Standard syntax */
+    }
+}
+@keyframes div-transformation {
+    0% {
+        opacity: 0;
+        -ms-transform: scale(0.7,0.7); /* IE 9 */
+        -webkit-transform: scale(0.7,0.7); /* Safari */
+        transform: scale(0.7,0.7); /* Standard syntax */
+    }
+    100% {
+        opacity: 1;
+        -ms-transform: scale(1,1); /* IE 9 */
+        -webkit-transform: scale(1,1); /* Safari */
+        transform: scale(1,1); /* Standard syntax */
+    }
+}
+
+/* Divs */
+.introduction-page-one {
+    font-family: 'Berkshire Swash', cursive;
+    -webkit-animation-name: div-transformation;
+    -webkit-animation-duration: 1s;
+    animation-name: div-transformation;
+    animation-duration: 1s;
+}
+.introduction-page-two,
+.introduction-page-three,
+.introduction-page-four,
+.introduction-page-five,
+.introduction-page-six,
+.introduction-page-seven,
+.introduction-page-eight {
+    font-family: 'Berkshire Swash', cursive;
+    -webkit-animation-name: div-transformation;
+    -webkit-animation-duration: 1s;
+    animation-name: div-transformation;
+    animation-duration: 1s;
+    animation-delay: -0.2s;
+}
+
+/* Buttons */
+    /* Skip */
+#introduction-page-skip {
+    text-shadow: none;
+    display: block;
+    text-align: center;
+    padding: 50px 0;
+    cursor: pointer;
+    border: none;
+    font-size: 24px;
+    color: black;
+    text-decoration: none;
+    background: url("/pictures/Icons/WoodenSignSkip.png") no-repeat;
+    background-size: 100% 100%;
+}
+#introduction-page-skip:hover {
+    transform: scale(1.1,1.1);
+}
+    /* Next */
+#introduction-next-button-one,
+#introduction-next-button-two,
+#introduction-next-button-three,
+#introduction-next-button-four,
+#introduction-next-button-five,
+#introduction-next-button-six,
+#introduction-next-button-seven {
+    font-family: 'Encode Sans Expanded', sans-serif;
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: 18px;
+    border: none;
+    width: 120px;
+    height: 60px;
+    background: url("/pictures/Icons/WoodenArrowRight.png");
+    background-size: cover;
+}
+#introduction-next-button-one:hover,
+#introduction-next-button-two:hover,
+#introduction-next-button-three:hover,
+#introduction-next-button-four:hover,
+#introduction-next-button-five:hover,
+#introduction-next-button-six:hover,
+#introduction-next-button-seven:hover {
+    transform: scale(1.1,1.1);
+}
+    /* Back */
+#introduction-back-button-two,
+#introduction-back-button-three,
+#introduction-back-button-four,
+#introduction-back-button-five,
+#introduction-back-button-six,
+#introduction-back-button-seven,
+#introduction-back-button-eight {
+    font-family: 'Encode Sans Expanded', sans-serif;
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: 18px;
+    border: none;
+    width: 120px;
+    height: 60px;
+    background: url("/pictures/Icons/WoodenArrowLeft.png");
+    background-size: cover;
+}
+#introduction-back-button-two:hover,
+#introduction-back-button-three:hover,
+#introduction-back-button-four:hover,
+#introduction-back-button-five:hover,
+#introduction-back-button-six:hover,
+#introduction-back-button-seven:hover,
+#introduction-back-button-eight:hover {
+    transform: scale(1.1,1.1);
+}
+p {
+    text-indent: 30px;
+}

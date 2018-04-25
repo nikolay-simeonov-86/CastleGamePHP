@@ -8,6 +8,7 @@ use AppBundle\Entity\BuildingUpdateProperties;
 use AppBundle\Entity\Castle;
 use AppBundle\Entity\NewCastleCost;
 use AppBundle\Entity\User;
+use AppBundle\Entity\UserMessages;
 use AppBundle\Entity\UserUpdateResources;
 use AppBundle\Repository\UserRepository;
 use AppBundle\Service\ArmyStatisticsService;
@@ -134,11 +135,30 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/test", name="view_test_template")
-     * @param Request $request
+     * @Route("/introduction", name="introduction")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function baseTemplateAction(Request $request)
+    public function introductionAction()
+    {
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            $user = $this->getUser();
+            $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
+            $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
+            $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
+            $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+        }
+
+        return $this->render('view/introduction.html.twig');
+    }
+
+    /**
+     * @Route("/test", name="view_test_template")
+     * @param Request $request
+     * @param bool $success
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function baseTemplateAction(Request $request, bool $success = false)
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
@@ -197,8 +217,10 @@ class DefaultController extends Controller
             $totalPages = 0;
         }
 
+        $success = true;
         return $this->render('view/test.html.twig', array('finalTableArrayResult'=>$finalTableArrayResult,
                                                       'totalPages'=>$totalPages,
-                                                      'currentPage'=> $page));
+                                                      'currentPage'=> $page,
+                                                      'success' => $success));
     }
 }

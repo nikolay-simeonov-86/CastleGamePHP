@@ -149,7 +149,7 @@ class RegistryController extends Controller
                 $this->em->persist($castle2);
                 $this->em->flush();
 
-                return $this->redirectToRoute("security_login");
+                return $this->redirectToRoute("introduction");
             }
             catch (Exception $exception)
             {

@@ -234,3 +234,23 @@ input[type=number] {
     border: 2px solid #c4ac7c;
     border-radius: 10px;
 }
+.alert {
+    padding: 20px;
+    background-color: #5cb85c;
+    color: white;
+    opacity: 0.8;
+    text-align: center;
+}
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.closebtn:hover {
+    color: black;
+}
