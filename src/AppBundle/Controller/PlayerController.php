@@ -159,7 +159,7 @@ class PlayerController extends Controller
     }
 
     /**
-     * @Route("/user/{success}", name="user")
+     * @Route("/logged_user/{success}", name="user")
      * @param bool $success
      * @return \Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_USER')")
