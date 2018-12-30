@@ -32,20 +32,20 @@ class UserRegister extends AbstractType
                     'mapped' => false,
                     'choices'  =>
                         array(
-                    'Dark' =>
-                            array(
-                                'Dwarf' => 'Dwarf',
-                                'Ninja' => 'Ninja',
-                                'Vampire' => 'Vampire'
+                            'Dark' =>
+                                    array(
+                                        'Dwarf' => 'Dwarf',
+                                        'Ninja' => 'Ninja',
+                                        'Vampire' => 'Vampire'
+                                        ),
+                            'Light' =>
+                                    array(
+                                        'Elfs' => 'Elfs',
+                                        'Mages' => 'Mages',
+                                        'Olymp' => 'Olymp'
+                                        ),
                                 ),
-                    'Light' =>
-                            array(
-                                'Elfs' => 'Elfs',
-                                'Mages' => 'Mages',
-                                'Olymp' => 'Olymp'
-                                ),
-                            ),
-                    )
+                        )
                 )
             ->add('castle2', ChoiceType::class,
                 array(

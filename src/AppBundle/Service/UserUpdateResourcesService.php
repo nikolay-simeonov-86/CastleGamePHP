@@ -40,6 +40,7 @@ class UserUpdateResourcesService implements UserUpdateResourcesServiceInterface
 
     /**
      * @return null
+     * @throws \Exception
      */
     public function updateUsersResources()
     {

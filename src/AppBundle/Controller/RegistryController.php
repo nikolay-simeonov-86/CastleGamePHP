@@ -52,6 +52,7 @@ class RegistryController extends Controller
      * @Route("/register", name="register")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
      * @Security("is_granted('IS_AUTHENTICATED_ANONYMOUSLY')")
      */
     public function registerAction(Request $request)

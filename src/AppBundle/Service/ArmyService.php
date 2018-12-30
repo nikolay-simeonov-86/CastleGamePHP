@@ -41,6 +41,7 @@ class ArmyService implements ArmyServiceInterface
 
     /**
      * @param int $id
+     * @throws \Exception
      */
     public function updateArmy(int $id)
     {

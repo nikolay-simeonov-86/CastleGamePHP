@@ -3,13 +3,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\ArmyStatistics;
-use AppBundle\Entity\ArmyTrainTimers;
 use AppBundle\Entity\BuildingUpdateProperties;
-use AppBundle\Entity\Castle;
 use AppBundle\Entity\NewCastleCost;
-use AppBundle\Entity\User;
-use AppBundle\Entity\UserMessages;
-use AppBundle\Entity\UserUpdateResources;
 use AppBundle\Repository\UserRepository;
 use AppBundle\Service\ArmyStatisticsService;
 use AppBundle\Service\BattleReportsServiceInterface;
@@ -20,93 +15,12 @@ use AppBundle\Service\NewCastleCostServiceInterface;
 use AppBundle\Service\UserMessagesService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\Query\ResultSetMapping;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
-class DefaultController extends Controller
+class DefaultController extends BaseController
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
-
-    /**
-     * @var UserRepository
-     */
-    private $userRepository;
-
-    /**
-     * @var ArmyStatisticsService
-     */
-    private $armyStatisticsService;
-
-    /**
-     * @var CastleServiceInterface
-     */
-    private $castleService;
-
-    /**
-     * @var BuildingUpdatePropertiesService
-     */
-    private $buildingUpdatePropertiesService;
-
-    /**
-     * @var UserMessagesService
-     */
-    private $userMessagesService;
-
-    /**
-     * @var BattlesServiceInterface
-     */
-    private $battlesService;
-
-    /**
-     * @var BattleReportsServiceInterface
-     */
-    private $battleReportsService;
-
-    /**
-     * @var NewCastleCostServiceInterface
-     */
-    private $newCastleCostService;
-
-    /**
-     * UserService constructor.
-     * @param EntityManagerInterface $em
-     * @param UserRepository $userRepository
-     * @param ArmyStatisticsService $armyStatisticsService
-     * @param CastleServiceInterface $castleService
-     * @param BuildingUpdatePropertiesService $buildingUpdatePropertiesService
-     * @param UserMessagesService $userMessagesService
-     * @param BattlesServiceInterface $battlesService
-     * @param BattleReportsServiceInterface $battleReportsService
-     * @param NewCastleCostServiceInterface $newCastleCostService
-     */
-    public function __construct(EntityManagerInterface $em,
-                                UserRepository $userRepository,
-                                ArmyStatisticsService $armyStatisticsService,
-                                CastleServiceInterface $castleService,
-                                BuildingUpdatePropertiesService $buildingUpdatePropertiesService,
-                                UserMessagesService $userMessagesService,
-                                BattlesServiceInterface $battlesService,
-                                BattleReportsServiceInterface $battleReportsService,
-                                NewCastleCostServiceInterface $newCastleCostService)
-    {
-        $this->em = $em;
-        $this->userRepository = $userRepository;
-        $this->armyStatisticsService = $armyStatisticsService;
-        $this->castleService = $castleService;
-        $this->buildingUpdatePropertiesService = $buildingUpdatePropertiesService;
-        $this->userMessagesService = $userMessagesService;
-        $this->battlesService = $battlesService;
-        $this->battleReportsService = $battleReportsService;
-        $this->newCastleCostService = $newCastleCostService;
-    }
-
     /**
      * @Route("/", name="homepage")
      * @param Request $request
@@ -143,10 +57,7 @@ class DefaultController extends Controller
         if ($this->isGranted('IS_AUTHENTICATED_FULLY'))
         {
             $user = $this->getUser();
-            $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
-            $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
-            $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
-            $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+            $this->updateUserMessageNotifications($user);
         }
 
         return $this->render('view/introduction.html.twig');
@@ -161,10 +72,7 @@ class DefaultController extends Controller
     public function baseTemplateAction(Request $request, bool $success = false)
     {
         $user = $this->getUser();
-        $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
-        $unread_battle_reports_messages_count = $this->battleReportsService->getUserBattleReportsUnread($user);
-        $this->get('twig')->addGlobal('user_battle_reports_messages_count', $unread_battle_reports_messages_count);
-        $this->get('twig')->addGlobal('user_messages_count', $unread_messages_count);
+        $this->updateUserMessageNotifications($user);
 
         $this->battlesService->battleCalculationAndArmyReturn();
 
