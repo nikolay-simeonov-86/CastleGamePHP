@@ -21,7 +21,7 @@ class MessageController extends BaseController
      * @return \Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_USER')")
      */
-    public function userMessagesInboxAction(int $page = 0, Request $request, bool $success = false)
+    public function userMessagesInboxAction(Request $request, int $page = 0, bool $success = false)
     {
         $user = $this->getUser();
         $this->updateUserMessageNotifications($user);
@@ -93,7 +93,7 @@ class MessageController extends BaseController
      * @return \Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_USER')")
      */
-    public function userMessagesInboxSenderAction(string $sender, $page = 0, Request $request, bool $success = false)
+    public function userMessagesInboxSenderAction(string $sender, Request $request, $page = 0, bool $success = false)
     {
         $user = $this->getUser();
         $this->updateUserMessageNotifications($user);

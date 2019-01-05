@@ -763,7 +763,7 @@ class PlayerController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_USER')")
      */
-    public function userMessagesInboxAction($page = 0, Request $request, bool $success = false)
+    public function userMessagesInboxAction(Request $request, $page = 0, bool $success = false)
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
@@ -838,7 +838,7 @@ class PlayerController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_USER')")
      */
-    public function userMessagesInboxSenderAction(string $sender, $page = 0, Request $request, bool $success = false)
+    public function userMessagesInboxSenderAction(string $sender, Request $request, $page = 0, bool $success = false)
     {
         $user = $this->getUser();
         $unread_messages_count = $this->userMessagesService->getUserMessagesAllUnread($user);
